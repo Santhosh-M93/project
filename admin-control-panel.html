@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Control Panel - Order Management</title>
+    <script src="search.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Inter, system-ui;
+            background: linear-gradient(135deg, #faf8f6 0%, #f0ebe3 100%);
+            color: #421F16;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #421F16;
+            color: #F3ECDC;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .admin-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            background: #D2691E;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #8B4513;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .control-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(66, 31, 22, 0.12);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #F3ECDC;
+        }
+
+        .panel-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #421F16;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-select:focus {
+            border-color: #8B4513;
+        }
+
+        .search-box {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: #8B4513;
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .orders-table th {
+            background: #F3ECDC;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+            color: #421F16;
+            border-bottom: 2px solid #8B4513;
+        }
+
+        .orders-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .orders-table tr:hover {
+            background: #FFF8F0;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .status-processing {
+            background: #FFF3CD;
+            color: #856404;
+        }
+
+        .status-shipped {
+            background: #D1ECF1;
+            color: #0C5460;
+        }
+
+        .status-delivered {
+            background: #D4EDDA;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background: #F8D7DA;
+            color: #721C24;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-view {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #1976D2;
+        }
+
+        .btn-update {
+            background: #FF9800;
+            color: white;
+        }
+
+        .btn-update:hover {
+            background: #F57C00;
+        }
+
+        .btn-deliver {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-deliver:hover {
+            background: #45A049;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #F3ECDC;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #421F16;
+            transform: rotate(90deg);
+        }
+
+        .order-detail-section {
+            margin-bottom: 2rem;
+        }
+
+        .order-detail-section h3 {
+            color: #421F16;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            background: #F8F8F8;
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .detail-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            color: #421F16;
+            font-size: 1rem;
+            margin-top: 0.25rem;
+        }
+
+        .update-status-form {
+            margin-top: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #421F16;
+        }
+
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #8B4513;
+        }
+
+        .btn-save {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+        }
+
+        /* Notification Toast Styles */
+        .notification-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            z-index: 10002;
+            display: none;
+            min-width: 320px;
+            max-width: 400px;
+            animation: slideInRight 0.3s ease;
+            border-left: 4px solid #8B4513;
+        }
+
+        .notification-toast.show {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .notification-message {
+            color: #421F16;
+            font-weight: 600;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: color 0.2s;
+        }
+
+        .notification-close:hover {
+            color: #421F16;
+        }
+
+        .notification-toast.success {
+            border-left-color: #4CAF50;
+        }
+
+        .notification-toast.error {
+            border-left-color: #F44336;
+        }
+
+        .notification-toast.warning {
+            border-left-color: #FF9800;
+        }
+
+        .notification-toast.info {
+            border-left-color: #2196F3;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        /* Confirmation Modal Styles */
+        .confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10003;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirm-modal.active {
+            display: flex;
+        }
+
+        .confirm-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .confirm-modal-content {
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-align: center;
+            z-index: 1;
+        }
+
+        .confirm-modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 0.6s ease;
+        }
+
+        .confirm-modal-title {
+            color: #421F16;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .confirm-modal-message {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .confirm-modal-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .confirm-btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .confirm-btn-cancel {
+            background: #E0E0E0;
+            color: #421F16;
+        }
+
+        .confirm-btn-cancel:hover {
+            background: #D0D0D0;
+            transform: translateY(-2px);
+        }
+
+        .confirm-btn-confirm {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+        }
+
+        .confirm-btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
+        }
+
+        .confirm-btn-confirm.danger {
+            background: linear-gradient(135deg, #F44336, #E53935);
+        }
+
+        .confirm-btn-confirm.danger:hover {
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.7);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 480px) {
+            .notification-toast {
+                right: 10px;
+                left: 10px;
+                min-width: auto;
+                max-width: none;
+                padding: 1rem;
+            }
+
+            .notification-message {
+                font-size: 0.9rem;
+            }
+
+            .confirm-modal-content {
+                padding: 1.75rem 1.25rem;
+                max-width: 95%;
+            }
+
+            .confirm-modal-icon {
+                font-size: 3rem;
+            }
+
+            .confirm-modal-title {
+                font-size: 1.2rem;
+            }
+
+            .confirm-modal-buttons {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .notification-toast {
+                padding: 0.85rem;
+                top: 15px;
+            }
+
+            .confirm-modal-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .confirm-modal-icon {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-section {
+                flex-direction: column;
+            }
+
+            .orders-table {
+                font-size: 0.9rem;
+            }
+
+            .orders-table th,
+            .orders-table td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-image {
+                width: 100px;
+                height: 30px;
+            }
+
+            .admin-title {
+                font-size: 1.2rem;
+            }
+
+            .panel-title {
+                font-size: 1.4rem;
+            }
+
+            .orders-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="logo-image"
+                onclick="window.location.href='homepage.html'">
+            <div class="admin-title">🛠️ Admin Control Panel</div>
+            <button class="logout-btn" onclick="adminLogout()">Logout</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📦</div>
+                <div class="stat-value" id="totalOrders">0</div>
+                <div class="stat-label">Total Orders</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-value" id="processingOrders">0</div>
+                <div class="stat-label">Processing</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🚚</div>
+                <div class="stat-value" id="shippedOrders">0</div>
+                <div class="stat-label">Shipped</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value" id="deliveredOrders">0</div>
+                <div class="stat-label">Delivered</div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="panel-header">
+                <h1 class="panel-title">Order Management</h1>
+            </div>
+
+            <div class="filter-section">
+                <select class="filter-select" id="statusFilter" onchange="filterOrders()">
+                    <option value="all">All Orders</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+                <input type="text" class="search-box" id="searchBox"
+                    placeholder="Search by Order ID or Customer Name..." oninput="filterOrders()">
+            </div>
+
+            <table class="orders-table" id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersBody">
+                    <!-- Orders will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Order Details Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Order Details</h2>
+                <button class="close-btn" onclick="closeOrderModal()">&times;</button>
+            </div>
+
+            <div id="orderDetailsContent">
+                <!-- Order details will be loaded here -->
+            </div>
+        </div>
+    </div>
+    <!-- Notification Toast -->
+    <div class="notification-toast" id="notificationToast">
+        <div class="notification-content">
+            <span class="notification-icon" id="notificationIcon"></span>
+            <span class="notification-message" id="notificationMessage"></span>
+        </div>
+        <button class="notification-close" onclick="hideNotification()">×</button>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div class="confirm-modal" id="confirmModal">
+        <div class="confirm-modal-overlay" onclick="closeConfirmModal()"></div>
+        <div class="confirm-modal-content">
+            <div class="confirm-modal-icon" id="confirmIcon">⚠️</div>
+            <h3 class="confirm-modal-title" id="confirmTitle">Confirm Action</h3>
+            <p class="confirm-modal-message" id="confirmMessage">Are you sure?</p>
+            <div class="confirm-modal-buttons">
+                <button class="confirm-btn confirm-btn-cancel" onclick="closeConfirmModal()">Cancel</button>
+                <button class="confirm-btn confirm-btn-confirm" id="confirmActionBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        // Notification System
+        function showNotification(message, type = 'info') {
+            const toast = document.getElementById('notificationToast');
+            const icon = document.getElementById('notificationIcon');
+            const messageEl = document.getElementById('notificationMessage');
+
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+
+            icon.textContent = icons[type] || icons.info;
+            messageEl.textContent = message;
+
+            toast.classList.remove('success', 'error', 'warning', 'info');
+            toast.classList.add(type);
+            toast.classList.add('show');
+
+            setTimeout(() => hideNotification(), 4000);
+        }
+
+        function hideNotification() {
+            const toast = document.getElementById('notificationToast');
+            toast.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.style.animation = '';
+            }, 300);
+        }
+
+        // Confirmation Modal System
+        let confirmCallback = null;
+
+        function showConfirmModal(options = {}) {
+            const {
+                title = 'Confirm Action',
+                message = 'Are you sure?',
+                icon = '⚠️',
+                confirmText = 'Confirm',
+                isDanger = false,
+                onConfirm = () => { }
+            } = options;
+
+            document.getElementById('confirmIcon').textContent = icon;
+            document.getElementById('confirmTitle').textContent = title;
+            document.getElementById('confirmMessage').textContent = message;
+
+            const confirmBtn = document.getElementById('confirmActionBtn');
+            confirmBtn.textContent = confirmText;
+
+            if (isDanger) {
+                confirmBtn.classList.add('danger');
+            } else {
+                confirmBtn.classList.remove('danger');
+            }
+
+            confirmCallback = onConfirm;
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+            confirmCallback = null;
+        }
+
+        function executeConfirmAction() {
+            if (confirmCallback) confirmCallback();
+            closeConfirmModal();
+        }
+
+        // Attach confirm button handler
+        document.addEventListener('DOMContentLoaded', () => {
+            const confirmBtn = document.getElementById('confirmActionBtn');
+            if (confirmBtn) {
+                confirmBtn.onclick = executeConfirmAction;
+            }
+        });
+        let allOrders = [];
+        let currentOrder = null;
+
+        function loadAllOrders() {
+            allOrders = JSON.parse(localStorage.getItem('orders')) || [];
+            updateStatistics();
+            renderOrders();
+        }
+
+        function updateStatistics() {
+            document.getElementById('totalOrders').textContent = allOrders.length;
+            document.getElementById('processingOrders').textContent = allOrders.filter(o => o.status === 'Processing').length;
+            document.getElementById('shippedOrders').textContent = allOrders.filter(o => o.status === 'Shipped').length;
+            document.getElementById('deliveredOrders').textContent = allOrders.filter(o => o.status === 'Delivered').length;
+        }
+
+        function renderOrders() {
+            const ordersBody = document.getElementById('ordersBody');
+
+            if (allOrders.length === 0) {
+                ordersBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 3rem; color: #666;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📦</div>
+                            <h3>No orders found</h3>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            ordersBody.innerHTML = allOrders.map((order, index) => {
+                const orderDate = new Date(order.date);
+                const formattedDate = orderDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+                let statusClass = 'status-processing';
+                if (order.status === 'Shipped') statusClass = 'status-shipped';
+                if (order.status === 'Delivered') statusClass = 'status-delivered';
+                if (order.status === 'Cancelled') statusClass = 'status-cancelled';
+
+                return `
+                    <tr>
+                        <td><strong>#${order.orderId}</strong></td>
+                        <td>${order.address.name}</td>
+                        <td>${formattedDate}</td>
+                        <td>${order.items.length} item(s)</td>
+                        <td><strong>₹${order.total}</strong></td>
+                        <td><span class="status-badge ${statusClass}">${order.status}</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn btn-view" onclick="viewOrderDetails(${index})">View</button>
+                                ${order.status !== 'Delivered' && order.status !== 'Cancelled' ? `
+                                    <button class="btn btn-update" onclick="updateOrderStatus(${index})">Update</button>
+                                    ${order.status === 'Shipped' ? `
+                                        <button class="btn btn-deliver" onclick="markAsDelivered(${index})">Deliver</button>
+                                    ` : ''}
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterOrders() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const searchQuery = document.getElementById('searchBox').value.toLowerCase();
+
+            let filtered = JSON.parse(localStorage.getItem('orders')) || [];
+
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(o => o.status === statusFilter);
+            }
+
+            if (searchQuery) {
+                filtered = filtered.filter(o =>
+                    o.orderId.toLowerCase().includes(searchQuery) ||
+                    o.address.name.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            allOrders = filtered;
+            renderOrders();
+        }
+
+        function viewOrderDetails(index) {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const order = orders[index];
+            currentOrder = { order, index };
+
+            document.getElementById('modalTitle').textContent = `Order #${order.orderId}`;
+
+            const orderDate = new Date(order.date);
+            const formattedDate = orderDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+            const itemsHTML = order.items.map(item => `
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: white; border-radius: 8px;">
+                    <img src="${item.image}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
+                    <div style="flex: 1;">
+                        <strong style="color: #421F16;">${item.name}</strong>
+                        <p style="color: #666; font-size: 0.9rem;">Quantity: ${item.quantity} | Unit: ${item.unit}</p>
+                        <p style="color: #8B4513; font-weight: 700;">₹${item.price}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            const codCharge = order.codCharge || 0;
+
+            document.getElementById('orderDetailsContent').innerHTML = `
+                <div class="order-detail-section">
+                    <h3>Order Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Order ID</div>
+                            <div class="detail-value">#${order.orderId}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Order Date</div>
+                            <div class="detail-value">${formattedDate}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Status</div>
+                            <div class="detail-value">
+                                <span class="status-badge status-${order.status.toLowerCase()}">${order.status}</span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Payment Method</div>
+                            <div class="detail-value">${order.paymentMethod}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-detail-section">
+                    <h3>Customer Details</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Name</div>
+                            <div class="detail-value">${order.address.name}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Phone</div>
+                            <div class="detail-value">${order.address.mobile}</div>
+                        </div>
+                        <div class="detail-item" style="grid-column: 1 / -1;">
+                            <div class="detail-label">Address</div>
+                            <div class="detail-value">
+                                ${order.address.address}<br>
+                                ${order.address.city}, ${order.address.state} - ${order.address.pincode}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-detail-section">
+                    <h3>Order Items</h3>
+                    <div style="background: #F8F8F8; padding: 1rem; border-radius: 10px;">
+                        ${itemsHTML}
+                    </div>
+                </div>
+
+                <div class="order-detail-section">
+                    <h3>Payment Summary</h3>
+                    <div style="background: #F8F8F8; padding: 1.5rem; border-radius: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                            <span style="color: #666;">Item Total:</span>
+                            <strong>₹${order.itemTotal}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                            <span style="color: #666;">Discount:</span>
+                            <strong style="color: #4CAF50;">-₹${order.discount}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                            <span style="color: #666;">Delivery Charges:</span>
+                            <strong>${order.delivery === 0 ? 'FREE' : '₹' + order.delivery}</strong>
+                        </div>
+                        ${codCharge > 0 ? `
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <span style="color: #666;">COD Charges:</span>
+                                <strong>₹${codCharge}</strong>
+                            </div>
+                        ` : ''}
+                        <div style="display: flex; justify-content: space-between; padding-top: 0.75rem; border-top: 2px solid #8B4513; margin-top: 0.75rem;">
+                            <span style="font-weight: 700; font-size: 1.1rem;">Total Amount:</span>
+                            <strong style="color: #8B4513; font-size: 1.3rem;">₹${order.total}</strong>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('orderModal').classList.add('active');
+        }
+
+        function updateOrderStatus(index) {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const order = orders[index];
+            currentOrder = { order, index };
+
+            document.getElementById('modalTitle').textContent = `Update Order #${order.orderId}`;
+
+            document.getElementById('orderDetailsContent').innerHTML = `
+                <div class="update-status-form">
+                    <div class="form-group">
+                        <label>Current Status: <strong>${order.status}</strong></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="newStatus">Update Status To:</label>
+                        <select id="newStatus" class="form-group select">
+                            <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                            <option value="Cancelled" ${order.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="statusNote">Note (Optional):</label>
+                        <textarea id="statusNote" rows="3" placeholder="Add any notes about this status update..."></textarea>
+                    </div>
+                    <button class="btn-save" onclick="saveStatusUpdate()">Update Order Status</button>
+                </div>
+            `;
+
+            document.getElementById('orderModal').classList.add('active');
+        }
+
+        function saveStatusUpdate() {
+            if (!currentOrder) return;
+
+            const newStatus = document.getElementById('newStatus').value;
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+            orders[currentOrder.index].status = newStatus;
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            showNotification(`Order #${currentOrder.order.orderId} status updated to: ${newStatus}`, 'success');
+            closeOrderModal();
+            loadAllOrders();
+        }
+
+        function markAsDelivered(index) {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const order = orders[index];
+
+            showConfirmModal({
+                title: 'Mark as Delivered',
+                message: `Mark order #${order.orderId} as delivered?`,
+                icon: '✅',
+                confirmText: 'Yes, Mark Delivered',
+                isDanger: false,
+                onConfirm: () => {
+                    orders[index].status = 'Delivered';
+                    localStorage.setItem('orders', JSON.stringify(orders));
+                    showNotification('Order marked as delivered!', 'success');
+                    loadAllOrders();
+                }
+            });
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.remove('active');
+            currentOrder = null;
+        }
+
+        function adminLogout() {
+            showConfirmModal({
+                title: 'Logout',
+                message: 'Are you sure you want to logout from admin panel?',
+                icon: '🚪',
+                confirmText: 'Yes, Logout',
+                isDanger: false,
+                onConfirm: () => {
+                    showNotification('Logging out...', 'info');
+                    setTimeout(() => {
+                        window.location.href = 'homepage.html';
+                    }, 500);
+                }
+            });
+        }
+
+        // Load orders on page load
+        document.addEventListener('DOMContentLoaded', loadAllOrders);
+
+        // Refresh orders every 30 seconds
+        setInterval(() => {
+            const currentFilter = document.getElementById('statusFilter').value;
+            const currentSearch = document.getElementById('searchBox').value;
+            loadAllOrders();
+            if (currentFilter !== 'all' || currentSearch) {
+                filterOrders();
+            }
+        }, 30000);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,2473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>My Account - Construction Materials Store</title>
+    <script src="search.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+            background: #faf8f6;
+            color: #421F16;
+        }
+
+        .header {
+            background: #421F16;
+            color: #F3ECDC;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #F3ECDC;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 15px;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 3rem 0.75rem 1rem;
+            border: 2px solid #F3ECDC;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            background: #F3ECDC;
+            color: #421F16;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #8B4513;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: #421F16;
+        }
+
+        .search-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .become-seller-btn {
+            background: #8B4513;
+            color: #F3ECDC;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .become-seller-btn:hover {
+            background: #A0522D;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+        }
+
+        .become-seller-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .icon-btn {
+            background: rgba(243, 236, 220, 0.2);
+            border: 2px solid #F3ECDC;
+            color: #F3ECDC;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background: rgba(243, 236, 220, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #D2691E;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #421F16;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .account-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .account-sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .user-info {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #F3ECDC;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .menu-item {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #421F16;
+            font-weight: 600;
+        }
+
+        .menu-item:hover {
+            background: #FFF8F0;
+            color: #8B4513;
+        }
+
+        .menu-item.active {
+            background: #8B4513;
+            color: white;
+        }
+
+        .menu-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .account-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #F3ECDC;
+        }
+
+        .section-header h2 {
+            color: #421F16;
+            font-size: 2rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .order-card {
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .order-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(66, 31, 22, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .menu-item {
+            animation: slideInRight 0.4s ease;
+        }
+
+        .menu-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .menu-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .menu-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .menu-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .menu-item:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .address-card-account {
+            animation: fadeInUp 0.5s ease;
+            transition: all 0.3s ease;
+        }
+
+        .address-card-account:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(66, 31, 22, 0.15);
+        }
+
+        .info-item {
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .info-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .info-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .info-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .edit-btn {
+            background: #8B4513;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: #A0522D;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .info-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            color: #666;
+            font-size: 1.05rem;
+        }
+
+        .order-card {
+            border: 2px solid #F3ECDC;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .order-card:hover {
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #F3ECDC;
+        }
+
+        .order-id {
+            font-weight: bold;
+            color: #421F16;
+        }
+
+        .order-status {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .status-delivered {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .status-processing {
+            background: #FF9800;
+            color: white;
+        }
+
+        .status-cancelled {
+            background: #F44336;
+            color: white;
+        }
+
+        .order-items {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .order-item-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .order-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .order-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .order-btn-primary {
+            background: #8B4513;
+            color: white;
+        }
+
+        .order-btn-secondary {
+            background: white;
+            color: #8B4513;
+            border: 2px solid #8B4513;
+        }
+
+        .order-btn-danger {
+            background: #F44336;
+            color: white;
+        }
+
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .address-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .address-card-account {
+            border: 2px solid #F3ECDC;
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .address-default {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #4CAF50;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .address-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            padding: 0.5rem;
+            border: 2px solid #8B4513;
+            background: white;
+            color: #8B4513;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #8B4513;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 550px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #F3ECDC;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #8B4513;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+        .form-group input:disabled {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .status-shipped {
+            background: #2196F3;
+            color: white;
+        }
+
+        .order-btn-track {
+            background: #2196F3;
+            color: white;
+        }
+
+        /* Notification Toast Styles */
+        .notification-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            z-index: 10002;
+            display: none;
+            min-width: 320px;
+            max-width: 400px;
+            animation: slideInRight 0.3s ease;
+            border-left: 4px solid #8B4513;
+        }
+
+        .notification-toast.show {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .notification-message {
+            color: #421F16;
+            font-weight: 600;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: color 0.2s;
+        }
+
+        .notification-close:hover {
+            color: #421F16;
+        }
+
+        .notification-toast.success {
+            border-left-color: #4CAF50;
+        }
+
+        .notification-toast.error {
+            border-left-color: #F44336;
+        }
+
+        .notification-toast.warning {
+            border-left-color: #FF9800;
+        }
+
+        .notification-toast.info {
+            border-left-color: #2196F3;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+
+        /* Responsive Notification */
+        @media (max-width: 480px) {
+            .notification-toast {
+                right: 10px;
+                left: 10px;
+                min-width: auto;
+                max-width: none;
+                padding: 1rem;
+            }
+
+            .notification-message {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .notification-toast {
+                padding: 0.85rem;
+                top: 15px;
+            }
+
+            .notification-icon {
+                font-size: 1.25rem;
+            }
+
+            .notification-message {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Confirmation Modal Styles */
+        .confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10003;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirm-modal.active {
+            display: flex;
+        }
+
+        .confirm-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .confirm-modal-content {
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-align: center;
+            z-index: 1;
+        }
+
+        .confirm-modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 0.6s ease;
+        }
+
+        .confirm-modal-title {
+            color: #421F16;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .confirm-modal-message {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .confirm-modal-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .confirm-btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .confirm-btn-cancel {
+            background: #E0E0E0;
+            color: #421F16;
+        }
+
+        .confirm-btn-cancel:hover {
+            background: #D0D0D0;
+            transform: translateY(-2px);
+        }
+
+        .confirm-btn-confirm {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+        }
+
+        .confirm-btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
+        }
+
+        .confirm-btn-confirm.danger {
+            background: linear-gradient(135deg, #F44336, #E53935);
+        }
+
+        .confirm-btn-confirm.danger:hover {
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.7);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsive Confirmation Modal */
+        @media (max-width: 768px) {
+            .confirm-modal-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .confirm-modal-icon {
+                font-size: 3.5rem;
+            }
+
+            .confirm-modal-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .confirm-modal-content {
+                padding: 1.75rem 1.25rem;
+                max-width: 95%;
+            }
+
+            .confirm-modal-icon {
+                font-size: 3rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .confirm-modal-title {
+                font-size: 1.2rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .confirm-modal-message {
+                font-size: 0.95rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .confirm-modal-buttons {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .confirm-btn {
+                padding: 0.85rem 1.25rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .confirm-modal-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .confirm-modal-icon {
+                font-size: 2.5rem;
+            }
+
+            .confirm-modal-title {
+                font-size: 1.1rem;
+            }
+
+            .confirm-modal-message {
+                font-size: 0.9rem;
+            }
+
+            .confirm-btn {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Tablet - 1024px */
+        @media (max-width: 1024px) {
+            .logo-image {
+                width: 150px;
+                height: 42px;
+                border-radius: 12px;
+                /* 30% of 42px = 12.6px, rounded to 12px */
+            }
+
+            .search-container {
+                max-width: 500px;
+            }
+
+            .become-seller-btn {
+                padding: 0.65rem 1.2rem;
+                font-size: 0.95rem;
+            }
+
+            .account-container {
+                grid-template-columns: 220px 1fr;
+                gap: 1.5rem;
+            }
+
+            .account-sidebar {
+                padding: 1.25rem;
+            }
+
+            .account-content {
+                padding: 1.5rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* Tablet Portrait - 768px */
+        @media (max-width: 768px) {
+            .header-container {
+                gap: 0.75rem;
+            }
+
+            .search-container {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .account-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 1.5rem;
+            }
+
+            .account-sidebar {
+                position: static;
+                top: 0;
+            }
+
+            .user-info {
+                display: flex;
+                align-items: center;
+                text-align: left;
+                gap: 1rem;
+                border-bottom: none;
+                padding-bottom: 0;
+                margin-bottom: 1.5rem;
+            }
+
+            .user-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+                margin: 0;
+            }
+
+            .menu-item {
+                padding: 0.85rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .edit-btn {
+                width: 100%;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .wishlist-grid,
+            .address-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+        }
+
+        /* Mobile Large - 480px */
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.75rem 0;
+            }
+
+            .header-container {
+                gap: 0.5rem;
+                padding: 0 0.5rem;
+            }
+
+            .logo-image {
+                width: 100px;
+                height: 30px;
+                border-radius: 9px;
+            }
+
+            .become-seller-btn span {
+                display: none;
+            }
+
+            .become-seller-btn {
+                padding: 0.5rem;
+                width: 40px;
+                height: 40px;
+                justify-content: center;
+                gap: 0;
+            }
+
+            .icon-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .icon-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .search-input {
+                padding: 0.65rem 2.5rem 0.65rem 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 0 0.75rem;
+            }
+
+            .account-container {
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .account-sidebar {
+                padding: 1rem;
+                border-radius: 8px;
+            }
+
+            .user-info {
+                gap: 0.75rem;
+                margin-bottom: 1rem;
+            }
+
+            .user-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
+            }
+
+            .user-info h3 {
+                font-size: 1rem;
+            }
+
+            .user-info p {
+                font-size: 0.85rem;
+            }
+
+            .menu-item {
+                padding: 0.75rem;
+                font-size: 0.95rem;
+                gap: 0.65rem;
+            }
+
+            .menu-icon {
+                width: 18px;
+                height: 18px;
+            }
+
+            .account-content {
+                padding: 1.25rem;
+                border-radius: 8px;
+            }
+
+            .section-header {
+                margin-bottom: 1.5rem;
+                padding-bottom: 0.85rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .edit-btn {
+                padding: 0.65rem 1.25rem;
+                font-size: 0.95rem;
+            }
+
+            .info-item {
+                margin-bottom: 1.25rem;
+            }
+
+            .info-label {
+                font-size: 0.95rem;
+            }
+
+            .info-value {
+                font-size: 1rem;
+            }
+
+            .order-card {
+                padding: 1.25rem;
+                border-radius: 8px;
+            }
+
+            .order-id {
+                font-size: 0.95rem;
+            }
+
+            .order-status {
+                padding: 0.4rem 0.85rem;
+                font-size: 0.85rem;
+            }
+
+            .order-item-img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .order-items div strong {
+                font-size: 0.95rem;
+            }
+
+            .order-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .order-btn {
+                padding: 0.65rem;
+                font-size: 0.95rem;
+            }
+
+            .wishlist-grid {
+                gap: 1rem;
+            }
+
+            .address-grid {
+                gap: 1rem;
+            }
+
+            .address-card-account {
+                padding: 1.25rem;
+            }
+        }
+
+        /* Mobile Small - 360px */
+        @media (max-width: 360px) {
+            .logo-image {
+                width: 80px;
+                height: 24px;
+                border-radius: 7px;
+            }
+
+            .header-container {
+                padding: 0 0.35rem;
+            }
+
+            .icon-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .become-seller-btn {
+                width: 32px;
+                height: 32px;
+                padding: 0.35rem;
+            }
+
+            .cart-badge {
+                width: 16px;
+                height: 16px;
+                font-size: 0.65rem;
+                top: -6px;
+                right: -6px;
+            }
+
+            .search-input {
+                font-size: 0.85rem;
+                padding: 0.55rem 2.25rem 0.55rem 0.65rem;
+            }
+
+            .account-sidebar {
+                padding: 0.85rem;
+            }
+
+            .user-avatar {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
+
+            .user-info h3 {
+                font-size: 0.95rem;
+            }
+
+            .user-info p {
+                font-size: 0.8rem;
+            }
+
+            .menu-item {
+                padding: 0.65rem;
+                font-size: 0.9rem;
+                gap: 0.5rem;
+            }
+
+            .menu-icon {
+                width: 16px;
+                height: 16px;
+            }
+
+            .account-content {
+                padding: 1rem;
+            }
+
+            .section-header {
+                margin-bottom: 1.25rem;
+                padding-bottom: 0.75rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.2rem;
+            }
+
+            .edit-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .info-item {
+                margin-bottom: 1rem;
+            }
+
+            .info-label {
+                font-size: 0.9rem;
+                margin-bottom: 0.35rem;
+            }
+
+            .info-value {
+                font-size: 0.95rem;
+            }
+
+            .order-card {
+                padding: 1rem;
+            }
+
+            .order-id {
+                font-size: 0.9rem;
+            }
+
+            .order-header div div {
+                font-size: 0.85rem;
+            }
+
+            .order-status {
+                padding: 0.35rem 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            .order-item-img {
+                width: 45px;
+                height: 45px;
+            }
+
+            .order-items {
+                gap: 0.75rem;
+            }
+
+            .order-items div strong {
+                font-size: 0.9rem;
+            }
+
+            .order-items div p {
+                font-size: 0.85rem;
+            }
+
+            .order-btn {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+
+            .address-card-account {
+                padding: 1rem;
+            }
+
+            .address-card-account strong {
+                font-size: 0.95rem;
+                margin-bottom: 0.65rem;
+            }
+
+            .address-card-account p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+
+            .address-default {
+                font-size: 0.75rem;
+                padding: 0.2rem 0.6rem;
+            }
+
+            .btn-secondary {
+                padding: 0.45rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <script>
+        (function () { var t = document.title; if (!t.startsWith('Build - ')) { document.title = 'Build - ' + t; } })();
+    </script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="homepage.html" class="logo">
+                <!-- Replace with your logo filename -->
+                <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="logo-image">
+            </a>
+
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search for products..." id="searchInput">
+                <button class="search-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="header-icons">
+                <button class="become-seller-btn" onclick="window.location.href='become-seller.html'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 7h-9"></path>
+                        <path d="M14 17H5"></path>
+                        <circle cx="17" cy="17" r="3"></circle>
+                        <circle cx="7" cy="7" r="3"></circle>
+                    </svg>
+                    <span>Become Seller</span>
+                </button>
+                <a href="account.html" class="icon-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <a href="cart.html" class="icon-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-badge">0</span>
+                </a>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="account-container">
+            <aside class="account-sidebar">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">JD</div>
+                    <div>
+                        <h3 style="color: #421F16; margin-bottom: 0.25rem;" id="userName">John Doe</h3>
+                        <p style="color: #666; font-size: 0.9rem;" id="userEmail">john.doe@email.com</p>
+                    </div>
+                </div>
+
+                <div class="menu-item active" onclick="showSection('profile')">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>My Profile</span>
+                </div>
+
+                <div class="menu-item" onclick="showSection('orders')">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                        </path>
+                    </svg>
+                    <span>My Orders</span>
+                </div>
+
+                <div class="menu-item" onclick="showSection('wishlist')">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                        </path>
+                    </svg>
+                    <span>Wishlist</span>
+                </div>
+
+                <div class="menu-item" onclick="showSection('addresses')">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span>Addresses</span>
+                </div>
+
+                <div class="menu-item" onclick="logout()">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Logout</span>
+                </div>
+            </aside>
+
+            <div class="account-content">
+                <div id="profile" class="content-section active">
+                    <div class="section-header">
+                        <h2>My Profile</h2>
+                        <button class="edit-btn" onclick="openEditProfileModal()">Edit Profile</button>
+                    </div>
+
+                    <div class="info-grid">
+                        <div>
+                            <div class="info-item">
+                                <div class="info-label">Full Name</div>
+                                <div class="info-value" id="displayName">John Doe</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Email Address</div>
+                                <div class="info-value" id="displayEmail">john.doe@email.com</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Phone Number</div>
+                                <div class="info-value" id="displayPhone">+91 98765 43210</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="info-item">
+                                <div class="info-label">Gender</div>
+                                <div class="info-value" id="displayGender">Not specified</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Date of Birth</div>
+                                <div class="info-value" id="displayDob">Not specified</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Member Since</div>
+                                <div class="info-value" id="displayMemberSince">January 2024</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="orders" class="content-section">
+                    <div class="section-header">
+                        <h2>My Orders</h2>
+                    </div>
+
+                    <div id="ordersContainer">
+                        <!-- Orders will be dynamically loaded here -->
+                    </div>
+                </div>
+
+                <div id="wishlist" class="content-section">
+                    <div class="section-header">
+                        <h2>My Wishlist</h2>
+                    </div>
+
+                    <div class="wishlist-grid" id="wishlistGrid">
+                        <div style="text-align: center; padding: 4rem; grid-column: 1 / -1;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">❤️</div>
+                            <h3 style="color: #421F16; margin-bottom: 0.5rem;">Your wishlist is empty</h3>
+                            <p style="color: #666;">Add products you love to your wishlist</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="addresses" class="content-section">
+                    <div class="section-header">
+                        <h2>Saved Addresses</h2>
+                        <button class="edit-btn" onclick="openAddressModal()">+ Add New Address</button>
+                    </div>
+
+                    <div class="address-grid" id="addressesGrid">
+                        <!-- Addresses will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="modal" id="addressModal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center;">
+        <div class="modal-content"
+            style="background: white; padding: 3rem; border-radius: 20px; max-width: 550px; width: 90%; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header"
+                style="display: flex; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid #F3ECDC;">
+                <h2>Add Delivery Address</h2>
+                <button class="close-btn" onclick="closeAddressModal()"
+                    style="background: none; border: none; font-size: 2rem; cursor: pointer; color: #666;">&times;</button>
+            </div>
+            <form id="addressForm" onsubmit="saveAddress(event)">
+                <div class="form-group" style="margin-bottom: 1.75rem;">
+                    <label style="display: block; margin-bottom: 0.75rem; font-weight: 600;">Full Name *</label>
+                    <input type="text" name="name" required placeholder="Enter your full name"
+                        style="width: 100%; padding: 1rem; border: 2px solid #E0E0E0; border-radius: 10px; font-size: 1rem; outline: none; transition: all 0.3s; font-family: inherit;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1.75rem;">
+                    <label style="display: block; margin-bottom: 0.75rem; font-weight: 600;">Mobile Number *</label>
+                    <input type="tel" name="mobile" pattern="[0-9]{10}" required placeholder="10-digit mobile number"
+                        style="width: 100%; padding: 1rem; border: 2px solid #E0E0E0; border-radius: 10px; font-size: 1rem; outline: none; transition: all 0.3s; font-family: inherit;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1.75rem;">
+                    <label style="display: block; margin-bottom: 0.75rem; font-weight: 600;">Complete Address *</label>
+                    <textarea name="address" rows="3" required placeholder="House no., Building name, Street, Area"
+                        style="width: 100%; padding: 1rem; border: 2px solid #E0E0E0; border-radius: 10px; font-size: 1rem; outline: none; transition: all 0.3s; font-family: inherit;"></textarea>
+                </div>
+                <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                    <div class="form-group" style="margin-bottom: 1.75rem;">
+                        <label style="display: block; margin-bottom: 0.75rem; font-weight: 600;">City *</label>
+                        <input type="text" name="city" required placeholder="Enter city"
+                            style="width: 100%; padding: 1rem; border: 2px solid #E0E0E0; border-radius: 10px; font-size: 1rem; outline: none; transition: all 0.3s; font-family: inherit;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1.75rem;">
+                        <label style="display: block; margin-bottom: 0.75rem; font-weight: 600;">Pincode *</label>
+                        <input type="text" name="pincode" pattern="[0-9]{6}" required placeholder="6-digit pincode"
+                            style="width: 100%; padding: 1rem; border: 2px solid #E0E0E0; border-radius: 10px; font-size: 1rem; outline: none; transition: all 0.3s; font-family: inherit;">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.75rem;">
+                    <label style="display: block; margin-bottom: 0.75rem; font-weight: 600;">State *</label>
+                    <input type="text" name="state" required placeholder="Enter state"
+                        style="width: 100%; padding: 1rem; border: 2px solid #E0E0E0; border-radius: 10px; font-size: 1rem; outline: none; transition: all 0.3s; font-family: inherit;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1.75rem;">
+                    <label style="display: block; margin-bottom: 0.75rem; font-weight: 600;">Address Type</label>
+                    <select name="type"
+                        style="width: 100%; padding: 1rem; border: 2px solid #E0E0E0; border-radius: 10px; font-size: 1rem; outline: none; transition: all 0.3s; font-family: inherit;">
+                        <option value="Home">🏠 Home</option>
+                        <option value="Work">💼 Work</option>
+                        <option value="Other">📍 Other</option>
+                    </select>
+                </div>
+                <button type="submit"
+                    style="width: 100%; padding: 1.25rem; background: linear-gradient(135deg, #8B4513, #D2691E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 700; cursor: pointer;">Save
+                    Address</button>
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Profile</h2>
+                <button class="close-btn" onclick="closeEditProfileModal()">&times;</button>
+            </div>
+            <form id="editProfileForm" onsubmit="saveProfile(event)">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="name" id="editName" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" id="editEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number (Cannot be changed)</label>
+                    <input type="tel" name="phone" id="editPhone" disabled placeholder="Phone number">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select name="gender" id="editGender">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                        <option value="Prefer not to say">Prefer not to say</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" name="dob" id="editDob">
+                </div>
+                <button type="submit" class="btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+    <!-- Add this notification div before </body> -->
+    <div class="notification-toast" id="notificationToast">
+        <div class="notification-content">
+            <span class="notification-icon" id="notificationIcon"></span>
+            <span class="notification-message" id="notificationMessage"></span>
+        </div>
+        <button class="notification-close" onclick="hideNotification()">×</button>
+    </div>
+    <!-- Custom Confirmation Modal -->
+    <div class="confirm-modal" id="confirmModal">
+        <div class="confirm-modal-overlay" onclick="closeConfirmModal()"></div>
+        <div class="confirm-modal-content">
+            <div class="confirm-modal-icon" id="confirmIcon">⚠️</div>
+            <h3 class="confirm-modal-title" id="confirmTitle">Confirm Action</h3>
+            <p class="confirm-modal-message" id="confirmMessage">Are you sure you want to proceed?</p>
+            <div class="confirm-modal-buttons">
+                <button class="confirm-btn confirm-btn-cancel" onclick="closeConfirmModal()">Cancel</button>
+                <button class="confirm-btn confirm-btn-confirm" id="confirmActionBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Notification System
+        function showNotification(message, type = 'info') {
+            const toast = document.getElementById('notificationToast');
+            const icon = document.getElementById('notificationIcon');
+            const messageEl = document.getElementById('notificationMessage');
+
+            // Set icon based on type
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+
+            icon.textContent = icons[type] || icons.info;
+            messageEl.textContent = message;
+
+            // Remove previous type classes
+            toast.classList.remove('success', 'error', 'warning', 'info');
+            // Add current type class
+            toast.classList.add(type);
+
+            // Show notification
+            toast.classList.add('show');
+
+            // Auto hide after 4 seconds
+            setTimeout(() => {
+                hideNotification();
+            }, 4000);
+        }
+        // Generate product page link from product name
+
+        // Navigate to product page
+        function navigateToProduct(link) {
+            window.location.href = link;
+        }
+
+        function hideNotification() {
+            const toast = document.getElementById('notificationToast');
+            toast.style.animation = 'slideOutRight 0.3s ease';
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.style.animation = '';
+            }, 300);
+        }
+
+        // Confirmation Modal System
+        let confirmCallback = null;
+
+        function showConfirmModal(options = {}) {
+            const {
+                title = 'Confirm Action',
+                message = 'Are you sure you want to proceed?',
+                icon = '⚠️',
+                confirmText = 'Confirm',
+                cancelText = 'Cancel',
+                isDanger = false,
+                onConfirm = () => { }
+            } = options;
+
+            const modal = document.getElementById('confirmModal');
+            const iconEl = document.getElementById('confirmIcon');
+            const titleEl = document.getElementById('confirmTitle');
+            const messageEl = document.getElementById('confirmMessage');
+            const confirmBtn = document.getElementById('confirmActionBtn');
+
+            // Set content
+            iconEl.textContent = icon;
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+            confirmBtn.textContent = confirmText;
+
+            // Set button style
+            if (isDanger) {
+                confirmBtn.classList.add('danger');
+            } else {
+                confirmBtn.classList.remove('danger');
+            }
+
+            // Store callback
+            confirmCallback = onConfirm;
+
+            // Show modal
+            modal.classList.add('active');
+        }
+
+        function closeConfirmModal() {
+            const modal = document.getElementById('confirmModal');
+            modal.classList.remove('active');
+            confirmCallback = null;
+        }
+
+        function executeConfirmAction() {
+            if (confirmCallback) {
+                confirmCallback();
+            }
+            closeConfirmModal();
+        }
+
+        // Add click handler to confirm button
+        document.addEventListener('DOMContentLoaded', () => {
+            const confirmBtn = document.getElementById('confirmActionBtn');
+            if (confirmBtn) {
+                confirmBtn.onclick = executeConfirmAction;
+            }
+        });
+
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const loginTime = localStorage.getItem('loginTime');
+
+            if (isLoggedIn !== 'true' || !loginTime) {
+                // Not logged in
+                showNotification('Please login to access your account.', 'warning');
+                window.location.href = 'login.html';
+                return false;
+            }
+
+            const currentTime = new Date().getTime();
+            const timeDiff = currentTime - parseInt(loginTime);
+            const hoursDiff = timeDiff / (1000 * 60 * 60);
+
+            // Check if 24 hours have passed
+            if (hoursDiff >= 24) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('loginTime');
+                localStorage.removeItem('userData');
+                showNotification('Your session has expired. Please login again.', 'error');
+                window.location.href = 'login.html';
+                return false;
+            }
+
+            return true;
+        }
+
+        // Add this NEW function after checkAuth()
+        function syncUserDataToDatabase(userData) {
+            const db = JSON.parse(localStorage.getItem('usersDB') || '{"users":[]}');
+            const users = db.users || [];
+
+            const userIndex = users.findIndex(u => u.id === userData.id);
+
+            if (userIndex !== -1) {
+                // Update existing user
+                users[userIndex] = userData;
+            } else {
+                // Add new user if somehow missing
+                users.push(userData);
+            }
+
+            localStorage.setItem('usersDB', JSON.stringify({ users: users }));
+        }
+
+        function showSection(sectionId) {
+            if (!checkAuth()) {
+                return;
+            }
+
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            document.getElementById(sectionId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function logout() {
+            showConfirmModal({
+                title: 'Logout',
+                message: 'Are you sure you want to logout?',
+                icon: '🚪',
+                confirmText: 'Yes, Logout',
+                cancelText: 'Cancel',
+                isDanger: false,
+                onConfirm: () => {
+                    // Clear only session data (keep database intact)
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('loginTime');
+                    localStorage.removeItem('userData');
+
+                    showNotification('Logged out successfully!', 'success');
+
+                    // Small delay to show notification before redirect
+                    setTimeout(() => {
+                        window.location.replace('homepage.html');
+                    }, 500);
+                }
+            });
+        }
+
+        function renderWishlist() {
+            const wishlistGrid = document.getElementById('wishlistGrid');
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            if (wishlist.length === 0) {
+                wishlistGrid.innerHTML = `
+            <div style="text-align: center; padding: 4rem; grid-column: 1 / -1;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">❤️</div>
+                <h3 style="color: #421F16; margin-bottom: 0.5rem;">Your wishlist is empty</h3>
+                <p style="color: #666;">Add products you love to your wishlist</p>
+            </div>
+        `;
+                return;
+            }
+
+            wishlistGrid.innerHTML = wishlist.map((item, index) => {
+                // Generate link using product ID (100-605)
+                const productLink = item.link || 'products.html';
+
+                return `
+    <div class="address-card-account" style="position: relative;">
+        <div style="cursor: pointer;" onclick="window.location.href='${productLink}'">
+            <img src="${item.image}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 0.5rem;">
+            <strong style="color: #421F16; display: block; margin-bottom: 0.5rem;">${item.name}</strong>
+            <p style="color: #666; margin-bottom: 0.5rem;">Unit: ${item.unit}</p>
+            <p style="color: #421F16; font-weight: bold; margin-bottom: 0.5rem;">
+                ₹${item.price} 
+                <span style="text-decoration: line-through; color: #999;">₹${item.originalPrice}</span>
+            </p>
+        </div>
+        <button class="btn-secondary" onclick="removeFromWishlist(${index})">Remove</button>
+    </div>
+`;
+            }).join('');
+        }
+
+        function removeFromWishlist(index) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            wishlist.splice(index, 1);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            renderWishlist();
+        }
+
+        // NEW: Load and render addresses
+        async function loadAddresses() {
+            const userData = JSON.parse(localStorage.getItem('userData')) || {};
+            const userId = userData.id;
+
+            if (!userId) return;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/user/addresses?userId=${userId}`);
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        renderAddresses(result.data);
+                        console.log('✅ Addresses loaded from backend');
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.log('Using local addresses:', error);
+            }
+
+            // Fallback
+            const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+            renderAddresses(addresses);
+        }
+
+        function renderAddresses(addresses) {
+            const addressesGrid = document.getElementById('addressesGrid');
+
+            if (addresses.length === 0) {
+                addressesGrid.innerHTML = `
+            <div style="text-align: center; padding: 4rem; grid-column: 1 / -1;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📍</div>
+                <h3 style="color: #421F16;">No saved addresses</h3>
+                <p style="color: #666;">Add a new address to get started</p>
+            </div>`;
+                return;
+            }
+
+            addressesGrid.innerHTML = addresses.map((addr, index) => `
+        <div class="address-card-account">
+            ${addr.isDefault || index === 0 ? '<span class="address-default">Default</span>' : ''}
+            <strong style="color: #421F16; display: block; margin-bottom: 0.75rem;">${addr.type}</strong>
+            <p style="color: #666; line-height: 1.6; margin-bottom: 0.5rem;">
+                <strong>${addr.name}</strong><br>
+                ${addr.address}<br>
+                ${addr.city}, ${addr.state} - ${addr.pincode}<br>
+                Phone: ${addr.mobile}
+            </p>
+            <div class="address-actions">
+                <button class="btn-secondary" onclick="deleteAddressAccount('${addr._id || index}')">Delete</button>
+            </div>
+        </div>
+    `).join('');
+        }
+
+        // NEW: Delete address
+        async function deleteAddressAccount(addressId) {
+            showConfirmModal({
+                title: 'Delete Address',
+                message: 'Are you sure you want to delete this address?',
+                icon: '🗑️',
+                confirmText: 'Yes, Delete',
+                cancelText: 'Cancel',
+                isDanger: true,
+                onConfirm: async () => {
+                    const userData = JSON.parse(localStorage.getItem('userData')) || {};
+                    const userId = userData.id;
+
+                    try {
+                        const response = await fetch(`http://localhost:5000/api/user/address/${addressId}?userId=${userId}`, {
+                            method: 'DELETE'
+                        });
+
+                        const result = await response.json();
+
+                        if (response.ok && result.success) {
+                            showNotification('Address deleted successfully', 'success');
+                            console.log('✅ Address deleted from backend');
+                        } else {
+                            throw new Error('Failed to delete');
+                        }
+                    } catch (error) {
+                        console.error('Error deleting address:', error);
+
+                        // Fallback
+                        const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+                        addresses.splice(addressId, 1);
+                        localStorage.setItem('addresses', JSON.stringify(addresses));
+
+                        showNotification('Address deleted locally', 'warning');
+                    }
+
+                    loadAddresses();
+                }
+            });
+        }
+
+        // NEW: Open modal
+        function openAddressModal() {
+            document.getElementById('addressModal').style.display = 'flex';
+        }
+
+        // NEW: Close modal
+        function closeAddressModal() {
+            document.getElementById('addressModal').style.display = 'none';
+        }
+
+        // NEW: Save address
+        async function saveAddress(e) {
+            e.preventDefault();
+
+            if (!checkAuth()) {
+                return;
+            }
+
+            const userData = JSON.parse(localStorage.getItem('userData')) || {};
+            const form = e.target;
+
+            const address = {
+                userId: userData.id,
+                name: form.name.value,
+                mobile: form.mobile.value,
+                address: form.address.value,
+                city: form.city.value,
+                pincode: form.pincode.value,
+                state: form.state.value,
+                type: form.type.value
+            };
+
+            try {
+                const response = await fetch('http://localhost:5000/api/user/address', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(address)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    showNotification('Address added successfully!', 'success');
+                    console.log('✅ Address saved to backend');
+                } else {
+                    throw new Error(result.message || 'Failed to save address');
+                }
+            } catch (error) {
+                console.error('Error saving address:', error);
+
+                // Fallback to localStorage
+                const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+                addresses.push(address);
+                localStorage.setItem('addresses', JSON.stringify(addresses));
+
+                showNotification('Address saved locally', 'warning');
+            }
+
+            closeAddressModal();
+            loadAddresses();
+            form.reset();
+        }
+        function getCurrentUserId() {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            return userData ? userData.id : null;
+        }
+
+        function getUserCart(userId) {
+            if (!userId) return [];
+
+            const allCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
+            return allCarts[userId] || [];
+        }
+        function updateCartBadge() {
+            const userId = getCurrentUserId();
+            if (!userId) {
+                const badge = document.querySelector(".cart-badge");
+                if (badge) badge.textContent = '0';
+                return;
+            }
+
+            const cart = getUserCart(userId);
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.querySelector(".cart-badge");
+            if (badge) badge.textContent = totalItems;
+        }
+        updateCartBadge();
+        async function loadOrders() {
+            const userData = JSON.parse(localStorage.getItem('userData')) || {};
+            const userId = userData.id;
+
+            if (!userId) {
+                document.getElementById('ordersContainer').innerHTML = `
+            <div style="text-align: center; padding: 4rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+                <h3 style="color: #421F16;">Unable to load orders</h3>
+                <p style="color: #666;">Please log in again</p>
+            </div>`;
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/orders?userId=${userId}`);
+                if (response.ok) {
+                    const userOrders = await response.json();
+                    renderOrders(userOrders);
+                } else {
+                    throw new Error('Failed to fetch orders');
+                }
+            } catch (error) {
+                console.log('Using local orders:', error);
+                const orders = JSON.parse(localStorage.getItem('orders')) || [];
+                const userOrders = orders.filter(order => order.userId === userId);
+                renderOrders(userOrders);
+            }
+        }
+
+        function renderOrders(userOrders) {
+            const ordersContainer = document.getElementById('ordersContainer');
+
+            if (userOrders.length === 0) {
+                ordersContainer.innerHTML = `
+            <div style="text-align: center; padding: 4rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📦</div>
+                <h3 style="color: #421F16;">No orders yet</h3>
+                <p style="color: #666;">Start shopping to see your orders here</p>
+            </div>`;
+                return;
+            }
+
+            // Keep your existing order rendering HTML code here
+            ordersContainer.innerHTML = userOrders.map((order, idx) => {
+                // ... your existing order card HTML ...
+            }).join('');
+        }
+
+        function trackOrder(orderId) {
+            window.location.href = `track-order.html?orderId=${orderId}`;
+        }
+
+        function cancelOrder(index) {
+            showConfirmModal({
+                title: 'Cancel Order',
+                message: 'Are you sure you want to cancel this order? This action cannot be undone.',
+                icon: '❌',
+                confirmText: 'Yes, Cancel Order',
+                cancelText: 'Keep Order',
+                isDanger: true,
+                onConfirm: () => {
+                    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+                    orders[index].status = 'Cancelled';
+                    localStorage.setItem('orders', JSON.stringify(orders));
+                    loadOrders();
+                    showNotification('Order cancelled successfully', 'success');
+                }
+            });
+        }
+
+        function viewOrderDetails(orderId) {
+            window.location.href = `track-order.html?orderId=${orderId}`;
+        }
+
+        function reorder(index) {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const order = orders[index];
+
+            // Add items back to cart
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            order.items.forEach(item => {
+                const existingIndex = cart.findIndex(cartItem => cartItem.name === item.name);
+                if (existingIndex > -1) {
+                    cart[existingIndex].quantity += item.quantity;
+                } else {
+                    cart.push({ ...item });
+                }
+            });
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            showNotification('Items added to cart!', 'success');
+            window.location.href = 'cart.html';
+        }
+
+        async function loadUserProfile() {
+            if (!checkAuth()) {
+                return;
+            }
+
+            const userData = JSON.parse(localStorage.getItem('userData')) || {};
+            const userId = userData.id;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/user/profile?userId=${userId}`);
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        const backendData = result.data;
+
+                        const mergedData = {
+                            ...userData,
+                            id: backendData.id,
+                            name: backendData.name,
+                            email: backendData.email,
+                            phone: backendData.phone,
+                            gender: backendData.gender,
+                            dob: backendData.dob,
+                            memberSince: new Date(backendData.memberSince).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+                        };
+
+                        localStorage.setItem('userData', JSON.stringify(mergedData));
+                        updateUIWithUserData(mergedData);
+                        console.log('✅ Profile loaded from backend');
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.log('Using local data:', error);
+            }
+
+            // Fallback to local data
+            updateUIWithUserData(userData);
+        }
+
+        function updateUIWithUserData(userData) {
+            const userName = userData.name || 'User';
+            const userEmail = userData.email || userData.phone || 'No email';
+            const initials = userName !== 'User' ?
+                userName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'U';
+
+            document.getElementById('userAvatar').textContent = initials;
+            document.getElementById('userName').textContent = userName;
+            document.getElementById('userEmail').textContent = userEmail;
+            document.getElementById('displayName').textContent = userData.name || 'Not specified';
+            document.getElementById('displayEmail').textContent = userData.email || 'Not specified';
+            document.getElementById('displayPhone').textContent = userData.phone || 'Not specified';
+            document.getElementById('displayGender').textContent = userData.gender || 'Not specified';
+            document.getElementById('displayDob').textContent = userData.dob || 'Not specified';
+            document.getElementById('displayMemberSince').textContent = userData.memberSince || 'January 2024';
+        }
+
+        function openEditProfileModal() {
+            if (!checkAuth()) {
+                return;
+            }
+
+            const userData = JSON.parse(localStorage.getItem('userData')) || {};
+
+            // Pre-fill the form - but don't show "User" as default name
+            document.getElementById('editName').value = (userData.name && userData.name !== 'User') ? userData.name : '';
+            document.getElementById('editEmail').value = userData.email || '';
+            document.getElementById('editPhone').value = userData.phone || '';
+            document.getElementById('editGender').value = userData.gender || '';
+            document.getElementById('editDob').value = userData.dob || '';
+
+            document.getElementById('editProfileModal').classList.add('active');
+        }
+
+        function closeEditProfileModal() {
+            document.getElementById('editProfileModal').classList.remove('active');
+        }
+
+        async function saveProfile(e) {
+            e.preventDefault();
+
+            if (!checkAuth()) {
+                return;
+            }
+
+            const userData = JSON.parse(localStorage.getItem('userData')) || {};
+            const form = e.target;
+
+            // Update user data directly
+            userData.name = form.name.value;
+            userData.email = form.email.value;
+            userData.gender = form.gender.value;
+            userData.dob = form.dob.value;
+
+            // Save to localStorage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Also sync to database if you have one
+            syncUserDataToDatabase(userData);
+
+            // Show success message
+            showNotification('Profile updated successfully!', 'success');
+
+            loadUserProfile();
+            closeEditProfileModal();
+        }
+
+        // Option 3: Make backend optional with a feature flag
+        const USE_BACKEND = false; // Set to true when backend is ready
+
+        async function saveProfile(e) {
+            e.preventDefault();
+
+            if (!checkAuth()) {
+                return;
+            }
+
+            const userData = JSON.parse(localStorage.getItem('userData')) || {};
+            const form = e.target;
+
+            const updatedData = {
+                userId: userData.id,
+                name: form.name.value,
+                email: form.email.value,
+                gender: form.gender.value,
+                dob: form.dob.value
+            };
+
+            if (USE_BACKEND) {
+                try {
+                    const response = await fetch('http://localhost:5000/api/user/profile', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(updatedData)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        const mergedData = {
+                            ...userData,
+                            ...result.data,
+                            id: userData.id
+                        };
+                        localStorage.setItem('userData', JSON.stringify(mergedData));
+                        showNotification('Profile updated successfully!', 'success');
+                    } else {
+                        throw new Error(result.message || 'Failed to update profile');
+                    }
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                    // Fall through to local save
+                    USE_BACKEND = false; // Disable backend for this session
+                }
+            }
+
+            // Local save (always runs if backend is disabled)
+            if (!USE_BACKEND) {
+                userData.name = updatedData.name;
+                userData.email = updatedData.email;
+                userData.gender = updatedData.gender;
+                userData.dob = updatedData.dob;
+                localStorage.setItem('userData', JSON.stringify(userData));
+                syncUserDataToDatabase(userData);
+                showNotification('Profile updated successfully!', 'success');
+            }
+
+            loadUserProfile();
+            closeEditProfileModal();
+        }
+
+        function openAddressModal() {
+            if (!checkAuth()) {
+                return;
+            }
+            document.getElementById('addressModal').style.display = 'flex';
+        }
+
+        function saveAddress(e) {
+            e.preventDefault();
+
+            if (!checkAuth()) {
+                return;
+            }
+
+            const form = e.target;
+            const address = {
+                name: form.name.value,
+                mobile: form.mobile.value,
+                address: form.address.value,
+                city: form.city.value,
+                pincode: form.pincode.value,
+                state: form.state.value,
+                type: form.type.value
+            };
+            const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+            addresses.push(address);
+            localStorage.setItem('addresses', JSON.stringify(addresses));
+            closeAddressModal();
+            loadAddresses();
+            form.reset();
+        }
+
+        // STEP 6: Update the existing DOMContentLoaded to include loadUserProfile
+        // FIND the existing DOMContentLoaded and MODIFY it to:
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (checkAuth()) {
+                loadUserProfile();
+                renderWishlist();
+                loadAddresses();
+                loadOrders();
+                updateCartBadge();
+
+                // Auto-refresh orders when switching to orders tab
+                const ordersMenuItem = document.querySelector('.menu-item[onclick*="orders"]');
+                if (ordersMenuItem) {
+                    ordersMenuItem.addEventListener('click', () => {
+                        setTimeout(loadOrders, 100);
+                    });
+                }
+
+                // Set up periodic session check
+                setInterval(() => {
+                    checkAuth();
+                }, 5 * 60 * 1000);
+            }
+        });
+    </script>
+</body>
+
+</html>

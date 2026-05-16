@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Management - Admin Panel</title>
+    <script src="search.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #faf8f6 0%, #f0ebe3 100%);
+            color: #2d3748;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #421F16;
+            color: #F3ECDC;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-secondary {
+            background: #8B4513;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: #A0522D;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.75rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(66, 31, 22, 0.1);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(66, 31, 22, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #421F16;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(66, 31, 22, 0.12);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #F3ECDC;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .panel-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #421F16;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .filter-select:focus {
+            border-color: #8B4513;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.75rem 1rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: #8B4513;
+        }
+
+        .sellers-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .sellers-table thead {
+            background: #F3ECDC;
+        }
+
+        .sellers-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+            color: #421F16;
+            border-bottom: 2px solid #8B4513;
+            white-space: nowrap;
+        }
+
+        .sellers-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .sellers-table tr:hover {
+            background: #FFF8F0;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .status-pending {
+            background: #FFF3CD;
+            color: #856404;
+        }
+
+        .status-approved {
+            background: #D4EDDA;
+            color: #155724;
+        }
+
+        .status-rejected {
+            background: #F8D7DA;
+            color: #721C24;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-view {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #1976D2;
+        }
+
+        .btn-approve {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-approve:hover {
+            background: #45A049;
+        }
+
+        .btn-reject {
+            background: #F44336;
+            color: white;
+        }
+
+        .btn-reject:hover {
+            background: #D32F2F;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #F3ECDC;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #421F16;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            color: #421F16;
+            transform: rotate(90deg);
+        }
+
+        .detail-section {
+            margin-bottom: 2rem;
+        }
+
+        .detail-section h3 {
+            color: #421F16;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            background: #F8F8F8;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .detail-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            color: #421F16;
+            font-size: 1rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        /* Notification Toast */
+        .notification-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            z-index: 10002;
+            display: none;
+            min-width: 320px;
+            max-width: 400px;
+            animation: slideInRight 0.3s ease;
+            border-left: 4px solid #8B4513;
+        }
+
+        .notification-toast.show {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .notification-message {
+            color: #421F16;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .notification-toast.success { border-left-color: #4CAF50; }
+        .notification-toast.error { border-left-color: #F44336; }
+
+        @keyframes slideInRight {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Confirmation Modal */
+        .confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10003;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .confirm-modal.active {
+            display: flex;
+        }
+
+        .confirm-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        .confirm-modal-content {
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 1;
+        }
+
+        .confirm-modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .confirm-modal-title {
+            color: #421F16;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .confirm-modal-message {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .confirm-modal-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .confirm-btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .confirm-btn-cancel {
+            background: #E0E0E0;
+            color: #421F16;
+        }
+
+        .confirm-btn-confirm {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .logo-image { width: 150px; height: 42px; }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .panel { padding: 1.5rem; }
+            .panel-header { flex-direction: column; align-items: flex-start; }
+            .filter-section { width: 100%; flex-direction: column; }
+            .search-box { width: 100%; }
+            .sellers-table { font-size: 0.9rem; }
+            .sellers-table th, .sellers-table td { padding: 0.75rem 0.5rem; }
+            .detail-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .logo-image { width: 100px; height: 30px; }
+            .header-title { font-size: 1.2rem; }
+            .panel-title { font-size: 1.4rem; }
+            .stat-value { font-size: 1.75rem; }
+            .sellers-table { display: block; overflow-x: auto; }
+            .modal-content { padding: 1.5rem; }
+            .confirm-modal-content { padding: 1.75rem 1.25rem; }
+            .confirm-modal-buttons { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 360px) {
+            .logo-image { width: 80px; height: 24px; }
+            .btn-secondary { padding: 0.65rem 1rem; font-size: 0.9rem; }
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+<body>
+    <div class="notification-toast" id="notificationToast">
+        <div class="notification-content">
+            <span class="notification-icon" id="notificationIcon"></span>
+            <span class="notification-message" id="notificationMessage"></span>
+        </div>
+        <button class="notification-close" onclick="hideNotification()">×</button>
+    </div>
+
+    <div class="confirm-modal" id="confirmModal">
+        <div class="confirm-modal-overlay" onclick="closeConfirmModal()"></div>
+        <div class="confirm-modal-content">
+            <div class="confirm-modal-icon" id="confirmIcon">⚠️</div>
+            <h3 class="confirm-modal-title" id="confirmTitle">Confirm Action</h3>
+            <p class="confirm-modal-message" id="confirmMessage">Are you sure?</p>
+            <div class="confirm-modal-buttons">
+                <button class="confirm-btn confirm-btn-cancel" onclick="closeConfirmModal()">Cancel</button>
+                <button class="confirm-btn confirm-btn-confirm" id="confirmActionBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="header-container">
+            <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="logo-image" onclick="window.location.href='homepage.html'">
+            <div class="header-title">
+                <span>👥</span>
+                <span>Seller Management</span>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary" onclick="window.location.href='admin.html'">
+                    <span>←</span>
+                    <span>Back to Orders</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👤</div>
+                <div class="stat-value" id="totalSellers">0</div>
+                <div class="stat-label">Total Applications</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-value" id="pendingSellers">0</div>
+                <div class="stat-label">Pending Review</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value" id="approvedSellers">0</div>
+                <div class="stat-label">Approved Sellers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">❌</div>
+                <div class="stat-value" id="rejectedSellers">0</div>
+                <div class="stat-label">Rejected</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h1 class="panel-title">Seller Applications</h1>
+                <div class="filter-section">
+                    <select class="filter-select" id="statusFilter" onchange="filterSellers()">
+                        <option value="all">All Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                    <input type="text" class="search-box" id="searchBox" placeholder="Search by name, business, or email..." oninput="filterSellers()">
+                </div>
+            </div>
+
+            <table class="sellers-table">
+                <thead>
+                    <tr>
+                        <th>Seller ID</th>
+                        <th>Name</th>
+                        <th>Business</th>
+                        <th>Category</th>
+                        <th>Applied Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="sellersTableBody">
+                    <!-- Sellers will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal" id="sellerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Seller Details</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="sellerDetailsContent">
+                <!-- Details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allSellers = [];
+        let currentSeller = null;
+        let confirmCallback = null;
+
+        function showNotification(message, type = 'info') {
+            const toast = document.getElementById('notificationToast');
+            const icon = document.getElementById('notificationIcon');
+            const messageEl = document.getElementById('notificationMessage');
+            
+            const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+            icon.textContent = icons[type];
+            messageEl.textContent = message;
+            
+            toast.classList.remove('success', 'error', 'warning', 'info');
+            toast.classList.add(type, 'show');
+            setTimeout(() => hideNotification(), 4000);
+        }
+
+        function hideNotification() {
+            const toast = document.getElementById('notificationToast');
+            toast.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.style.animation = '';
+            }, 300);
+        }
+
+        function showConfirmModal(options = {}) {
+            const { title, message, icon, confirmText, onConfirm } = options;
+            document.getElementById('confirmIcon').textContent = icon;
+            document.getElementById('confirmTitle').textContent = title;
+            document.getElementById('confirmMessage').textContent = message;
+            document.getElementById('confirmActionBtn').textContent = confirmText;
+            confirmCallback = onConfirm;
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+            confirmCallback = null;
+        }
+
+        function executeConfirmAction() {
+            if (confirmCallback) confirmCallback();
+            closeConfirmModal();
+        }
+
+        document.getElementById('confirmActionBtn').onclick = executeConfirmAction;
+
+        function loadSellers() {
+            allSellers = JSON.parse(localStorage.getItem('sellers')) || [];
+            updateStatistics();
+            renderSellers();
+        }
+
+        function updateStatistics() {
+            document.getElementById('totalSellers').textContent = allSellers.length;
+            document.getElementById('pendingSellers').textContent = allSellers.filter(s => s.status === 'Pending').length;
+            document.getElementById('approvedSellers').textContent = allSellers.filter(s => s.status === 'Approved').length;
+            document.getElementById('rejectedSellers').textContent = allSellers.filter(s => s.status === 'Rejected').length;
+        }
+
+        function renderSellers() {
+            const tbody = document.getElementById('sellersTableBody');
+            
+            if (allSellers.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 3rem;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
+                            <h3>No seller applications found</h3>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = allSellers.map((seller, index) => {
+                const date = new Date(seller.appliedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                let statusClass = 'status-pending';
+                if (seller.status === 'Approved') statusClass = 'status-approved';
+                if (seller.status === 'Rejected') statusClass = 'status-rejected';
+
+                return `
+                    <tr>
+                        <td><strong>${seller.id}</strong></td>
+                        <td>${seller.fullName}</td>
+                        <td>${seller.businessName}</td>
+                        <td>${seller.category}</td>
+                        <td>${date}</td>
+                        <td><span class="status-badge ${statusClass}">${seller.status}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-view" onclick="viewSeller(${index})">View</button>
+                                ${seller.status === 'Pending' ? `
+                                    <button class="btn btn-approve" onclick="approveSeller(${index})">Approve</button>
+                                    <button class="btn btn-reject" onclick="rejectSeller(${index})">Reject</button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterSellers() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const searchQuery = document.getElementById('searchBox').value.toLowerCase();
+            let filtered = JSON.parse(localStorage.getItem('sellers')) || [];
+
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(s => s.status === statusFilter);
+            }
+
+            if (searchQuery) {
+                filtered = filtered.filter(s => 
+                    s.fullName.toLowerCase().includes(searchQuery) ||
+                    s.businessName.toLowerCase().includes(searchQuery) ||
+                    s.email.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            allSellers = filtered;
+            renderSellers();
+        }
+
+        function viewSeller(index) {
+            const sellers = JSON.parse(localStorage.getItem('sellers')) || [];
+            const seller = sellers[index];
+            currentSeller = { seller, index };
+
+            const appliedDate = new Date(seller.appliedDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+            document.getElementById('modalTitle').textContent = `Seller Details - ${seller.id}`;
+            document.getElementById('sellerDetailsContent').innerHTML = `
+                <div class="detail-section">
+                    <h3>Personal Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Full Name</div>
+                            <div class="detail-value">${seller.fullName}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">${seller.email}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Mobile</div>
+                            <div class="detail-value">${seller.mobile}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Applied On</div>
+                            <div class="detail-value">${appliedDate}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Business Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Business Name</div>
+                            <div class="detail-value">${seller.businessName}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Business Type</div>
+                            <div class="detail-value">${seller.businessType}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Product Category</div>
+                            <div class="detail-value">${seller.category}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">GSTIN</div>
+                            <div class="detail-value">${seller.gstin}</div>
+                        </div>
+                        <div class="detail-item" style="grid-column: 1 / -1;">
+                            <div class="detail-label">Business Address</div>
+                            <div class="detail-value">${seller.address}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Financial Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">PAN Number</div>
+                            <div class="detail-value">${seller.pan}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Bank Account</div>
+                            <div class="detail-value">${seller.bankAccount}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">IFSC Code</div>
+                            <div class="detail-value">${seller.ifsc}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Status</div>
+                            <div class="detail-value">
+                                <span class="status-badge status-${seller.status.toLowerCase()}">${seller.status}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                ${seller.status === 'Pending' ? `
+                <div class="modal-actions">
+                    <button class="btn-primary btn-approve" onclick="approveSeller(${index}); closeModal();">Approve Seller</button>
+                    <button class="btn-primary btn-reject" onclick="rejectSeller(${index}); closeModal();">Reject Application</button>
+                </div>
+                ` : ''}
+            `;
+
+            document.getElementById('sellerModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('sellerModal').classList.remove('active');
+            currentSeller = null;
+        }
+
+        function approveSeller(index) {
+            const sellers = JSON.parse(localStorage.getItem('sellers')) || [];
+            const seller = sellers[index];
+
+            showConfirmModal({
+                title: 'Approve Seller',
+                message: `Approve ${seller.businessName} as a seller? They will receive access to the seller dashboard.`,
+                icon: '✅',
+                confirmText: 'Yes, Approve',
+                onConfirm: () => {
+                    sellers[index].status = 'Approved';
+                    sellers[index].approvedDate = new Date().toISOString();
+                    localStorage.setItem('sellers', JSON.stringify(sellers));
+                    showNotification(`${seller.businessName} has been approved successfully!`, 'success');
+                    loadSellers();
+                }
+            });
+        }
+
+        function rejectSeller(index) {
+            const sellers = JSON.parse(localStorage.getItem('sellers')) || [];
+            const seller = sellers[index];
+
+            showConfirmModal({
+                title: 'Reject Application',
+                message: `Reject the application from ${seller.businessName}? This action cannot be undone.`,
+                icon: '❌',
+                confirmText: 'Yes, Reject',
+                onConfirm: () => {
+                    sellers[index].status = 'Rejected';
+                    sellers[index].rejectedDate = new Date().toISOString();
+                    localStorage.setItem('sellers', JSON.stringify(sellers));
+                    showNotification(`Application from ${seller.businessName} has been rejected.`, 'error');
+                    loadSellers();
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadSellers);
+    </script>
+</body>
+</html>

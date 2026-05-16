@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Management - Admin</title>
+    <script src="search.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Inter, system-ui;
+            background: #faf8f6;
+            color: #421F16;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #421F16, #8B4513);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #421F16;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #F3ECDC;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #8B4513;
+        }
+
+        .feedback-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .feedback-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+            border-left: 5px solid #8B4513;
+        }
+
+        .feedback-card.pending {
+            border-left-color: #FFA500;
+        }
+
+        .feedback-card.approved {
+            border-left-color: #4CAF50;
+        }
+
+        .feedback-card.rejected {
+            border-left-color: #F44336;
+        }
+
+        .feedback-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .feedback-user {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #421F16;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-email {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .feedback-meta {
+            text-align: right;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #8B4513;
+            margin-bottom: 0.25rem;
+        }
+
+        .feedback-date {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .rating-stars {
+            color: #FFD700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feedback-message {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #F3ECDC;
+            border-radius: 8px;
+        }
+
+        .feedback-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .approve-btn {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+        }
+
+        .approve-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .reject-btn {
+            background: linear-gradient(135deg, #F44336, #D32F2F);
+            color: white;
+        }
+
+        .reject-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+        }
+
+        .delete-btn {
+            background: #666;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #555;
+            transform: translateY(-2px);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .status-pending {
+            background: #FFF3E0;
+            color: #F57C00;
+        }
+
+        .status-approved {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .status-rejected {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        .no-feedback {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+            font-size: 1.2rem;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+            z-index: 10000;
+            display: none;
+            animation: slideInRight 0.4s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(200px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            body {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .stat-number {
+                font-size: 2.25rem;
+            }
+
+            .feedback-card {
+                padding: 1.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .filters {
+                padding: 1.25rem;
+            }
+
+            .feedback-card {
+                padding: 1.5rem;
+            }
+
+            .feedback-header {
+                flex-direction: column;
+            }
+
+            .feedback-meta {
+                text-align: left;
+            }
+
+            .user-name {
+                font-size: 1.2rem;
+            }
+
+            .rating-stars {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0.75rem;
+            }
+
+            .header {
+                padding: 1.25rem;
+                border-radius: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.3rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .stat-card {
+                padding: 1.25rem;
+            }
+
+            .stat-number {
+                font-size: 1.75rem;
+            }
+
+            .filters {
+                padding: 1rem;
+                gap: 0.75rem;
+            }
+
+            .filter-group {
+                min-width: 100%;
+            }
+
+            .feedback-list {
+                gap: 1.25rem;
+            }
+
+            .feedback-card {
+                padding: 1.25rem;
+                border-radius: 10px;
+            }
+
+            .user-name {
+                font-size: 1.1rem;
+            }
+
+            .rating-stars {
+                font-size: 1.2rem;
+            }
+
+            .feedback-message {
+                padding: 0.85rem;
+                font-size: 0.9rem;
+            }
+
+            .feedback-actions {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .action-btn {
+                padding: 0.65rem 1.25rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .header {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.2rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-number {
+                font-size: 1.6rem;
+            }
+
+            .stat-label {
+                font-size: 0.85rem;
+            }
+
+            .filters {
+                padding: 0.85rem;
+            }
+
+            .feedback-card {
+                padding: 1rem;
+            }
+
+            .user-name {
+                font-size: 1rem;
+            }
+
+            .user-email {
+                font-size: 0.85rem;
+            }
+
+            .rating-stars {
+                font-size: 1.1rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .feedback-message {
+                padding: 0.75rem;
+                font-size: 0.85rem;
+            }
+
+            .action-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+<body>
+    <div class="notification" id="notification"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Feedback Management Dashboard</h1>
+            <p>Review and manage customer feedback</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalFeedback">0</div>
+                <div class="stat-label">Total Feedback</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pendingFeedback">0</div>
+                <div class="stat-label">Pending Review</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="approvedFeedback">0</div>
+                <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="rejectedFeedback">0</div>
+                <div class="stat-label">Rejected</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label class="filter-label">Filter by Status</label>
+                <select class="filter-select" id="statusFilter" onchange="filterFeedback()">
+                    <option value="all">All Feedback</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Filter by Rating</label>
+                <select class="filter-select" id="ratingFilter" onchange="filterFeedback()">
+                    <option value="all">All Ratings</option>
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Star</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="feedback-list" id="feedbackList"></div>
+    </div>
+
+    <script>
+        function loadFeedback() {
+            const allFeedback = JSON.parse(localStorage.getItem('productFeedback')) || [];
+            
+            // Update statistics
+            const pending = allFeedback.filter(f => !f.hasOwnProperty('approved') || f.approved === false).length;
+            const approved = allFeedback.filter(f => f.approved === true).length;
+            const rejected = allFeedback.filter(f => f.approved === 'rejected').length;
+
+            document.getElementById('totalFeedback').textContent = allFeedback.length;
+            document.getElementById('pendingFeedback').textContent = pending;
+            document.getElementById('approvedFeedback').textContent = approved;
+            document.getElementById('rejectedFeedback').textContent = rejected;
+
+            filterFeedback();
+        }
+
+        function filterFeedback() {
+            const allFeedback = JSON.parse(localStorage.getItem('productFeedback')) || [];
+            const statusFilter = document.getElementById('statusFilter').value;
+            const ratingFilter = document.getElementById('ratingFilter').value;
+
+            let filtered = allFeedback;
+
+            // Filter by status
+            if (statusFilter !== 'all') {
+                if (statusFilter === 'pending') {
+                    filtered = filtered.filter(f => !f.hasOwnProperty('approved') || f.approved === false);
+                } else if (statusFilter === 'approved') {
+                    filtered = filtered.filter(f => f.approved === true);
+                } else if (statusFilter === 'rejected') {
+                    filtered = filtered.filter(f => f.approved === 'rejected');
+                }
+            }
+
+            // Filter by rating
+            if (ratingFilter !== 'all') {
+                filtered = filtered.filter(f => f.rating === parseInt(ratingFilter));
+            }
+
+            displayFeedback(filtered);
+        }
+
+        function displayFeedback(feedbackList) {
+            const container = document.getElementById('feedbackList');
+            
+            if (feedbackList.length === 0) {
+                container.innerHTML = '<div class="no-feedback">No feedback found</div>';
+                return;
+            }
+
+            // Sort by date (newest first)
+            feedbackList.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            container.innerHTML = feedbackList.map(feedback => {
+                const status = feedback.approved === true ? 'approved' : 
+                              feedback.approved === 'rejected' ? 'rejected' : 'pending';
+                const statusText = status.charAt(0).toUpperCase() + status.slice(1);
+                const stars = '★'.repeat(feedback.rating) + '☆'.repeat(5 - feedback.rating);
+                const date = new Date(feedback.timestamp).toLocaleString();
+
+                return `
+                    <div class="feedback-card ${status}">
+                        <span class="status-badge status-${status}">${statusText}</span>
+                        <div class="feedback-header">
+                            <div class="feedback-user">
+                                <div class="user-name">${feedback.userName}</div>
+                                <div class="user-email">${feedback.userEmail}</div>
+                            </div>
+                            <div class="feedback-meta">
+                                <div class="product-name">${feedback.productName}</div>
+                                <div class="feedback-date">${date}</div>
+                            </div>
+                        </div>
+                        <div class="rating-stars">${stars} (${feedback.rating}/5)</div>
+                        <div class="feedback-message">${feedback.message}</div>
+                        <div class="feedback-actions">
+                            ${status === 'pending' || status === 'rejected' ? 
+                                `<button class="action-btn approve-btn" onclick="approveFeedback('${feedback.id}')">
+                                    Approve
+                                </button>` : ''}
+                            ${status === 'pending' || status === 'approved' ? 
+                                `<button class="action-btn reject-btn" onclick="rejectFeedback('${feedback.id}')">
+                                    Reject
+                                </button>` : ''}
+                            <button class="action-btn delete-btn" onclick="deleteFeedback('${feedback.id}')">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function approveFeedback(id) {
+            let allFeedback = JSON.parse(localStorage.getItem('productFeedback')) || [];
+            const feedback = allFeedback.find(f => f.id === id);
+            
+            if (feedback) {
+                feedback.approved = true;
+                localStorage.setItem('productFeedback', JSON.stringify(allFeedback));
+                showNotification('Feedback approved successfully!');
+                loadFeedback();
+            }
+        }
+
+        function rejectFeedback(id) {
+            let allFeedback = JSON.parse(localStorage.getItem('productFeedback')) || [];
+            const feedback = allFeedback.find(f => f.id === id);
+            
+            if (feedback) {
+                feedback.approved = 'rejected';
+                localStorage.setItem('productFeedback', JSON.stringify(allFeedback));
+                showNotification('Feedback rejected', 'error');
+                loadFeedback();
+            }
+        }
+
+        function deleteFeedback(id) {
+            if (!confirm('Are you sure you want to delete this feedback permanently?')) {
+                return;
+            }
+
+            let allFeedback = JSON.parse(localStorage.getItem('productFeedback')) || [];
+            allFeedback = allFeedback.filter(f => f.id !== id);
+            localStorage.setItem('productFeedback', JSON.stringify(allFeedback));
+            showNotification('Feedback deleted', 'error');
+            loadFeedback();
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            
+            if (type === 'error') {
+                notification.style.background = 'linear-gradient(135deg, #F44336, #D32F2F)';
+            } else {
+                notification.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+            }
+            
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideInRight 0.4s ease reverse';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                    notification.style.animation = 'slideInRight 0.4s ease';
+                }, 400);
+            }, 3000);
+        }
+
+        // Load feedback on page load
+        document.addEventListener('DOMContentLoaded', loadFeedback);
+    </script>
+</body>
+</html>

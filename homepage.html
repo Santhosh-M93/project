@@ -1,0 +1,2898 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Materials E-commerce</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="search.js"></script>
+    <meta name="description"
+        content="Your one-stop shop for quality construction materials including cement, bricks, sand, paint, woodcraft, and building supplies.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #F3ECDC;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .header {
+            background: #421F16;
+            color: #F3ECDC;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #F3ECDC;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 15px;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 3rem 0.75rem 1rem;
+            border: 2px solid #F3ECDC;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            background: #F3ECDC;
+            color: #421F16;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #8B4513;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: #421F16;
+        }
+
+        .search-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .become-seller-btn {
+            background: #8B4513;
+            color: #F3ECDC;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .become-seller-btn:hover {
+            background: #A0522D;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+        }
+
+        .become-seller-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .icon-btn {
+            background: rgba(243, 236, 220, 0.2);
+            border: 2px solid #F3ECDC;
+            color: #F3ECDC;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background: rgba(243, 236, 220, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #D2691E;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #421F16;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+        }
+
+        .category-nav {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(66, 31, 22, 0.1);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .category-btn {
+            padding: 0.75rem 1rem;
+            background: #F3ECDC;
+            border: 2px solid #421F16;
+            color: #421F16;
+            border-radius: 8px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-height: 44px;
+        }
+
+        .category-btn:hover {
+            background: #421F16;
+            color: #F3ECDC;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+        }
+
+        .category-btn svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .category-btn:hover svg {
+            transform: rotate(5deg) scale(1.1);
+        }
+
+
+
+        /* Tablet - 1024px */
+        @media (max-width: 1024px) {
+            .category-nav {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.65rem;
+                padding: 1.1rem;
+                margin-bottom: 1.75rem;
+            }
+
+            .category-btn {
+                padding: 0.7rem 0.9rem;
+                font-size: 0.92rem;
+                min-height: 42px;
+            }
+
+            .category-btn svg {
+                width: 17px;
+                height: 17px;
+            }
+        }
+
+        /* Tablet Portrait - 768px */
+        @media (max-width: 768px) {
+            .category-nav {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+                padding: 0.85rem;
+                margin-bottom: 1.5rem;
+                border-radius: 10px;
+            }
+
+            .category-btn {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.88rem;
+                border-radius: 7px;
+                gap: 0.4rem;
+                min-height: 40px;
+            }
+
+            .category-btn svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        /* Mobile Large - 480px */
+        @media (max-width: 480px) {
+            .category-nav {
+                display: flex;
+                overflow-x: auto;
+                gap: 0.4rem;
+                padding: 0.7rem;
+                margin-bottom: 1.25rem;
+                border-radius: 8px;
+                scrollbar-width: thin;
+                scrollbar-color: #8B4513 #F3ECDC;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .category-nav::-webkit-scrollbar {
+                height: 4px;
+            }
+
+            .category-nav::-webkit-scrollbar-track {
+                background: #F3ECDC;
+                border-radius: 10px;
+            }
+
+            .category-nav::-webkit-scrollbar-thumb {
+                background: #8B4513;
+                border-radius: 10px;
+            }
+
+            .category-btn {
+                flex: 0 0 auto;
+                padding: 0.5rem 1rem;
+                font-size: 0.82rem;
+                border-radius: 6px;
+                gap: 0.35rem;
+                min-height: 38px;
+                border-width: 1.5px;
+            }
+
+            .category-btn svg {
+                width: 14px;
+                height: 14px;
+            }
+        }
+
+        /* Mobile Small - 360px */
+        @media (max-width: 360px) {
+            .category-nav {
+                gap: 0.35rem;
+                padding: 0.6rem;
+                margin-bottom: 1rem;
+            }
+
+            .category-btn {
+                padding: 0.45rem 0.85rem;
+                font-size: 0.78rem;
+                gap: 0.3rem;
+                min-height: 36px;
+            }
+
+            .category-btn svg {
+                width: 13px;
+                height: 13px;
+            }
+        }
+
+        /* Extra Small - 320px */
+        @media (max-width: 320px) {
+            .category-nav {
+                gap: 0.3rem;
+                padding: 0.5rem;
+            }
+
+            .category-btn {
+                padding: 0.4rem 0.7rem;
+                font-size: 0.75rem;
+                gap: 0.25rem;
+                min-height: 34px;
+            }
+
+            .category-btn svg {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+
+        .banner-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .banner {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            color: #F3ECDC;
+            box-shadow: 0 8px 20px rgba(66, 31, 22, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .banner:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(66, 31, 22, 0.3);
+        }
+
+        .banner:nth-child(2) {
+            background: linear-gradient(135deg, #D2691E 0%, #CD853F 100%);
+        }
+
+        .banner h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .banner p {
+            margin-bottom: 1rem;
+            opacity: 0.95;
+        }
+
+        .banner-btn {
+            background: #F3ECDC;
+            color: #421F16;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .banner-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            background: white;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .top-deals-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #2C1810 0%, #421F16 50%, #5D2A1A 100%);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(66, 31, 22, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top-deals-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(210, 105, 30, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .top-deals-section .section-header {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .top-deals-section .section-title {
+            color: #FFFFFF;
+            font-size: 2rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .top-deals-section .section-title::before {
+            content: '⚡';
+            font-size: 2.5rem;
+            animation: flash 1.5s ease-in-out infinite;
+        }
+
+        @keyframes flash {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.6;
+                transform: scale(1.2);
+            }
+        }
+
+        .top-deals-section .see-all {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #2C1810;
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+            position: relative;
+            z-index: 1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .top-deals-section .see-all:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(255, 215, 0, 0.6);
+        }
+
+        .products-scroll {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .products-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ========================================
+           PRODUCT CARD STYLING - DESKTOP
+        ======================================== */
+
+        .top-deals-section .product-card {
+            min-width: 280px;
+            max-width: 280px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(66, 31, 22, 0.15);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            flex-shrink: 0;
+            position: relative;
+            border: 3px solid #FFD700;
+        }
+
+        .top-deals-section .product-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0) 0%, rgba(210, 105, 30, 0.03) 50%, rgba(139, 69, 19, 0) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .top-deals-section .product-card:hover::after {
+            opacity: 1;
+        }
+
+        .top-deals-section .product-card:hover {
+            transform: translateY(-12px) scale(1.05);
+            box-shadow: 0 12px 32px rgba(255, 215, 0, 0.4);
+            border-color: #FFA500;
+        }
+
+        .top-deals-section .product-card:hover .product-image {
+            transform: scale(1.15) rotate(2deg);
+        }
+
+        .top-deals-section .product-card:hover .discount-badge {
+            transform: scale(1.1) rotate(-3deg);
+        }
+
+        .product-image-container {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f8f8f8 0%, #ececec 100%);
+        }
+
+        .product-image-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+            transition: left 0.6s ease;
+            z-index: 2;
+        }
+
+        .top-deals-section .product-card:hover .product-image-container::before {
+            left: 100%;
+        }
+
+        .top-deals-section .product-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: brightness(1.02) contrast(1.05);
+        }
+
+        .top-deals-section .discount-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: linear-gradient(135deg, #FF4500 0%, #FF6B47 50%, #FF4500 100%);
+            background-size: 200% 200%;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(255, 69, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            z-index: 3;
+            transition: all 0.4s ease;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            animation: gradientShift 3s ease infinite, bounce 2s ease-in-out infinite;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .top-deals-section .product-info {
+            padding: 1.75rem;
+            background: linear-gradient(180deg, #2C1810 0%, #3a1f14 50%, #421F16 100%);
+            color: #F3ECDC;
+            position: relative;
+            z-index: 2;
+        }
+
+        .top-deals-section .product-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #D2691E 0%, #FFD700 50%, #D2691E 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* ========================================
+           PRODUCT INFO LAYOUT - NEW STYLE
+        ======================================== */
+
+        .top-deals-section .product-prices {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .top-deals-section .original-price {
+            text-decoration: line-through;
+            opacity: 0.7;
+            font-size: 0.9rem;
+            color: #F3ECDC;
+        }
+
+        .top-deals-section .discounted-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        .top-deals-section .product-name {
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-bottom: 0.25rem;
+            color: #FFFFFF;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.3px;
+            line-height: 1.4;
+        }
+
+        .top-deals-section .product-desc {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #F3ECDC;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .top-deals-section .product-quantity {
+            font-size: 0.85rem;
+            color: #FFFFFF;
+            font-weight: 700;
+            padding: 0.4rem 0.85rem;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 2px 6px rgba(139, 69, 19, 0.3);
+            border: 2px solid #6B3410;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========================================
+           RESPONSIVE STYLES
+        ======================================== */
+
+        /* Tablet - 1024px */
+        @media (max-width: 1024px) {
+            .top-deals-section .product-card {
+                min-width: 240px;
+                max-width: 240px;
+                border-radius: 18px;
+            }
+
+            .top-deals-section .product-image {
+                height: 200px;
+            }
+
+            .top-deals-section .product-info {
+                padding: 1.5rem;
+            }
+
+            .top-deals-section .product-name {
+                font-size: 1.05rem;
+            }
+
+            .top-deals-section .discounted-price {
+                font-size: 1.3rem;
+            }
+
+            .top-deals-section .original-price {
+                font-size: 0.85rem;
+            }
+
+            .top-deals-section .product-quantity {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.65rem;
+            }
+
+            .top-deals-section .discount-badge {
+                font-size: 0.85rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        /* Tablet Portrait - 768px */
+        @media (max-width: 768px) {
+            .top-deals-section {
+                padding: 1.5rem;
+                border-radius: 12px;
+            }
+
+            .top-deals-section .section-title {
+                font-size: 1.5rem;
+            }
+
+            .top-deals-section .section-title::before {
+                font-size: 1.8rem;
+            }
+
+            .top-deals-section .see-all {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .top-deals-section .product-card {
+                min-width: 200px;
+                max-width: 200px;
+                border-radius: 16px;
+                border-width: 2px;
+            }
+
+            .top-deals-section .product-image {
+                height: 180px;
+            }
+
+            .top-deals-section .product-info {
+                padding: 1.25rem;
+            }
+
+            .top-deals-section .product-name {
+                font-size: 1rem;
+            }
+
+            .top-deals-section .product-prices {
+                gap: 0.6rem;
+            }
+
+            .top-deals-section .discounted-price {
+                font-size: 1.2rem;
+            }
+
+            .top-deals-section .original-price {
+                font-size: 0.8rem;
+            }
+
+            .top-deals-section .product-desc {
+                font-size: 0.85rem;
+            }
+
+            .top-deals-section .product-quantity {
+                font-size: 0.7rem;
+                padding: 0.25rem 0.6rem;
+            }
+
+            .top-deals-section .discount-badge {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.6rem;
+                top: 14px;
+                left: 14px;
+            }
+        }
+
+        /* Mobile - 480px */
+        @media (max-width: 480px) {
+            .top-deals-section {
+                padding: 1rem;
+                border-radius: 10px;
+            }
+
+            .top-deals-section .section-header {
+                margin-bottom: 1rem;
+            }
+
+            .top-deals-section .section-title {
+                font-size: 1.3rem;
+            }
+
+            .top-deals-section .see-all {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .products-scroll {
+                gap: 0.75rem;
+            }
+
+            .top-deals-section .product-card {
+                min-width: 160px;
+                max-width: 160px;
+                border-radius: 14px;
+            }
+
+            .top-deals-section .product-image {
+                height: 150px;
+            }
+
+            .top-deals-section .product-info {
+                padding: 1rem;
+            }
+
+            .top-deals-section .product-info::before {
+                height: 2px;
+            }
+
+            .top-deals-section .product-prices {
+                gap: 0.45rem;
+                margin-bottom: 0.4rem;
+            }
+
+            .top-deals-section .discounted-price {
+                font-size: 1.1rem;
+            }
+
+            .top-deals-section .original-price {
+                font-size: 0.75rem;
+            }
+
+            .top-deals-section .product-name {
+                font-size: 0.9rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .top-deals-section .product-desc {
+                font-size: 0.8rem;
+                line-height: 1.4;
+            }
+
+            .top-deals-section .product-quantity {
+                font-size: 0.65rem;
+                padding: 0.2rem 0.5rem;
+            }
+
+            .top-deals-section .discount-badge {
+                font-size: 0.65rem;
+                padding: 0.25rem 0.5rem;
+                top: 12px;
+                left: 12px;
+            }
+        }
+
+        /* Extra Small - 360px */
+        @media (max-width: 360px) {
+            .top-deals-section .product-card {
+                min-width: 140px;
+                max-width: 140px;
+                border-radius: 12px;
+            }
+
+            .top-deals-section .product-image {
+                height: 130px;
+            }
+
+            .top-deals-section .product-info {
+                padding: 0.85rem;
+            }
+
+            .top-deals-section .product-prices {
+                gap: 0.4rem;
+                margin-bottom: 0.35rem;
+            }
+
+            .top-deals-section .discounted-price {
+                font-size: 1rem;
+            }
+
+            .top-deals-section .original-price {
+                font-size: 0.7rem;
+            }
+
+            .top-deals-section .product-name {
+                font-size: 0.85rem;
+            }
+
+            .top-deals-section .product-desc {
+                font-size: 0.75rem;
+            }
+
+            .top-deals-section .product-quantity {
+                font-size: 0.6rem;
+                padding: 0.15rem 0.4rem;
+            }
+
+            .top-deals-section .discount-badge {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.45rem;
+                top: 10px;
+                left: 10px;
+            }
+
+            .top-deals-section .section-title {
+                font-size: 1.2rem;
+            }
+
+            .top-deals-section .see-all {
+                padding: 0.35rem 0.7rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #421F16;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #8B4513, #D2691E);
+            border-radius: 2px;
+        }
+
+        .see-all {
+            color: #8B4513;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .see-all:hover {
+            color: #421F16;
+            transform: translateX(5px);
+        }
+
+        .see-all svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .products-scroll {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .products-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .products-scroll {
+                gap: 1.25rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .products-scroll {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-scroll {
+                gap: 0.75rem;
+            }
+        }
+
+        .product-card {
+            min-width: 280px;
+            max-width: 280px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(66, 31, 22, 0.15);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            flex-shrink: 0;
+            animation: fadeInScale 0.5s ease-out;
+            position: relative;
+            border: 1px solid rgba(139, 69, 19, 0.1);
+        }
+
+        .product-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                    rgba(139, 69, 19, 0) 0%,
+                    rgba(210, 105, 30, 0.03) 50%,
+                    rgba(139, 69, 19, 0) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .product-card:hover::after {
+            opacity: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-16px);
+            box-shadow: 0 24px 60px rgba(66, 31, 22, 0.3),
+                0 0 0 1px rgba(139, 69, 19, 0.2);
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.15) rotate(2deg);
+        }
+
+        .product-card:hover .discount-badge {
+            transform: scale(1.1) rotate(-3deg);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: brightness(1.02) contrast(1.05);
+        }
+
+        .product-image-container {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f8f8f8 0%, #ececec 100%);
+        }
+
+        .product-image-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.3) 50%,
+                    transparent 100%);
+            transition: left 0.6s ease;
+            z-index: 2;
+        }
+
+        .product-card:hover .product-image-container::before {
+            left: 100%;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: linear-gradient(135deg, #FF4500 0%, #FF6B47 50%, #FF4500 100%);
+            background-size: 200% 200%;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(255, 69, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            z-index: 3;
+            transition: all 0.4s ease;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            animation: gradientShift 3s ease infinite;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* Modern Minimal "Starts From" Price Section */
+
+        /* Modern Minimal "Starts From" Price Section */
+
+        .starts-from-price {
+            font-size: 1.15rem;
+            color: #F3ECDC;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
+            text-shadow: none;
+            letter-spacing: 0;
+        }
+
+        .starts-from-price::before {
+            content: 'Starting at';
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #c4b59a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: none;
+        }
+
+        .starts-from-price::after {
+            content: '';
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #D2691E 0%, #CD853F 100%);
+            margin-top: 0.25rem;
+        }
+
+        /* Updated product info background - Dark Brown Theme */
+        .product-info {
+            padding: 1.75rem;
+            background: linear-gradient(135deg, #2C1810 0%, #3a1f14 100%);
+            color: #F3ECDC;
+            position: relative;
+            z-index: 2;
+            border-top: 1px solid #4a2f1e;
+        }
+
+        .product-info::before {
+            display: none;
+        }
+
+        /* Update product name - Fixed height for consistency */
+        .product-desc {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #d4c4a8;
+            margin-top: 0.75rem;
+            font-weight: 400;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+            border-left: none;
+            box-shadow: none;
+            min-height: 2.7rem;
+            /* 2 lines */
+
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            /* ✅ standard property */
+            overflow: hidden;
+        }
+
+        .product-name {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #F3ECDC;
+            text-shadow: none;
+            letter-spacing: -0.3px;
+            line-height: 1.3;
+            min-height: 3.2rem;
+            /* 2 lines */
+
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            /* ✅ standard property */
+            overflow: hidden;
+        }
+
+
+        .product-name::after {
+            display: none;
+        }
+
+        /* Update product description - Fixed height */
+
+        .product-desc::before,
+        .product-desc::after {
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .starts-from-price {
+                font-size: 1.05rem;
+            }
+
+            .starts-from-price::before {
+                font-size: 0.7rem;
+            }
+
+            .product-info {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .starts-from-price {
+                font-size: 1rem;
+                gap: 0.3rem;
+            }
+
+            .starts-from-price::before {
+                font-size: 0.65rem;
+            }
+
+            .starts-from-price::after {
+                width: 35px;
+            }
+
+            .product-info {
+                padding: 1.25rem;
+            }
+
+            .product-name {
+                font-size: 1.05rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .starts-from-price {
+                font-size: 0.95rem;
+            }
+
+            .starts-from-price::before {
+                font-size: 0.6rem;
+            }
+
+            .starts-from-price::after {
+                width: 30px;
+                height: 1.5px;
+            }
+
+            .product-info {
+                padding: 1rem;
+            }
+
+            .product-name {
+                font-size: 0.95rem;
+            }
+
+            .product-desc {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .starts-from-price {
+                font-size: 0.9rem;
+            }
+
+            .product-info {
+                padding: 0.85rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .product-card {
+                min-width: 240px;
+                max-width: 240px;
+                border-radius: 18px;
+            }
+
+            .product-image {
+                height: 200px;
+            }
+
+            .discount-badge {
+                font-size: 0.85rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-card {
+                min-width: 200px;
+                max-width: 200px;
+                border-radius: 16px;
+            }
+
+            .product-image {
+                height: 180px;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+            .product-card {
+                min-width: 160px;
+                max-width: 160px;
+                border-radius: 14px;
+            }
+
+            .product-image {
+                height: 150px;
+            }
+
+
+        }
+
+        @media (max-width: 360px) {
+            .product-card {
+                min-width: 140px;
+                max-width: 140px;
+                border-radius: 12px;
+            }
+
+            .product-image {
+                height: 130px;
+            }
+
+
+
+        }
+
+        /* Premium styling for Top Deals section only */
+
+
+        .building-excellence-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.5rem;
+            padding-bottom: 1rem;
+        }
+
+        @media (max-width: 1200px) {
+            .building-excellence-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .building-excellence-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .building-excellence-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+
+        .category-card {
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(66, 31, 22, 0.2);
+        }
+
+        .category-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .category-name {
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #421F16;
+            background: #F3ECDC;
+        }
+
+        .features-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            box-shadow: 0 4px 20px rgba(66, 31, 22, 0.08);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .features-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .feature-item:hover {
+            background: #F3ECDC;
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .feature-icon svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #2d1810 0%, #421F16 50%, #2d1810 100%);
+            color: #F3ECDC;
+            padding: 4rem 1rem 1.5rem;
+            margin-top: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8B4513, #D2691E, #CD853F, #8B4513);
+            background-size: 200% 100%;
+            animation: gradientShift 3s linear infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 200% 0%;
+            }
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.2fr 1fr 1.2fr;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+        }
+
+        .footer-section:nth-child(3) ul {
+            columns: 1;
+        }
+
+        .footer-brand {
+            padding-right: 2rem;
+        }
+
+        .footer-logo {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .footer-brand-desc {
+            color: rgba(243, 236, 220, 0.85);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(243, 236, 220, 0.1);
+            border: 2px solid rgba(243, 236, 220, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #F3ECDC;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: #8B4513;
+            border-color: #8B4513;
+            transform: translateY(-3px);
+        }
+
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            color: #F3ECDC;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-section h3::before {
+            content: '';
+            width: 3px;
+            height: 20px;
+            background: linear-gradient(180deg, #D2691E, #8B4513);
+            border-radius: 2px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section ul li a {
+            color: rgba(243, 236, 220, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-section ul li a:hover {
+            color: #F3ECDC;
+            padding-left: 5px;
+        }
+
+        .footer-section ul li a::before {
+            content: '›';
+            color: #8B4513;
+            font-weight: bold;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: rgba(243, 236, 220, 0.85);
+        }
+
+        .footer-contact-item svg {
+            width: 20px;
+            height: 20px;
+            color: #D2691E;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .footer-middle {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .footer-stat {
+            padding: 1rem;
+        }
+
+        .footer-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #D2691E;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-stat-label {
+            color: rgba(243, 236, 220, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(243, 236, 220, 0.15);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: rgba(243, 236, 220, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(243, 236, 220, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #F3ECDC;
+        }
+
+        /* Mobile Responsive Styles - Desktop first */
+        @media (max-width: 1024px) {
+            .logo-image {
+                width: 150px;
+                height: 42px;
+                border-radius: 12px;
+                /* 30% of 42px = 12.6px, rounded to 12px */
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .product-card {
+                min-width: 240px;
+                max-width: 240px;
+            }
+
+            .product-image {
+                height: 180px;
+            }
+
+            .product-name {
+                font-size: 1rem;
+            }
+
+            .product-desc {
+                font-size: 0.8rem;
+            }
+
+            .product-quantity {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.65rem;
+            }
+
+            .discounted-price {
+                font-size: 1.3rem;
+            }
+
+            .original-price {
+                font-size: 0.85rem;
+            }
+
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Tablet and Mobile Styles */
+        @media (max-width: 768px) {
+            .header-container {
+                gap: 0.75rem;
+            }
+
+            .search-container {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .category-nav {
+                display: flex;
+                gap: 0.4rem;
+                padding: 0.75rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                margin-top: 0.5rem;
+            }
+
+            .category-btn {
+                flex: 0 0 auto;
+                min-width: 120px;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.85rem;
+                white-space: nowrap;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.3rem;
+            }
+
+            .category-btn:nth-child(1),
+            .category-btn:nth-child(2),
+            .category-btn:nth-child(3),
+            .category-btn:nth-child(4),
+            .category-btn:nth-child(5) {
+                display: flex !important;
+            }
+
+            .category-btn svg {
+                width: 14px;
+                height: 14px;
+                flex-shrink: 0;
+            }
+
+            .section-title {
+                font-size: 1.35rem;
+            }
+
+            .banner h2 {
+                font-size: 1.5rem;
+            }
+
+            .banner p {
+                font-size: 0.95rem;
+            }
+
+            .products-scroll {
+                gap: 1rem;
+            }
+
+            .product-card {
+                min-width: 200px;
+                max-width: 200px;
+            }
+
+            .product-image {
+                height: 160px;
+            }
+
+            .product-info {
+                padding: 0.875rem;
+            }
+
+            .product-name {
+                font-size: 0.95rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .product-desc {
+                font-size: 0.75rem;
+                line-height: 1.4;
+            }
+
+            .product-quantity {
+                font-size: 0.7rem;
+                padding: 0.25rem 0.6rem;
+            }
+
+            .discounted-price {
+                font-size: 1.2rem;
+            }
+
+            .original-price {
+                font-size: 0.8rem;
+            }
+
+            .discount-badge {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+            }
+
+            .category-image {
+                height: 140px;
+            }
+
+            .category-name {
+                font-size: 0.9rem;
+                padding: 0.75rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-middle {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.75rem 0;
+            }
+
+            .header-container {
+                gap: 0.5rem;
+                padding: 0 0.5rem;
+            }
+
+            .logo-image {
+                width: 100px;
+                height: 30px;
+                border-radius: 9px;
+            }
+
+            .become-seller-btn span {
+                display: none;
+            }
+
+            .become-seller-btn {
+                padding: 0.5rem;
+                width: 40px;
+                height: 40px;
+                justify-content: center;
+                gap: 0;
+            }
+
+            .icon-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .icon-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .search-input {
+                padding: 0.65rem 2.5rem 0.65rem 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .category-nav {
+                gap: 0.3rem;
+                padding: 0.6rem;
+            }
+
+            .category-btn {
+                min-width: 110px;
+                padding: 0.4rem 0.6rem;
+                font-size: 0.8rem;
+            }
+
+            .category-btn svg {
+                width: 12px;
+                height: 12px;
+            }
+
+            .category-btn:nth-child(-n+6) {
+                display: flex;
+            }
+
+            .top-deals-section .section-header {
+                display: flex;
+                flex-direction: row !important;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+
+            .top-deals-section .section-title {
+                font-size: 1.3rem;
+                margin: 0;
+                display: flex;
+                align-items: center;
+            }
+
+            .top-deals-section .see-all {
+                margin: 0;
+                white-space: nowrap;
+                align-self: center;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+
+            .banner {
+                padding: 1.5rem;
+            }
+
+            .banner h2 {
+                font-size: 1.25rem;
+            }
+
+            .banner p {
+                font-size: 0.85rem;
+            }
+
+            .banner-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+
+            .products-scroll {
+                gap: 0.75rem;
+            }
+
+            .product-card {
+                min-width: 160px;
+                max-width: 160px;
+            }
+
+            .product-image {
+                height: 140px;
+            }
+
+            .product-info {
+                padding: 0.75rem;
+            }
+
+            .product-name {
+                font-size: 0.875rem;
+                margin-bottom: 0.15rem;
+            }
+
+            .product-desc {
+                font-size: 0.7rem;
+                line-height: 1.3;
+            }
+
+            .product-prices {
+                gap: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .discounted-price {
+                font-size: 1.1rem;
+            }
+
+            .original-price {
+                font-size: 0.75rem;
+            }
+
+            .product-quantity {
+                font-size: 0.65rem;
+                padding: 0.2rem 0.5rem;
+            }
+
+            .discount-badge {
+                font-size: 0.65rem;
+                padding: 0.25rem 0.5rem;
+                top: 8px;
+                left: 8px;
+            }
+
+            .category-image {
+                height: 120px;
+            }
+
+            .category-name {
+                font-size: 0.8rem;
+                padding: 0.6rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .footer-section h3 {
+                font-size: 1rem;
+            }
+
+            .footer-section ul li a {
+                font-size: 0.85rem;
+            }
+
+
+            .banner-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .building-excellence-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+        }
+
+        /* Extra Small Devices (phones below 360px) */
+        @media (max-width: 360px) {
+            .logo-image {
+                width: 80px;
+                height: 24px;
+                border-radius: 7px;
+            }
+
+            .header-container {
+                padding: 0 0.35rem;
+            }
+
+            .icon-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .become-seller-btn {
+                width: 32px;
+                height: 32px;
+                padding: 0.35rem;
+            }
+
+            .cart-badge {
+                width: 16px;
+                height: 16px;
+                font-size: 0.65rem;
+                top: -6px;
+                right: -6px;
+            }
+
+            .search-input {
+                font-size: 0.85rem;
+                padding: 0.55rem 2.25rem 0.55rem 0.65rem;
+            }
+
+            .category-btn {
+                min-width: 100px;
+                padding: 0.35rem 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .category-btn svg {
+                width: 11px;
+                height: 11px;
+            }
+
+            .category-btn:nth-child(-n+4) {
+                display: flex;
+            }
+
+
+
+            .product-card {
+                min-width: 140px;
+                max-width: 140px;
+            }
+
+            .product-image {
+                height: 120px;
+            }
+
+            .product-info {
+                padding: 0.6rem;
+            }
+
+            .product-name {
+                font-size: 0.8rem;
+            }
+
+            .product-desc {
+                font-size: 0.65rem;
+            }
+
+            .discounted-price {
+                font-size: 1rem;
+            }
+
+            .original-price {
+                font-size: 0.7rem;
+            }
+
+            .product-quantity {
+                font-size: 0.6rem;
+                padding: 0.15rem 0.4rem;
+            }
+
+            .top-deals-section .product-card {
+                min-width: 130px;
+                max-width: 130px;
+            }
+
+            .top-deals-section .product-card .product-image {
+                height: 110px;
+            }
+
+            .top-deals-section .section-title {
+                font-size: 1.2rem;
+            }
+
+            .top-deals-section .see-all {
+                padding: 0.35rem 0.7rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="homepage.html" class="logo">
+                <!-- Replace with your logo filename -->
+                <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="logo-image">
+            </a>
+
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search for products..." id="searchInput">
+                <button class="search-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="header-icons">
+                <button class="become-seller-btn" onclick="window.location.href='become-seller.html'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 7h-9"></path>
+                        <path d="M14 17H5"></path>
+                        <circle cx="17" cy="17" r="3"></circle>
+                        <circle cx="7" cy="7" r="3"></circle>
+                    </svg>
+                    <span>Become Seller</span>
+                </button>
+                <a href="#" class="icon-btn" onclick="handleProfileClick(event)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <a href="cart.html" class="icon-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-badge">0</span>
+                </a>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav class="category-nav">
+            <button class="category-btn" style="color:#F3ECDC; background-color:#421F16;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                </svg>
+                All Products
+            </button>
+            <button class="category-btn" onclick="window.location.href='foundation.html'">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                    </path>
+                </svg>
+                Foundation Products
+            </button>
+            <button class="category-btn" onclick="window.location.href='plinth.html'">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                Plinth Products
+            </button>
+            <button class="category-btn" onclick="window.location.href='wall.html'">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Wall Products
+            </button>
+            <button class="category-btn" onclick="window.location.href='floor.html'">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+                Flooring Products
+            </button>
+            <button class="category-btn" onclick="window.location.href='roof.html'">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                </svg>
+                Roof Products
+            </button>
+
+        </nav>
+
+        <div class="banner-grid">
+            <div class="banner">
+                <h2>Free Delivery</h2>
+                <p>on Order Above ₹20,000</p>
+                <button class="banner-btn" onclick="window.location.href='free20000.html'">Shop Now</button>
+            </div>
+            <div class="banner">
+                <h2>Check the price</h2>
+                <p>of your Dream Home</p>
+                <button class="banner-btn" onclick="window.location.href='dream.html'">Dream Now</button>
+            </div>
+        </div>
+
+        <section class="top-deals-section">
+            <div class="section-header">
+                <h2 class="section-title">Top Deals</h2>
+                <a href="topdeals.html" class="see-all">
+                    See All
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        style="width:16px;height:16px;">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+            <div class="products-scroll" id="topDeals"></div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Cement</h2>
+                <a href="cement.html" class="see-all">
+                    See All
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+            <div class="products-scroll" id="cement"></div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Bricks</h2>
+                <a href="bricks.html" class="see-all">
+                    See All
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+            <div class="products-scroll" id="bricks"></div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Sand</h2>
+                <a href="sand.html" class="see-all">
+                    See All
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+            <div class="products-scroll" id="sand"></div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">WoodCraft</h2>
+                <a href="woodcraft.html" class="see-all">
+                    See All
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+            <div class="products-scroll" id="woodcraft"></div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Paint</h2>
+                <a href="paint.html" class="see-all">
+                    See All
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
+            </div>
+            <div class="products-scroll" id="paint"></div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Building Excellence</h2>
+            </div>
+            <div class="building-excellence-grid" id="buildingExcellence"></div>
+        </section>
+
+        <section class="features-section">
+            <h2 class="features-title">Why Choose Our Construction Products?</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Quality Assured</h3>
+                    <p class="feature-desc">All products tested and certified to meet industry standards</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="3" width="15" height="13"></rect>
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Fast Delivery</h3>
+                    <p class="feature-desc">Quick and reliable delivery to your construction site</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Expert Support</h3>
+                    <p class="feature-desc">Technical guidance from construction material experts</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Best Prices</h3>
+                    <p class="feature-desc">Competitive pricing with bulk order discounts available</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="footer-logo">
+                    <p class="footer-brand-desc">Your trusted partner in construction materials. We deliver quality
+                        foundation products that build lasting structures and strong relationships.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                </path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="homepage.html">Home</a></li>
+                        <li><a href="products.html">All Products</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="become-seller.html">Become a Seller</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="foundation.html">Foundation Products</a></li>
+                        <li><a href="Plinth.html">Plinth Products</a></li>
+                        <li><a href="wall.html">Wall Products</a></li>
+                        <li><a href="floor.html">Flooring Products</a></li>
+                        <li><a href="roof.html">Roof Products</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="helpcenterpage.html">Help Center</a></li>
+                        <li><a href="shipping-info.html">Shipping Info</a></li>
+                        <li><a href="returnpolicy.html">Returns Policy</a></li>
+                        <li><a href="trackorderfooter.html">Track Order</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span>123 Construction Avenue,<br>VellÄnÅ«r, Tamil Nadu, IN</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                            </path>
+                        </svg>
+                        <span>+91 12345 67890</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <span>support@constructionmaterials.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-middle">
+                <div class="footer-stat">
+                    <span class="footer-stat-value">5000+</span>
+                    <span class="footer-stat-label">Happy Customers</span>
+                </div>
+                <div class="footer-stat">
+                    <span class="footer-stat-value">50+</span>
+                    <span class="footer-stat-label">Product Categories</span>
+                </div>
+                <div class="footer-stat">
+                    <span class="footer-stat-value">24/7</span>
+                    <span class="footer-stat-label">Customer Support</span>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Construction Materials Store. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // USER-SPECIFIC CART HELPER FUNCTIONS
+        // ============================================
+
+        function getCurrentUserId() {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            return userData ? userData.id : null;
+        }
+
+        function getUserCart(userId) {
+            if (!userId) return [];
+
+            const allCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
+            return allCarts[userId] || [];
+        }
+
+        function updateCartBadge() {
+            const userId = getCurrentUserId();
+            if (!userId) {
+                const badge = document.querySelector(".cart-badge");
+                if (badge) badge.textContent = '0';
+                return;
+            }
+
+            const cart = getUserCart(userId);
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.querySelector(".cart-badge");
+            if (badge) badge.textContent = totalItems;
+        }
+        const topDealsProducts = [
+            { name: 'Red Granite Tiles', desc: '1st Class', originalPrice: 1199, discountedPrice: 1079, discount: 10, unit: '1 Box', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', link: 'redgranitetiles.html' },
+            { name: 'Dalmia White Cement', desc: 'Premium', originalPrice: 2799, discountedPrice: 2519, discount: 10, unit: '50 Kg', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/a8e9b63e-1eee-41d0-aa5e-a1b7ddd685d5.jpg', link: 'dalmiawhitecement.html' },
+            { name: 'Marble Stone', desc: 'Natural Finish', originalPrice: 3199, discountedPrice: 2879, discount: 10, unit: '1 Ton', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/7da054dc-3103-4658-90b2-3a3a3a306108.jpg', link: 'marblestone.html' },
+            { name: 'Indigo Interior (White)', desc: 'Fine Grade', originalPrice: 799, discountedPrice: 719, discount: 10, unit: '5 Litre', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/bc8204d8-e931-4059-bd51-9d62ae3822d5.jpg', link: 'indigowhiteinteriorpaint.html' },
+            { name: 'Filter Sand', desc: 'Interior', originalPrice: 1299, discountedPrice: 1169, discount: 10, unit: '1 Tonne', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/93c7d514-e239-4948-b91a-b8907b3cf3b4.jpg', link: 'filtersand.html' },
+            { name: 'Galvanized Sheets', desc: 'Marine Grade', originalPrice: 1599, discountedPrice: 1439, discount: 10, unit: '300 x 300 mm', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ea92d53a-5f71-4749-ac88-bc994a076b09.jpg', link: 'galvanizedsheets.html' },
+            { name: 'HDPE Pumbs', desc: 'Lightweight', originalPrice: 899, discountedPrice: 809, discount: 10, unit: '15mm Diameter', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/619546a4-18f9-465d-acd4-a61a7b194776.jpg', link: 'hdpepumps.html' }
+        ];
+        function createTopDealCard(product) {
+            return `
+                <a href="${product.link}" style="text-decoration:none;">
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="${product.image}" alt="${product.name}" class="product-image">
+                            <div class="discount-badge">${product.discount}% OFF</div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-prices">
+                                <span class="original-price">₹${product.originalPrice}</span>
+                                <span class="discounted-price">₹${product.discountedPrice}</span>
+                            </div>
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-desc">${product.desc}</div>
+                            <div class="product-quantity">${product.unit}</div>
+                        </div>
+                    </div>
+                </a>
+            `;
+        }
+
+        // Render products
+        document.getElementById('topDeals').innerHTML = topDealsProducts.map(createTopDealCard).join('');
+
+        // ============================================
+        // PRODUCTS DATA
+        // ============================================
+
+        const productsData = {
+            cement: [
+                { name: 'Ordinary Portland Cement', desc: 'OPC Grade ', discountedPrice: 359, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', link: 'opc.html' },
+                { name: 'Portland Pozzolana Cement', desc: 'PPC High Durability', discountedPrice: 350, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', link: 'ppc.html' },
+                { name: 'Rapid Hardening Cement', desc: 'Quick Strength Gain', discountedPrice: 404, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', link: 'rapidhardeningcement.html' },
+                { name: 'Quick Setting Cement', desc: 'Instant Set Formula', discountedPrice: 413, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', link: 'quicksettingcement.html' },
+                { name: 'High Alumina Cement', desc: 'Reduced Heat', discountedPrice: 386, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', link: 'highaluminacement.html' },
+                { name: 'Sulphate Resisting Cement', desc: 'Chemical Resistant', discountedPrice: 395, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', link: 'sulphateresistingcement.html' },
+                { name: 'Low Heat Cement', desc: 'Chemical Resistant', discountedPrice: 395, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', link: 'lowheatcement.html' }
+            ],
+            bricks: [
+                { name: 'Red Bricks', desc: '1st Class', discountedPrice: 879, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', link: 'redbricks.html' },
+                { name: 'Fly Ash Bricks', desc: 'Eco-Friendly', discountedPrice: 809, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/97de7670-931d-4bf8-a7be-2a8741a14e79.jpg', link: 'flyashbricks.html' },
+                { name: 'AAC Blocks', desc: 'Traditional', discountedPrice: 989, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', link: 'aacblocks.html' },
+                { name: 'Hollow Blocks', desc: 'Durable', discountedPrice: 769, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/79eabf47-7c4b-4af2-b2bf-0712e9b767a4.jpg', link: 'hollowblocks.html' },
+                { name: 'Engg Bricks', desc: 'High Strength', discountedPrice: 849, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', link: 'engineeringbricks.html' },
+                { name: 'Fire Bricks', desc: 'Heat Resistant', discountedPrice: 529, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', link: 'firebricks.html' },
+                { name: 'Lightweight Bricks', desc: 'Lightweight', discountedPrice: 899, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/19727098-12c6-4bee-8e33-43e9b8cfc80e.jpg', link: 'lightweightbricks.html' }
+            ],
+            sand: [
+                { name: 'River Sand', desc: 'Natural', discountedPrice: 629, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/90b825c6-989a-465c-8e40-1b164bc6838e.jpg', link: 'riversand.html' },
+                { name: 'M-Sand', desc: 'Manufactured', discountedPrice: 539, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/8b642cbf-2213-43ca-86a8-d2061602cea0.jpg', link: 'msand.html' },
+                { name: 'pit Sand', desc: 'Fine Grade', discountedPrice: 584, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/5605f97b-6fae-452e-ab97-e03c58122c11.jpg', link: 'pitsand.html' },
+                { name: 'Special Purpose Sand', desc: 'Finishing', discountedPrice: 566, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/90b825c6-989a-465c-8e40-1b164bc6838e.jpg', link: 'specialpurposesand.html' },
+                { name: 'Industrial Sand', desc: 'Finishing', discountedPrice: 566, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/90b825c6-989a-465c-8e40-1b164bc6838e.jpg', link: 'industrialsand.html' }
+            ],
+            woodcraft: [
+                { name: 'Wooden Doors & Frames', desc: 'Solid Wood', discountedPrice: 2519, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/a8e9b63e-1eee-41d0-aa5e-a1b7ddd685d5.jpg', link: 'woodendoors.html' },
+                { name: 'Roofing & Structural Wood', desc: 'Modern Design', discountedPrice: 1799, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/a8e9b63e-1eee-41d0-aa5e-a1b7ddd685d5.jpg', link: 'roofingwood.html' },
+                { name: 'Interior Woodcraft Products', desc: 'Marine Grade', discountedPrice: 1439, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ea92d53a-5f71-4749-ac88-bc994a076b09.jpg', link: 'interiorwood.html' },
+                { name: 'Exterior Woodcraft Products', desc: 'Decorative', discountedPrice: 1809, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/706163da-6c5d-4ea9-a156-707fa45bb50a.jpg', link: 'exteriorwood.html' },
+                { name: 'Wooden Flooring Products', desc: 'Premium Oak', discountedPrice: 3149, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/f4d47ef6-1430-4621-b304-b0611c09ce95.jpg', link: 'woodenflooring.html' },
+                { name: 'Treated & Special Wood', desc: 'Premium Quality', discountedPrice: 3869, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/7da054dc-3103-4658-90b2-3a3a3a306108.jpg', link: 'treatedspecialwood.html' },
+                { name: 'Boards & Panels Products', desc: 'Wall Cladding', discountedPrice: 1979, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/7da054dc-3103-4658-90b2-3a3a3a306108.jpg', link: 'boardpanels.html' }
+            ],
+            paint: [
+                { name: 'Interior Paint', desc: 'Interior', discountedPrice: 1169, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/93c7d514-e239-4948-b91a-b8907b3cf3b4.jpg', link: 'interiorpaint.html' },
+                { name: 'Exterior Paint', desc: 'Exterior', discountedPrice: 1349, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/1fb3c97c-5d7b-4f6a-8ca9-a22956c0f2e7.jpg', link: 'exterior.html' },
+                { name: 'Water Paint', desc: 'Glossy Finish', discountedPrice: 1079, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/42500c89-56ce-4a67-9789-557cf78b7272.jpg', link: 'waterpaint.html' },
+                { name: 'Oil-Based Paint', desc: 'Base Coat', discountedPrice: 1809, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/9b611bd6-ac28-4344-903c-a4393ba0865b.jpg', link: 'oilpaint.html' },
+                { name: 'Primer Paint', desc: 'Decorative', discountedPrice: 1439, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/8720b1a1-9c3a-4e24-b172-191ffb786df1.jpg', link: 'primerpaint.html' },
+                { name: 'Special Paint', desc: 'Budget Friendly', discountedPrice: 1719, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/8720b1a1-9c3a-4e24-b172-191ffb786df1.jpg', link: 'specialpurposepaint.html' },
+                { name: 'Wood Paint', desc: 'Protective', discountedPrice: 1989, discount: 10, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/42500c89-56ce-4a67-9789-557cf78b7272.jpg', link: 'woodpaint.html' }
+            ],
+        };
+
+        const buildingExcellenceData = [
+            { name: 'Stone', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/72aaf465-bd83-4cb7-a9ce-15242e58ba7c.jpg', link: 'stone.html' },
+            { name: 'SteelWorks', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/62fbb5fa-559d-43ad-b97e-b9d6f7a7801c.jpg', link: 'steel.html' },
+            { name: 'Aggregates', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/72aaf465-bd83-4cb7-a9ce-15242e58ba7c.jpg', link: 'aggregate.html' },
+            { name: 'Floor & Wall Tiles', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/8b227d9b-432b-430d-bed5-eeed5bf03944.jpg', link: 'tiles.html' },
+            { name: 'Roofing & Wall Sheets', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/848665b0-4be0-4f14-9ec1-937877a87a29.jpg', link: 'sheets.html' },
+            { name: 'Chemicals & Admixture', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/6f63f172-9151-4643-aa8c-a21368393358.jpg', link: 'chemicals.html' },
+            { name: '(DPC) Solution', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/6f63f172-9151-4643-aa8c-a21368393358.jpg', link: 'dpc.html' },
+            { name: 'GlassWorks', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/5f9229c4-bc9d-4780-aff7-1b6da2b49269.jpg', link: 'glass.html' },
+            { name: 'Electrical Products', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/2facc78f-0169-4e11-b1b8-61c46bcb9b5b.jpg', link: 'electrical.html' },
+            { name: 'Plumbing Products', image: 'https://miaoda-site-img.s3cdn.medo.dev/images/d4ab49d5-a61c-4b68-bd24-f3d3c98a55be.jpg', link: 'plumbing.html' }
+        ];
+
+        function createProductCard(product) {
+            return `
+        <a href="${product.link ? product.link : '#'}" class="product-card-link" style="text-decoration:none;">
+            <div class="product-card">
+                <div class="product-image-container">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">${product.name}</div>
+                    <div class="starts-from-price">Starts from ₹${product.discountedPrice}</div>
+                    <div class="product-desc">${product.desc}</div>
+                </div>
+            </div>
+        </a>
+    `;
+        }
+
+        function createCategoryCard(category) {
+            return `
+        <a href="${category.link}" style="text-decoration:none;">
+            <div class="category-card">
+              <img src="${category.image}" alt="${category.name}" class="category-image">
+              <div class="category-name">${category.name}</div>
+            </div>
+        </a>
+    `;
+        }
+
+
+        function renderProducts() {
+            // Use createProductCard for other sections
+            document.getElementById('cement').innerHTML = productsData.cement.map(createProductCard).join('');
+            document.getElementById('bricks').innerHTML = productsData.bricks.map(createProductCard).join('');
+            document.getElementById('sand').innerHTML = productsData.sand.map(createProductCard).join('');
+            document.getElementById('woodcraft').innerHTML = productsData.woodcraft.map(createProductCard).join('');
+            document.getElementById('paint').innerHTML = productsData.paint.map(createProductCard).join('');
+            document.getElementById('buildingExcellence').innerHTML = buildingExcellenceData.map(createCategoryCard).join('');
+        }
+
+        function checkSessionExpiry() {
+            const loginTime = localStorage.getItem('loginTime');
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+            if (isLoggedIn === 'true' && loginTime) {
+                const currentTime = new Date().getTime();
+                const timeDiff = currentTime - parseInt(loginTime);
+                const hoursDiff = timeDiff / (1000 * 60 * 60);
+
+                if (hoursDiff >= 24) {
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('loginTime');
+                    localStorage.removeItem('userData');
+                    alert('Your session has expired. Please login again.');
+                    window.location.href = 'login.html';
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        function handleProfileClick(event) {
+            event.preventDefault();
+            const isSessionValid = checkSessionExpiry();
+
+            if (isSessionValid) {
+                window.location.href = 'account.html';
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+        
+
+    </script>
+</body>
+
+</html>

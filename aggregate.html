@@ -1,0 +1,1933 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>All Products - Construction Materials Store</title>
+    <script src="search.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Construction materials store - cement, bricks, sand, woodcraft, paints." />
+    <style>
+        :root {
+            --brown: #421F16;
+            --cream: #F3ECDC;
+            --accent: #8B4513;
+            --accent-hover: #A0522D;
+            --muted: #7a6c66;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+            background: #f3ecdc;
+            color: var(--brown);
+            -webkit-font-smoothing: antialiased
+        }
+
+        a {
+            color: inherit
+        }
+
+        .header {
+            background: #421F16;
+            color: #F3ECDC;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #F3ECDC;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 15px;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 3rem 0.75rem 1rem;
+            border: 2px solid #F3ECDC;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            background: #F3ECDC;
+            color: #421F16;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #8B4513;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: #421F16;
+        }
+
+        .search-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .become-seller-btn {
+            background: #8B4513;
+            color: #F3ECDC;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .become-seller-btn:hover {
+            background: #A0522D;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+        }
+
+        .become-seller-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .icon-btn {
+            background: rgba(243, 236, 220, 0.2);
+            border: 2px solid #F3ECDC;
+            color: #F3ECDC;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background: rgba(243, 236, 220, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #D2691E;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #421F16;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 1.5rem auto;
+            padding: 0 1rem
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: .9rem
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            align-items: start
+        }
+
+        .filter-sidebar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(66, 31, 22, 0.08)
+        }
+
+        .filter-section {
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #F3ECDC
+        }
+
+        .filter-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--brown);
+            margin-bottom: .8rem
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            margin-bottom: .6rem;
+            cursor: pointer
+        }
+
+        .price-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: .75rem;
+            margin-top: .5rem
+        }
+
+        input[type="number"] {
+            padding: .5rem;
+            border: 2px solid #F3ECDC;
+            border-radius: 6px
+        }
+
+        .apply-filter-btn {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: .7rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px
+        }
+
+        .apply-filter-btn.secondary {
+            background: #D2691E;
+            margin-top: 8px
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem
+        }
+
+        .sort-dropdown {
+            padding: .6rem 1rem;
+            border: 2px solid #F3ECDC;
+            border-radius: 8px;
+            background: white;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            position: relative;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='%23888888' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 14px) center;
+            background-size: 16px;
+            padding-right: 2.5rem;
+            transition: background-position .3s ease;
+        }
+
+        .sort-dropdown:focus {
+            outline: none;
+            background-position: calc(100% - 14px) calc(50% + 4px);
+        }
+
+        .sort-dropdown:hover {
+            border-color: #e0d6b8;
+        }
+
+        /* DESKTOP GRID - 4 COLUMNS */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            width: 100%;
+        }
+
+        /* ===============================================
+   MODERN CLEAN PRODUCT CARD DESIGN
+   =============================================== */
+
+        /* Update .product-card */
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 2px 8px rgba(66, 31, 22, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border: 1px solid #F3ECDC;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(66, 31, 22, 0.15);
+            border-color: #421F16;
+        }
+
+        /* Update .product-image-container */
+        .product-image-container {
+            position: relative;
+            border-radius: 0;
+            overflow: hidden;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #F3ECDC 0%, #faf8f6 100%);
+        }
+
+        /* Update .product-image */
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        /* Update .product-info */
+        /* Fixed height for product name - ensures all names take same space */
+        .product-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #F3ECDC;
+            line-height: 1.4;
+            margin: 0;
+            min-height: 2.6rem;
+            /* 2 lines */
+
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            /* ✅ standard property */
+        }
+
+        /* Fixed height for product description */
+        .product-desc {
+            font-size: 0.85rem;
+            color: #D4AF37;
+            line-height: 1.4;
+            margin: 0;
+            min-height: 2.4rem;
+            /* 2 lines */
+
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            /* ✅ standard property */
+        }
+
+
+        /* Ensure product info section has consistent structure */
+        .product-info {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            background: linear-gradient(135deg, #2C1810 0%, #421F16 100%);
+            border-top: 2px solid #D4AF37;
+            min-height: 180px;
+            /* Ensures consistent card height */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .product-name {
+                min-height: 2.4rem;
+            }
+
+            .product-desc {
+                min-height: 2.2rem;
+            }
+
+            .product-info {
+                min-height: 170px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-name {
+                font-size: 0.9rem;
+                min-height: 2.5rem;
+            }
+
+            .product-desc {
+                font-size: 0.8rem;
+                min-height: 2.2rem;
+            }
+
+            .product-info {
+                min-height: 165px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-name {
+                font-size: 0.85rem;
+                min-height: 2.4rem;
+            }
+
+            .product-desc {
+                font-size: 0.75rem;
+                min-height: 2.1rem;
+            }
+
+            .product-info {
+                padding: 10px;
+                min-height: 155px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .product-name {
+                font-size: 0.8rem;
+                min-height: 2.2rem;
+            }
+
+            .product-desc {
+                font-size: 0.7rem;
+                min-height: 2rem;
+            }
+
+            .product-info {
+                padding: 8px;
+                min-height: 145px;
+            }
+        }
+
+        /* Update .starts-from-price */
+        .starts-from-price {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+            background: linear-gradient(135deg, #F3ECDC 0%, #faf8f6 100%);
+            color: #421F16;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 8px 0 0 0;
+            box-shadow: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(66, 31, 22, 0.1);
+        }
+
+        .product-card:hover .starts-from-price {
+            background: linear-gradient(135deg, #421F16 0%, #5a2a1d 100%);
+            color: #F3ECDC;
+            border-color: #421F16;
+        }
+
+        .starts-from-price .label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: inherit;
+        }
+
+        .starts-from-price .amount {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: inherit;
+            margin-top: 0;
+            text-shadow: none;
+        }
+
+        /* Update responsive breakpoints */
+        @media (max-width: 1024px) {
+            .product-image-container {
+                height: 180px;
+            }
+
+            .starts-from-price .amount {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-image-container {
+                height: 160px;
+            }
+
+            .starts-from-price {
+                padding: 8px 10px;
+            }
+
+            .starts-from-price .amount {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-card {
+                border-radius: 10px;
+            }
+
+            .product-image-container {
+                height: 140px;
+            }
+
+            .product-image {
+                padding: 12px;
+            }
+
+            .starts-from-price {
+                margin: 6px 0 0 0;
+                padding: 7px 9px;
+            }
+
+            .starts-from-price .label {
+                font-size: 0.65rem;
+            }
+
+            .starts-from-price .amount {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .product-image-container {
+                height: 120px;
+            }
+
+            .product-image {
+                padding: 10px;
+            }
+
+            .starts-from-price .amount {
+                font-size: 1rem;
+            }
+        }
+
+        /* RESPONSIVE BREAKPOINTS */
+
+        /* 1200px - Large Desktop */
+        @media (max-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.25rem;
+            }
+        }
+
+        .features-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            box-shadow: 0 4px 20px rgba(66, 31, 22, 0.08);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .features-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .feature-item:hover {
+            background: #F3ECDC;
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .feature-icon svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #2d1810 0%, #421F16 50%, #2d1810 100%);
+            color: #F3ECDC;
+            padding: 4rem 1rem 1.5rem;
+            margin-top: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8B4513, #D2691E, #CD853F, #8B4513);
+            background-size: 200% 100%;
+            animation: gradientShift 3s linear infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 200% 0%;
+            }
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.2fr 1fr 1.2fr;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+        }
+
+        .footer-section:nth-child(3) ul {
+            columns: 1;
+        }
+
+        .footer-brand {
+            padding-right: 2rem;
+        }
+
+        .footer-logo {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .footer-brand-desc {
+            color: rgba(243, 236, 220, 0.85);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(243, 236, 220, 0.1);
+            border: 2px solid rgba(243, 236, 220, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #F3ECDC;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: #8B4513;
+            border-color: #8B4513;
+            transform: translateY(-3px);
+        }
+
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            color: #F3ECDC;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-section h3::before {
+            content: '';
+            width: 3px;
+            height: 20px;
+            background: linear-gradient(180deg, #D2691E, #8B4513);
+            border-radius: 2px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section ul li a {
+            color: rgba(243, 236, 220, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-section ul li a:hover {
+            color: #F3ECDC;
+            padding-left: 5px;
+        }
+
+        .footer-section ul li a::before {
+            content: '›';
+            color: #8B4513;
+            font-weight: bold;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: rgba(243, 236, 220, 0.85);
+        }
+
+        .footer-contact-item svg {
+            width: 20px;
+            height: 20px;
+            color: #D2691E;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .footer-middle {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .footer-stat {
+            padding: 1rem;
+        }
+
+        .footer-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #D2691E;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-stat-label {
+            color: rgba(243, 236, 220, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(243, 236, 220, 0.15);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: rgba(243, 236, 220, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(243, 236, 220, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #F3ECDC;
+        }
+
+        /* 1024px - Tablet Landscape */
+        @media (max-width: 1024px) {
+            .logo-image {
+                width: 150px;
+                height: 42px;
+                border-radius: 12px;
+            }
+
+            .main-grid {
+                grid-template-columns: 220px 1fr;
+                gap: 1.5rem;
+            }
+
+            .filter-sidebar {
+                padding: 1.25rem;
+            }
+
+            .container {
+                padding: 0 0.75rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+
+            .product-image-container {
+                height: 150px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 768px - Tablet Portrait */
+        @media (max-width: 768px) {
+            .header-container {
+                gap: 0.75rem;
+            }
+
+            .search-container {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .filter-sidebar {
+                order: 2;
+                margin-top: 1rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.875rem;
+            }
+
+            .become-seller-btn {
+                padding: 0.65rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .product-image-container {
+                height: 150px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-middle {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+            }
+        }
+
+        /* 480px - Mobile */
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.75rem 0;
+            }
+
+            .header-container {
+                gap: 0.5rem;
+                padding: 0 0.5rem;
+            }
+
+            .logo-image {
+                width: 100px;
+                height: 30px;
+                border-radius: 9px;
+            }
+
+            .become-seller-btn span {
+                display: none;
+            }
+
+            .become-seller-btn {
+                padding: 0.5rem;
+                width: 40px;
+                height: 40px;
+                justify-content: center;
+                gap: 0;
+            }
+
+            .icon-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .icon-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .search-input {
+                padding: 0.65rem 2.5rem 0.65rem 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.625rem;
+            }
+
+            .container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+
+            .breadcrumb {
+                font-size: 0.8rem;
+            }
+
+            .products-header {
+                flex-direction: column;
+                align-items: stretch;
+                margin-bottom: 1rem;
+            }
+
+            .products-header h1 {
+                font-size: 1.3rem;
+            }
+
+            .sort-dropdown {
+                width: 100%;
+            }
+
+            .filter-sidebar {
+                padding: 1rem;
+            }
+
+            .filter-title {
+                font-size: 0.95rem;
+            }
+
+            .product-image-container {
+                height: 140px;
+            }
+
+            .product-card {
+                padding: 8px;
+            }
+
+            .product-name {
+                font-size: 0.85rem;
+            }
+
+            .product-desc {
+                font-size: 0.8rem;
+            }
+
+            .product-quantity {
+                font-size: 0.75rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .footer-section h3 {
+                font-size: 1rem;
+            }
+
+            .footer-section ul li a {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* 360px - Small Mobile */
+        @media (max-width: 360px) {
+            .logo-image {
+                width: 80px;
+                height: 24px;
+                border-radius: 7px;
+            }
+
+            .header-container {
+                padding: 0 0.35rem;
+            }
+
+            .icon-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .become-seller-btn {
+                width: 32px;
+                height: 32px;
+                padding: 0.35rem;
+            }
+
+            .cart-badge {
+                width: 16px;
+                height: 16px;
+                font-size: 0.65rem;
+                top: -6px;
+                right: -6px;
+            }
+
+            .search-input {
+                font-size: 0.85rem;
+                padding: 0.55rem 2.25rem 0.55rem 0.65rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+
+            .filter-option {
+                font-size: 0.85rem;
+            }
+
+            .apply-filter-btn {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+
+            .product-card {
+                padding: 6px;
+            }
+
+            .product-image-container {
+                height: 120px;
+            }
+
+            .product-name {
+                font-size: 0.8rem;
+            }
+
+            .product-desc {
+                font-size: 0.75rem;
+            }
+
+            .product-prices {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+
+            .original-price {
+                font-size: 0.75rem;
+            }
+
+            .discounted-price {
+                font-size: 0.9rem;
+            }
+
+            .product-quantity {
+                font-size: 0.7rem;
+            }
+        }
+
+        input:focus,
+        select:focus,
+        button:focus {
+            outline: 3px solid rgba(139, 69, 19, 0.08);
+            outline-offset: 2px
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            color: var(--brown);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--muted);
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="homepage.html" class="logo">
+                <!-- Replace with your logo filename -->
+                <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="logo-image">
+            </a>
+
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search for products..." id="searchInput">
+                <button class="search-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="header-icons">
+                <button class="become-seller-btn" onclick="window.location.href='become-seller.html'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 7h-9"></path>
+                        <path d="M14 17H5"></path>
+                        <circle cx="17" cy="17" r="3"></circle>
+                        <circle cx="7" cy="7" r="3"></circle>
+                    </svg>
+                    <span>Become Seller</span>
+                </button>
+                <a href="account.html" class="icon-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <a href="cart.html" class="icon-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-badge">0</span>
+                </a>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="main-grid">
+            <aside class="filter-sidebar" aria-label="Filters">
+                <h2 style="font-size:1.2rem;margin-bottom:1rem;color:var(--brown)">Filters</h2>
+                <div class="filter-section" id="categoryFilter">
+                    <h3 class="filter-title">Category</h3>
+                    <label class="filter-option"><input type="checkbox" value="cement"
+                            id="cement"><span>Cement</span></label>
+                    <label class="filter-option"><input type="checkbox" value="bricks"> <span>Bricks</span></label>
+                    <label class="filter-option"><input type="checkbox" value="sand"> <span>Sand</span></label>
+                    <label class="filter-option"><input type="checkbox" value="woodcraft"><span>WoodCraft</span></label>
+                    <label class="filter-option"><input type="checkbox" value="paint"> <span>Paint</span></label>
+                    <label class="filter-option"><input type="checkbox" value="stone"><span>Stone</span></label>
+                    <label class="filter-option"><input type="checkbox"
+                            value="steelworks"><span>SteelWorks</span></label>
+                    <label class="filter-option"><input type="checkbox"
+                            value="aggregates"><span>Aggregates</span></label>
+                    <label class="filter-option"><input type="checkbox" value="tiles"><span>Floor & Wall
+                            Tiles</span></label>
+                    <label class="filter-option"><input type="checkbox" value="roofing"><span>Roofing & Wall
+                            Sheets</span></label>
+                    <label class="filter-option"><input type="checkbox" value="chemicals"><span>Chemicals &
+                            Admixture</span></label>
+                    <label class="filter-option"><input type="checkbox" value="dpc"><span>(DPC) Solution</span></label>
+                    <label class="filter-option"><input type="checkbox"
+                            value="glassworks"><span>GlassWorks</span></label>
+                    <label class="filter-option"><input type="checkbox" value="electrical"><span>Electrical
+                            Products</span></label>
+                    <label class="filter-option"><input type="checkbox" value="plumbing"><span>Plumbing
+                            Products</span></label>
+
+                </div>
+                <div class="filter-section">
+                    <h3 class="filter-title">Price Range</h3>
+                    <div class="price-inputs"><input type="number" id="minPrice" placeholder="Min (₹)"><input
+                            type="number" id="maxPrice" placeholder="Max (₹)"></div>
+                </div>
+                <div class="filter-section">
+                    <h3 class="filter-title">Discount</h3>
+                    <label class="filter-option"><input type="checkbox" id="discount10" value="10"><span> 10% &
+                            above</span></label>
+                    <label class="filter-option"><input type="checkbox" id="discount20" value="20"><span> 20% &
+                            above</span></label>
+                    <label class="filter-option"><input type="checkbox" id="discount30" value="30"><span> 30% &
+                            above</span></label>
+                </div>
+                <button class="apply-filter-btn" id="applyFiltersBtn">Apply Filters</button>
+                <button class="apply-filter-btn secondary" id="clearFiltersBtn">Clear All</button>
+            </aside>
+
+            <section>
+                <div class="products-header">
+                    <h1 style="font-size:1.6rem;margin:0;color:var(--brown)">Products</h1>
+                    <select class="sort-dropdown" id="sortSelect" aria-label="Sort products">
+                        <option value="default">Sort By</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="name">Name: A to Z</option>
+                        <option value="discount">Discount: High to Low</option>
+                    </select>
+                </div>
+
+                <div id="productsContainer" class="products-grid" aria-live="polite"></div>
+            </section>
+        </div>
+    </main>
+    <section class="features-section">
+        <h2 class="features-title">Why Choose Our Construction Products?</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Quality Assured</h3>
+                <p class="feature-desc">All products tested and certified to meet industry standards</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="3" width="15" height="13"></rect>
+                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Fast Delivery</h3>
+                <p class="feature-desc">Quick and reliable delivery to your construction site</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Expert Support</h3>
+                <p class="feature-desc">Technical guidance from construction material experts</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <h3 class="feature-title">Best Prices</h3>
+                <p class="feature-desc">Competitive pricing with bulk order discounts available</p>
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="footer-logo">
+                    <p class="footer-brand-desc">Your trusted partner in construction materials. We deliver quality
+                        foundation products that build lasting structures and strong relationships.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                </path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="homepage.html">Home</a></li>
+                        <li><a href="products.html">All Products</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="become-seller.html">Become a Seller</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="foundation.html">Foundation Products</a></li>
+                        <li><a href="Plinth.html">Plinth Products</a></li>
+                        <li><a href="wall.html">Wall Products</a></li>
+                        <li><a href="floor.html">Flooring Products</a></li>
+                        <li><a href="roof.html">Roof Products</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="helpcenterpage.html">Help Center</a></li>
+                        <li><a href="shipping-info.html">Shipping Info</a></li>
+                        <li><a href="returnpolicy.html">Returns Policy</a></li>
+                        <li><a href="trackorderfooter.html">Track Order</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span>123 Construction Avenue,<br>VellÄnÅ«r, Tamil Nadu, IN</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                            </path>
+                        </svg>
+                        <span>+91 12345 67890</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <span>support@constructionmaterials.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-middle">
+                <div class="footer-stat">
+                    <span class="footer-stat-value">5000+</span>
+                    <span class="footer-stat-label">Happy Customers</span>
+                </div>
+                <div class="footer-stat">
+                    <span class="footer-stat-value">50+</span>
+                    <span class="footer-stat-label">Product Categories</span>
+                </div>
+                <div class="footer-stat">
+                    <span class="footer-stat-value">24/7</span>
+                    <span class="footer-stat-label">Customer Support</span>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Construction Materials Store. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const allProducts = [
+            /* CEMENT PRODUCTS */
+
+            { name: 'Ordinary Portland Cement', desc: 'OPC Grade 33/43/53', discountedPrice: 359, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', category: 'cement', link: 'opc.html' },
+            { name: 'Portland Pozzolana Cement', desc: 'PPC High Durability', discountedPrice: 350, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', category: 'cement', link: 'ppc.html' },
+            { name: 'Rapid Hardening Cement', desc: 'Quick Strength Gain', discountedPrice: 404, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', category: 'cement', link: 'rapidhardeningcement.html' },
+            { name: 'Quick Setting Cement', desc: 'Instant Set Formula', discountedPrice: 413, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', category: 'cement', link: 'quicksettingcement.html' },
+            { name: 'High Alumina Cement', desc: 'Reduced Hydration Heat', discountedPrice: 386, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', category: 'cement', link: 'highaluminacement.html' },
+            { name: 'Sulphate Resisting Cement', desc: 'Chemical Resistant', discountedPrice: 395, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', category: 'cement', link: 'sulphateresistingcement.html' },
+            { name: 'Low Heat Cement', desc: 'Chemical Resistant', discountedPrice: 395, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', category: 'cement', link: 'lowheatcement.html' },
+            { name: 'Blast Furnace Slag Cement', desc: 'Chemical Resistant', discountedPrice: 395, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', category: 'cement', link: 'blastfurnaceslagcement.html' },
+            { name: 'Hydrographic Cement', desc: 'Chemical Resistant', discountedPrice: 395, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', category: 'cement', link: 'hydrographiccement.html' },
+            { name: 'White Cement', desc: 'Chemical Resistant', discountedPrice: 395, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', category: 'cement', link: 'whitecement.html' },
+            { name: 'Air entraining Cement', desc: 'Chemical Resistant', discountedPrice: 395, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', category: 'cement', link: 'airentrainingcement.html' },
+            { name: 'Coloured Cement', desc: 'Chemical Resistant', discountedPrice: 395, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', category: 'cement', link: 'colouredcement.html' },
+            { name: 'Portland Limestone Cement', desc: 'Chemical Resistant', discountedPrice: 395, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg', category: 'cement', link: 'portlandlimestonecement.html' },
+
+            /* BRICKS PRODUCTS */
+
+            { name: 'Red Bricks', desc: '1st Class', discountedPrice: 1079, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', category: 'bricks', link: 'redbricks.html' },
+            { name: 'Fly Ash Bricks', desc: 'Eco-Friendly', discountedPrice: 809, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/97de7670-931d-4bf8-a7be-2a8741a14e79.jpg', category: 'bricks', link: 'flyashbricks.html' },
+            { name: 'AAC Blocks', desc: 'Traditional', discountedPrice: 989, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', category: 'bricks', link: 'aacblocks.html' },
+            { name: 'Hollow Blocks', desc: 'Durable', discountedPrice: 1169, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/79eabf47-7c4b-4af2-b2bf-0712e9b767a4.jpg', category: 'bricks', link: 'hollowblocks.html' },
+            { name: 'Engineering Bricks', desc: 'High Strength', discountedPrice: 1349, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', category: 'bricks', link: 'engineeringbricks.html' },
+            { name: 'Fire Bricks', desc: 'Heat Resistant', discountedPrice: 1529, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg', category: 'bricks', link: 'firebricks.html' },
+            { name: 'Lightweight Bricks', desc: 'Lightweight', discountedPrice: 899, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/19727098-12c6-4bee-8e33-43e9b8cfc80e.jpg', category: 'bricks', link: 'lightweightbricks.html' },
+
+            /* SAND PRODUCTS */
+
+            { name: 'River Sand', desc: 'Natural', discountedPrice: 629, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/90b825c6-989a-465c-8e40-1b164bc6838e.jpg', category: 'sand', link: 'riversand.html' },
+            { name: 'M-Sand', desc: 'Manufactured', discountedPrice: 539, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/8b642cbf-2213-43ca-86a8-d2061602cea0.jpg', category: 'sand', link: 'msand.html' },
+            { name: 'pit Sand', desc: 'Fine Grade', discountedPrice: 584, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/5605f97b-6fae-452e-ab97-e03c58122c11.jpg', category: 'sand', link: 'pitsand.html' },
+            { name: 'Special Purpose Sand', desc: 'Finishing', discountedPrice: 566, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/90b825c6-989a-465c-8e40-1b164bc6838e.jpg', category: 'sand', link: 'specialpurposesand.html' },
+            { name: 'Industrial Sand', desc: 'Finishing', discountedPrice: 566, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/90b825c6-989a-465c-8e40-1b164bc6838e.jpg', category: 'sand', link: 'industrialsand.html' },
+
+
+            /* WOODCRAFT PRODUCTS */
+
+            { name: 'Wooden Doors & Frames', desc: 'Solid Wood', discountedPrice: 2519, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/a8e9b63e-1eee-41d0-aa5e-a1b7ddd685d5.jpg', category: 'woodcraft', link: 'woodendoors.html' },
+            { name: 'Roofing & Structural Wood', desc: 'Modern Design', discountedPrice: 1799, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/a8e9b63e-1eee-41d0-aa5e-a1b7ddd685d5.jpg', category: 'woodcraft', link: 'roofingwood.html' },
+            { name: 'Interior Woodcraft Products', desc: 'Marine Grade', discountedPrice: 1439, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ea92d53a-5f71-4749-ac88-bc994a076b09.jpg', category: 'woodcraft', link: 'interiorwood.html' },
+            { name: 'Exterior Woodcraft Products', desc: 'Decorative', discountedPrice: 809, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/706163da-6c5d-4ea9-a156-707fa45bb50a.jpg', category: 'woodcraft', link: 'exteriorwood.html' },
+            { name: 'Wooden Flooring Products', desc: 'Premium Oak', discountedPrice: 3149, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/f4d47ef6-1430-4621-b304-b0611c09ce95.jpg', category: 'woodcraft', link: 'woodenflooring.html' },
+            { name: 'Treated & Special Wood', desc: 'Premium Quality', discountedPrice: 3869, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/7da054dc-3103-4658-90b2-3a3a3a306108.jpg', category: 'woodcraft', link: 'treatedspecialwood.html' },
+            { name: 'Boards & Panels Products', desc: 'Wall Cladding', discountedPrice: 1979, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/7da054dc-3103-4658-90b2-3a3a3a306108.jpg', category: 'woodcraft', link: 'boardpanels.html' },
+            /* PAINT PRODUCTS */
+
+            { name: 'Interior Paint', desc: 'Interior', discountedPrice: 1169, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/93c7d514-e239-4948-b91a-b8907b3cf3b4.jpg', category: 'paint', link: 'interiorpaint.html' },
+            { name: 'Exterior Paint', desc: 'Exterior', discountedPrice: 1349, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/1fb3c97c-5d7b-4f6a-8ca9-a22956c0f2e7.jpg', category: 'paint', link: 'exterior.html' },
+            { name: 'Water-Based Paint', desc: 'Glossy Finish', discountedPrice: 1079, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/42500c89-56ce-4a67-9789-557cf78b7272.jpg', category: 'paint', link: 'waterpaint.html' },
+            { name: 'Oil-Based Paint', desc: 'Base Coat', discountedPrice: 809, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/9b611bd6-ac28-4344-903c-a4393ba0865b.jpg', category: 'paint', link: 'oilpaint.html' },
+            { name: 'Primer Paint', desc: 'Decorative', discountedPrice: 1439, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/8720b1a1-9c3a-4e24-b172-191ffb786df1.jpg', category: 'paint', link: 'primerpaint.html' },
+            { name: 'Special Purpose Paint', desc: 'Budget Friendly', discountedPrice: 719, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/8720b1a1-9c3a-4e24-b172-191ffb786df1.jpg', category: 'paint', link: 'specialpurposepaint.html' },
+            { name: 'Wood Paint', desc: 'Protective', discountedPrice: 989, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/42500c89-56ce-4a67-9789-557cf78b7272.jpg', category: 'paint', link: 'woodpaint.html' },
+
+            /*STONE PRODUCTS*/
+
+            { name: 'Natural Stone', desc: 'Premium Quality', discountedPrice: 2899, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/stone-granite.jpg', category: 'stone', link: 'naturalstone.html' },
+            { name: 'Construction Stone', desc: 'Building Grade', discountedPrice: 2199, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/stone-limestone.jpg', category: 'stone', link: 'constructionstone.html' },
+            { name: 'Decorative Stone', desc: 'High Strength', discountedPrice: 2699, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/stone-basalt.jpg', category: 'stone', link: 'decorativestone.html' },
+            { name: 'Flooring Stone', desc: 'White Marble Chips', discountedPrice: 1499, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/stone-marblechips.jpg', category: 'stone', link: 'flooringstone.html' },
+            { name: 'Cladding & Wall Stone', desc: 'Natural Pebbles', discountedPrice: 1599, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/stone-pebbles.jpg', category: 'stone', link: 'claddingwallstone.html' },
+            { name: 'Engineering Stone', desc: 'Hard Rock Stone', discountedPrice: 3199, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/stone-quartzite.jpg', category: 'stone', link: 'engineeringstone.html' },
+
+            /*STEEL WORK PRODUCTS*/
+
+            { name: 'Long Steel', desc: 'High Strength', discountedPrice: 69999, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/steel-tmt500.jpg', category: 'steelworks', link: 'longsteel.html' },
+            { name: 'Flat Steel', desc: 'Extra Strong Grade', discountedPrice: 74999, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/steel-tmt550d.jpg', category: 'steelworks', link: 'flatsteel.html' },
+            { name: 'Plates', desc: '50x50 mm – Mild Steel Angle', discountedPrice: 65999, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/steel-angle.jpg', category: 'steelworks', link: 'platessteel.html' },
+            { name: 'Stainless Steel', desc: 'ISMC Channel', discountedPrice: 67999, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/steel-channel.jpg', category: 'steelworks', link: 'stainlesssteels.html' },
+            { name: 'Coils', desc: 'Structural Pipe', discountedPrice: 72999, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/steel-squarepipe.jpg', category: 'steelworks', link: 'coilssteel.html' },
+            { name: 'Fastners', desc: 'Industrial Grade', discountedPrice: 71999, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/steel-rectpipe.jpg', category: 'steelworks', link: 'fastnerssteel.html' },
+
+            /*AGGREGATE PRODUCTS*/
+
+            { name: 'Natural Aggregates', desc: 'Aggregates', discountedPrice: 689, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/waterproof-chemical.jpg', category: 'aggregates', link: 'naturalaggregates.html' },
+            { name: 'Manufactured Aggregates', desc: 'Aggregates', discountedPrice: 689, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/waterproof-chemical.jpg', category: 'aggregates', link: 'manufacturedaggregates.html' },
+            { name: 'Special Purpose Aggregates', desc: 'Aggregates', discountedPrice: 689, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/waterproof-chemical.jpg', category: 'aggregates', link: 'specialpurposeaggregates.html' },
+            { name: 'Fine Aggregates', desc: 'Aggregates', discountedPrice: 689, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/waterproof-chemical.jpg', category: 'aggregates', link: 'fineaggregates.html' },
+            { name: 'Coarse Aggregates', desc: 'Aggregates', discountedPrice: 689, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/waterproof-chemical.jpg', category: 'aggregates', link: 'coarseaggregates.html' },
+
+            /*PREMIUM FLOOR & WALL TILES*/
+
+            { name: 'Vitrified Tiles', desc: '600 x 600 mm Glossy Finish', discountedPrice: 699, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-vitrified-glossy.jpg', category: 'tiles', link: 'vitrifiedtiles.html' },
+            { name: 'Ceramic Tiles', desc: '300 x 600 mm Matt Finish', discountedPrice: 469, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-ceramic-wall.jpg', category: 'tiles', link: 'ceramictiles.html' },
+            { name: 'Natural Tiles', desc: '300 x 450 mm Printed Design', discountedPrice: 529, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-digital-wall.jpg', category: 'tiles', link: 'naturaltiles.html' },
+            { name: 'Marble Tiles', desc: 'Italian Style Gloss Polish', discountedPrice: 1550, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-marble.jpg', category: 'tiles', link: 'marbletiles.html' },
+            { name: 'Granite Tiles', desc: 'Natural Stone Premium Grade', discountedPrice: 100, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-granite.jpg', category: 'tiles', link: 'granitetiles.html' },
+            { name: 'Mosaic Tiles', desc: '800 x 800 mm Super Glossy', discountedPrice: 799, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-porcelain.jpg', category: 'tiles', link: 'mosaictiles.html' },
+            { name: 'Decorative Tiles', desc: '600 x 1200 mm Wooden Texture', discountedPrice: 999, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-wooden.jpg', category: 'tiles', link: 'decorativetiles.html' },
+
+            /* ROOFING & WALL SHEETS */
+
+            { name: 'Meatal Sheets', desc: '0.45 mm Thickness', discountedPrice: 499, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/gi-sheet.jpg', category: 'roofing', link: 'meatalsheets.html' },
+            { name: 'Fiber Cement Sheets', desc: 'High Gloss Finish', discountedPrice: 559, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ppgi-sheet.jpg', category: 'roofing', link: 'fibercementsheets.html' },
+            { name: 'Plastic & Polymer Sheets', desc: 'Heat & Sound Insulated', discountedPrice: 699, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/upvc-sheet.jpg', category: 'roofing', link: 'plasticpolymersheets.html' },
+            { name: 'Polycarbonate Sheets', desc: 'Transparent / Semi Transparent', discountedPrice: 1099, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/polycarbonate-sheet.jpg', category: 'roofing', link: 'polycarbonatesheets.html' },
+            { name: 'Roofing Panels', desc: 'Industrial Grade FRP', discountedPrice: 399, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/frp-sheet.jpg', category: 'roofing', link: 'roofingpanels.html' },
+            { name: 'Wall Cladding Sheets', desc: 'Standard Wave Pattern', discountedPrice: 350, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/ac-sheet.jpg', category: 'roofing', link: 'wallcladdingsheets.html' },
+
+            /* CHEMICALS & ADMIXTURE */
+
+            { name: 'Waterproofing Chemical', desc: 'Liquid Integral Waterproofing', discountedPrice: 689, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/waterproof-chemical.jpg', category: 'chemicals', link: 'waterproofingchemical.html' },
+            { name: 'Concrete Admixture', desc: 'Superplasticizer High Strength', discountedPrice: 869, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/concrete-admixture.jpg', category: 'chemicals', link: 'concreteadmixtures.html' },
+            { name: 'Surface Treatments', desc: 'High Bond Strength  Grey', discountedPrice: 599, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-adhesive.jpg', category: 'chemicals', link: 'surfacetreatment.html' },
+            { name: 'Specialty Chemicals', desc: 'Chemical Resistant Grout', discountedPrice: 1100, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/epoxy-grout.jpg', category: 'chemicals', link: 'specialtychemicals.html' },
+            { name: 'Repair & Protective Chemicals', desc: 'Membrane Forming', discountedPrice: 829, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/curing-compound.jpg', category: 'chemicals', link: 'protectivechemicals.html' },
+
+            /* (DPC) Solutions */
+
+            { name: 'Physical DPC(Sheet/Barrier)', desc: 'DPC solutions.', discountedPrice: 1990, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/gi-sheet.jpg', category: 'dpc',link:'physicaldpc.html' },
+            { name: 'Chemical DPC', desc: 'DPC solutions.', discountedPrice: 1990, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/gi-sheet.jpg', category: 'dpc',link:'chemicaldpc.html' },
+            { name: 'Admixture DPC', desc: 'DPC solutions.', discountedPrice: 1990, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/gi-sheet.jpg', category: 'dpc',link:'admixturedpc.html' },
+            { name: 'Composite DPC', desc: 'DPC solutions.', discountedPrice: 1990, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/gi-sheet.jpg', category: 'dpc',link:'compositedpc.html' },
+
+            /* GLASS WORK */
+
+            { name: 'Float Glass', desc: 'High-strength toughened safety glass.', discountedPrice: 1990, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/frp-sheet.jpg', category: 'glassworks',link:'floatglass.html' },
+            { name: 'Laminated Safety Glass', desc: 'Two-layer laminated glass with PVB film.', discountedPrice: 2850, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/frp-sheet.jpg', category: 'glassworks',link:'laminatedsafetyglass.html' },
+            { name: 'Glass Panels', desc: 'Acid-etched frosted glass ideal for privacy.', discountedPrice: 1500, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/frp-sheet.jpg', category: 'glassworks',link:'glasspanel.html' },
+            { name: 'Safety Glass', desc: 'Energy-efficient double-glazed glass.', discountedPrice: 4700, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/frp-sheet.jpg', category: 'glassworks',link:'sefetyglass.html' },
+            { name: 'Specialty Glass', desc: 'Premium 8mm toughened shower glass.', discountedPrice: 3990, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/frp-sheet.jpg', category: 'glassworks',link:'specialtyglass.html' },
+
+            /*ELECTRICAL PRODUCTS*/
+
+            { name: 'Wires & Cables', desc: 'Energy-efficient 12W LED bulb.', discountedPrice: 130, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-wooden.jpg', category: 'electrical',link:'wirescables.html' },
+            { name: 'Switches & Sockets', desc: 'High-quality 16A modular switch.', discountedPrice: 180, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-wooden.jpg', category: 'electrical',link:'Switchessockets.html' },
+            { name: 'Circuit Protection Devices', desc: '1200mm ceiling fan with high-speed.', discountedPrice: 1890, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-wooden.jpg', category: 'electrical',link:'circuitproductiondevice.html' },
+            { name: 'Lighting Fixtures & Lambs', desc: 'ISI-marked 3-core copper.', discountedPrice: 1870, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-wooden.jpg', category: 'electrical',link:'lightingfixtureslambs.html' },
+            { name: 'Electrical Accessories', desc: 'Recessed 2x2 LED panel.', discountedPrice: 2500, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-wooden.jpg', category: 'electrical',link:'electricalaccessories.html' },
+
+            /*PLUMBING PRODUCTS*/
+
+            { name: 'Pipes', desc: 'Durable 1-inch PVC plumbing pipe.', discountedPrice: 150, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-wooden.jpg', category: 'plumbing',link:'pipes.html' },
+            { name: 'Pipe Fittings', desc: 'High-quality 2-inch UPVC pipe.', discountedPrice: 275, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-wooden.jpg', category: 'plumbing',link:'pipefittings.html' },
+            { name: 'Taps', desc: 'Stainless steel sink mixer.', discountedPrice: 1990, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-wooden.jpg', category: 'plumbing',link:'tapes.html' },
+            { name: 'Water Storage', desc: '1-inch 90-degree PVC elbow.', discountedPrice: 25, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-wooden.jpg', category: 'plumbing',link:'waterstorage.html' },
+            { name: 'Pumps & Accessories', desc: '1-inch 90-degree PVC elbow.', discountedPrice: 25, image: 'https://miaoda-site-img.s3cdn.medo.dev/images/tile-wooden.jpg', category: 'plumbing',link:'pumbs.html' },
+        ];
+
+        let filteredProducts = [...allProducts];
+        const STORAGE_KEY = 'productFiltersSession';
+
+        // ============================================
+        // USER-SPECIFIC CART HELPER FUNCTIONS
+        // ============================================
+
+        function getCurrentUserId() {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            return userData ? userData.id : null;
+        }
+
+        function getUserCart(userId) {
+            if (!userId) return [];
+
+            const allCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
+            return allCarts[userId] || [];
+        }
+
+        function updateCartBadge() {
+            const userId = getCurrentUserId();
+            if (!userId) {
+                const badge = document.querySelector(".cart-badge");
+                if (badge) badge.textContent = '0';
+                return;
+            }
+
+            const cart = getUserCart(userId);
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.querySelector(".cart-badge");
+            if (badge) badge.textContent = totalItems;
+        }
+
+        function formatPrice(n) {
+            return '₹' + Number(n).toLocaleString('en-IN');
+        }
+
+        function escapeHtml(str) {
+            return String(str || '').replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;',
+                '"': '&quot;', "'": '&#39;'
+            })[m]);
+        }
+
+        function createProductCard(product) {
+            return `
+        <a href="${product.link ? product.link : '#'}" class="product-card-link" style="text-decoration:none;">
+            <div class="product-card">
+                <div class="product-image-container">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">${product.name}</div>
+                    <div class="starts-from-price">
+                        <span class="label">Starts from</span>
+                        <span class="amount">₹${product.discountedPrice}</span>
+                    </div>
+                    <div class="product-desc">${product.desc}</div>
+                </div>
+            </div>
+        </a>
+    `;
+        }
+
+        function renderProducts(products) {
+            const container = document.getElementById('productsContainer');
+            if (!container) return;
+            if (!products.length) {
+                container.innerHTML = '<div class="empty-state"><h3>No products found</h3><p>Try adjusting filters or search terms.</p></div>';
+                return;
+            }
+            container.innerHTML = products.map(createProductCard).join('');
+
+            // ✅ UPDATE THIS: Add click handlers to links, not cards
+            document.querySelectorAll('.product-card-link').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href && href !== '#') {
+                        // Save filter state before leaving
+                        saveFilterState();
+                        sessionStorage.setItem('fromProductsPage', 'true');
+                    }
+                });
+            });
+        }
+
+        function saveFilterState() {
+            const state = {
+                categories: Array.from(document.querySelectorAll('#categoryFilter input[type="checkbox"]:checked')).map(cb => cb.value),
+                minPrice: document.getElementById('minPrice')?.value || '',
+                maxPrice: document.getElementById('maxPrice')?.value || '',
+                discounts: ['discount10', 'discount20', 'discount30'].filter(id => document.getElementById(id)?.checked).map(id => document.getElementById(id).value),
+                sortMode: document.getElementById('sortSelect')?.value || 'default',
+                searchQuery: document.getElementById('searchInput')?.value || ''
+            };
+            sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        function loadFilterState() {
+            const saved = sessionStorage.getItem(STORAGE_KEY);
+            if (!saved) return false;
+
+            try {
+                const state = JSON.parse(saved);
+                document.querySelectorAll('#categoryFilter input[type="checkbox"]').forEach(cb => cb.checked = false);
+
+                state.categories.forEach(cat => {
+                    const checkbox = document.querySelector(`#categoryFilter input[value="${cat}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+
+                if (state.minPrice) document.getElementById('minPrice').value = state.minPrice;
+                if (state.maxPrice) document.getElementById('maxPrice').value = state.maxPrice;
+
+                state.discounts.forEach(val => {
+                    ['discount10', 'discount20', 'discount30'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el && el.value === val) el.checked = true;
+                    });
+                });
+
+                if (state.sortMode) document.getElementById('sortSelect').value = state.sortMode;
+                if (state.searchQuery) document.getElementById('searchInput').value = state.searchQuery;
+
+                // ✅ ADD THIS: Apply the loaded filters
+                applyFiltersFromState(state);
+
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+        function applyFiltersFromState(state) {
+            const selectedCategories = state.categories || [];
+            const minPrice = Number(state.minPrice || 0);
+            const maxPrice = Number(state.maxPrice || Infinity);
+            const discounts = state.discounts || [];
+
+            filteredProducts = allProducts.filter(p => {
+                const cat = selectedCategories.length === 0 || selectedCategories.includes(p.category);
+                const price = p.discountedPrice >= minPrice && p.discountedPrice <= maxPrice;
+                const dis = !discounts.length || discounts.some(d => p.discount >= Number(d));
+                return cat && price && dis;
+            });
+
+            const sortMode = state.sortMode || 'default';
+            if (sortMode && sortMode !== 'default') {
+                sortProducts(sortMode);
+            } else {
+                renderProducts(filteredProducts);
+            }
+        }
+
+        function clearFilterState() {
+            sessionStorage.removeItem(STORAGE_KEY);
+        }
+
+        function applyFilters() {
+            const selectedCategories = Array.from(document.querySelectorAll('#categoryFilter input[type="checkbox"]:checked')).map(cb => cb.value);
+            const minPrice = Number(document.getElementById('minPrice')?.value || 0);
+            const maxPrice = Number(document.getElementById('maxPrice')?.value || Infinity);
+            const discounts = [];
+
+            ['discount10', 'discount20', 'discount30'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el?.checked) discounts.push(Number(el.value));
+            });
+
+            filteredProducts = allProducts.filter(p => {
+                const cat = selectedCategories.length === 0 || selectedCategories.includes(p.category);
+                const price = p.discountedPrice >= minPrice && p.discountedPrice <= maxPrice;
+                const dis = !discounts.length || discounts.some(d => p.discount >= d);
+                return cat && price && dis;
+            });
+
+            const sortMode = document.getElementById('sortSelect')?.value;
+            if (sortMode && sortMode !== 'default') {
+                sortProducts(sortMode);
+            } else {
+                renderProducts(filteredProducts);
+            }
+
+            saveFilterState();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function clearFilters() {
+            document.querySelectorAll('#categoryFilter input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.getElementById('minPrice').value = '';
+            document.getElementById('maxPrice').value = '';
+            ['discount10', 'discount20', 'discount30'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.checked = false;
+            });
+            document.getElementById('sortSelect').value = 'default';
+            document.getElementById('searchInput').value = '';
+
+            // CRITICAL FIX: Remove the product page flag
+            sessionStorage.removeItem('fromProductsPage');
+            clearFilterState();
+
+            filteredProducts = [...allProducts];
+            renderProducts(filteredProducts);
+            saveFilterState(); // Save the cleared state
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function sortProducts(mode) {
+            let sorted = [...filteredProducts];
+            if (mode === 'price-low') sorted.sort((a, b) => a.discountedPrice - b.discountedPrice);
+            else if (mode === 'price-high') sorted.sort((a, b) => b.discountedPrice - a.discountedPrice);
+            else if (mode === 'name') sorted.sort((a, b) => a.name.localeCompare(b.name));
+            else if (mode === 'discount') sorted.sort((a, b) => b.discount - a.discount);
+            renderProducts(sorted);
+        }
+
+        function handleSearch(q) {
+            q = q.trim().toLowerCase();
+            if (!q) {
+                applyFilters();
+                return;
+            }
+            const results = allProducts.filter(p =>
+                (p.name + ' ' + p.desc + ' ' + p.category).toLowerCase().includes(q)
+            );
+            renderProducts(results);
+        }
+
+        // INITIALIZATION
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartBadge();
+
+            const cameFromProduct = sessionStorage.getItem('fromProductsPage') === 'true';
+            const hasSavedFilters = sessionStorage.getItem(STORAGE_KEY);
+
+            if (cameFromProduct && hasSavedFilters) {
+                // ✅ Coming back from product page - restore filters
+                sessionStorage.removeItem('fromProductsPage');
+                loadFilterState(); // This now applies filters automatically
+            } else {
+                // ✅ Fresh visit - show default cement products
+                clearFilterState();
+                sessionStorage.removeItem('fromProductsPage');
+
+                // Set cement as default
+                document.querySelectorAll('#categoryFilter input[type="checkbox"]').forEach(cb => cb.checked = false);
+                const aggregatesCheckbox = document.querySelector('#categoryFilter input[value="aggregates"]');
+                if (aggregatesCheckbox) aggregatesCheckbox.checked = true;
+
+                filteredProducts = allProducts.filter(p => p.category === 'aggregates');
+                renderProducts(filteredProducts);
+                saveFilterState();
+            }
+
+            // Rest of event listeners remain the same...
+
+            // Event listeners
+            document.getElementById('applyFiltersBtn')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                applyFilters();
+            });
+
+            document.getElementById('clearFiltersBtn')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                clearFilters();
+            });
+
+            document.getElementById('sortSelect')?.addEventListener('change', (e) => {
+                sortProducts(e.target.value);
+                saveFilterState();
+            });
+
+            document.getElementById('searchInput')?.addEventListener('input', (e) => handleSearch(e.target.value));
+
+            ['minPrice', 'maxPrice'].forEach(id => {
+                document.getElementById(id)?.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        applyFilters();
+                    }
+                });
+            });
+            // Add these BEFORE the closing }); of DOMContentLoaded
+
+            // Update cart badge when page becomes visible
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    updateCartBadge();
+                }
+            });
+
+            // Update cart badge when coming back from another page
+            window.addEventListener('focus', updateCartBadge);
+
+            // Update on storage changes (when cart is modified in another tab)
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'userCarts' || e.key === 'userData') {
+                    updateCartBadge();
+                }
+            });
+        }); // <-- This closes DOMContentLoaded
+
+    </script>
+
+</body>
+
+</html>

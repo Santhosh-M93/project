@@ -1,0 +1,2538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Product Details</title>
+    <script src="search.js"></script>
+    <style>
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Inter, system-ui;
+            background: #faf8f6;
+            color: #421F16;
+        }
+
+        .header {
+            background: #421F16;
+            color: #F3ECDC;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #F3ECDC;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 15px;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 3rem 0.75rem 1rem;
+            border: 2px solid #F3ECDC;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            background: #F3ECDC;
+            color: #421F16;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #8B4513;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: #421F16;
+        }
+
+        .search-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .become-seller-btn {
+            background: #8B4513;
+            color: #F3ECDC;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .become-seller-btn:hover {
+            background: #A0522D;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+        }
+
+        .become-seller-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .icon-btn {
+            background: rgba(243, 236, 220, 0.2);
+            border: 2px solid #F3ECDC;
+            color: #F3ECDC;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background: rgba(243, 236, 220, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #D2691E;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #421F16;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            margin-top: 20px;
+            padding: 0 1rem;
+        }
+
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-image-gallery {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .thumbnail-images {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #8B4513;
+        }
+
+        .product-info-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+        }
+
+        .product-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #421F16;
+            margin-bottom: 1rem;
+        }
+
+        .rating-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stars {
+            color: #FFD700;
+            font-size: 1.2rem;
+        }
+
+        .price-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .current-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #421F16;
+        }
+
+        .original-price {
+            font-size: 1.5rem;
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .discount-badge-detail {
+            background: linear-gradient(135deg, #FF4500, #FF6347);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .unit-info {
+            background: #F3ECDC;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .qty-label {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #8B4513;
+            background: white;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .qty-btn:hover {
+            background: #8B4513;
+            color: white;
+        }
+
+        .qty-input {
+            width: 60px;
+            height: 40px;
+            text-align: center;
+            border: 2px solid #F3ECDC;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .btn-primary {
+            flex: 1;
+            padding: 1rem;
+            background: #8B4513;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background: #A0522D;
+            transform: translateY(-2px);
+        }
+
+        .btn-buy {
+            background: #D2691E;
+        }
+
+        .btn-buy:hover {
+            background: #CD853F;
+        }
+
+        .btn-wishlist {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border: 2px solid #8B4513;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            z-index: 10001;
+            display: none;
+            text-align: center;
+            min-width: 320px;
+            max-width: 90%;
+            animation: scaleIn 0.3s ease forwards;
+        }
+
+        .auth-notification-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            display: none;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .auth-notification-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .auth-notification-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-notification-message {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .auth-notification-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .auth-notification-btn {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .auth-btn-primary {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            color: white;
+        }
+
+        .auth-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+        }
+
+        .auth-btn-secondary {
+            background: #F3ECDC;
+            color: #421F16;
+        }
+
+        .auth-btn-secondary:hover {
+            background: #e8dfc7;
+        }
+
+        .unit-selector-section {
+            margin: 1.5rem 0;
+        }
+
+        .unit-options {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .unit-option {
+            flex: 1;
+            min-width: 120px;
+            padding: 1rem;
+            background: white;
+            border: 3px solid #F3ECDC;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .unit-option:hover {
+            border-color: #8B4513;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
+        }
+
+        .unit-option.active {
+            border-color: #8B4513;
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.1), rgba(210, 105, 30, 0.1));
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
+        }
+
+        .unit-weight {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+        }
+
+        .unit-price {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #8B4513;
+        }
+
+        .unit-option.active .unit-weight {
+            color: #8B4513;
+        }
+
+        .unit-option.active .unit-price {
+            color: #421F16;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 480px) {
+            .unit-options {
+                gap: 0.75rem;
+            }
+
+            .unit-option {
+                min-width: 100px;
+                padding: 0.75rem;
+            }
+
+            .unit-weight {
+                font-size: 1rem;
+                margin-bottom: 0.35rem;
+            }
+
+            .unit-price {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .unit-options {
+                gap: 0.65rem;
+            }
+
+            .unit-option {
+                min-width: 90px;
+                padding: 0.65rem;
+                border-radius: 10px;
+            }
+
+            .unit-weight {
+                font-size: 0.95rem;
+            }
+
+            .unit-price {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-notification {
+                padding: 1.5rem 1.75rem;
+                min-width: 280px;
+            }
+
+            .auth-notification-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.75rem;
+                margin-bottom: 0.85rem;
+            }
+
+            .auth-notification-title {
+                font-size: 1.2rem;
+            }
+
+            .auth-notification-message {
+                font-size: 0.9rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .auth-notification-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .auth-notification-btn {
+                padding: 0.65rem 1.25rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        .btn-wishlist:hover {
+            background: #8B4513;
+            color: white;
+        }
+
+        .btn-wishlist.active {
+            background: #8B4513;
+            color: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .feature-box {
+            text-align: center;
+            padding: 1rem;
+            background: #F3ECDC;
+            border-radius: 8px;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-desc {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .tabs-container {
+            margin-top: 3rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 2rem;
+            border-bottom: 2px solid #F3ECDC;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #999;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            color: #421F16;
+            border-bottom-color: #8B4513;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .spec-table tr {
+            border-bottom: 1px solid #F3ECDC;
+        }
+
+        .spec-table td {
+            padding: 1rem;
+        }
+
+        .spec-table td:first-child {
+            font-weight: 600;
+        }
+
+        .review-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid #F3ECDC;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+            z-index: 10000;
+            display: none;
+            animation: slideInRight 0.4s ease forwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(200px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(200px);
+                opacity: 0;
+            }
+        }
+        .feedback-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+            margin-top: 2rem;
+        }
+
+        .feedback-form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #F3ECDC;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #8B4513;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .star-rating-input {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .star-rating-input span {
+            color: #ddd;
+            transition: color 0.2s;
+        }
+
+        .star-rating-input span:hover,
+        .star-rating-input span.active {
+            color: #FFD700;
+        }
+
+        .submit-feedback-btn {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .submit-feedback-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+        }
+
+        .submit-feedback-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Responsive Feedback Section */
+        @media (max-width: 1024px) {
+            .feedback-section {
+                padding: 1.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .feedback-section {
+                padding: 1.5rem;
+                border-radius: 10px;
+            }
+
+            .form-label {
+                font-size: 0.95rem;
+            }
+
+            .form-input,
+            .form-textarea {
+                padding: 0.65rem;
+                font-size: 0.95rem;
+            }
+
+            .star-rating-input {
+                font-size: 1.75rem;
+            }
+
+            .submit-feedback-btn {
+                padding: 0.85rem 1.5rem;
+                font-size: 1.05rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .feedback-section {
+                padding: 1.25rem;
+                border-radius: 8px;
+            }
+
+            .form-group {
+                margin-bottom: 1.25rem;
+            }
+
+            .form-label {
+                font-size: 0.9rem;
+                margin-bottom: 0.4rem;
+            }
+
+            .form-input,
+            .form-textarea {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+                border-radius: 6px;
+            }
+
+            .form-textarea {
+                min-height: 100px;
+            }
+
+            .star-rating-input {
+                font-size: 1.6rem;
+                gap: 0.35rem;
+            }
+
+            .submit-feedback-btn {
+                padding: 0.75rem 1.25rem;
+                font-size: 1rem;
+                border-radius: 6px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .feedback-section {
+                padding: 1rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.1rem;
+            }
+
+            .form-label {
+                font-size: 0.85rem;
+            }
+
+            .form-input,
+            .form-textarea {
+                padding: 0.55rem;
+                font-size: 0.85rem;
+            }
+
+            .form-textarea {
+                min-height: 90px;
+            }
+
+            .star-rating-input {
+                font-size: 1.5rem;
+                gap: 0.3rem;
+            }
+
+            .submit-feedback-btn {
+                padding: 0.65rem 1rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        .feedback-locked {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #F3ECDC, #faf8f6);
+            border-radius: 12px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .lock-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .feedback-locked h4 {
+            font-size: 1.5rem;
+            color: #421F16;
+            margin-bottom: 0.75rem;
+        }
+
+        .feedback-locked p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .unlock-btn {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .unlock-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            .feedback-locked {
+                padding: 2rem 1.5rem;
+            }
+
+            .lock-icon {
+                font-size: 3rem;
+            }
+
+            .feedback-locked h4 {
+                font-size: 1.3rem;
+            }
+
+            .feedback-locked p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Tablet - 1024px */
+        @media (max-width: 1024px) {
+            .logo-image {
+                width: 150px;
+                height: 42px;
+                border-radius: 12px;
+                /* 30% of 42px = 12.6px, rounded to 12px */
+            }
+
+            .container {
+                margin-top: 15px;
+            }
+
+            .product-detail-container {
+                gap: 2rem;
+            }
+
+            .product-image-gallery {
+                padding: 1.75rem;
+            }
+
+            .main-image {
+                height: 450px;
+            }
+
+            .product-info-section {
+                padding: 1.75rem;
+            }
+
+            .product-title {
+                font-size: 1.75rem;
+            }
+
+            .current-price {
+                font-size: 2.25rem;
+            }
+
+            .original-price {
+                font-size: 1.35rem;
+            }
+
+            .tabs-container {
+                margin-top: 2.5rem;
+            }
+
+            .tab-content {
+                padding: 1.75rem;
+            }
+        }
+
+        /* Tablet Portrait - 768px */
+        @media (max-width: 768px) {
+            .header-container {
+                gap: 0.75rem;
+            }
+
+            .search-container {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .container {
+                margin-top: 10px;
+            }
+
+            .product-detail-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .product-image-gallery {
+                padding: 1.5rem;
+                border-radius: 10px;
+            }
+
+            .main-image {
+                height: 350px;
+            }
+
+            .thumbnail {
+                width: 70px;
+                height: 70px;
+            }
+
+            .product-info-section {
+                padding: 1.5rem;
+                border-radius: 10px;
+            }
+
+            .product-title {
+                font-size: 1.5rem;
+            }
+
+            .rating-section {
+                gap: 0.75rem;
+                font-size: 0.95rem;
+            }
+
+            .stars {
+                font-size: 1.1rem;
+            }
+
+            .price-section {
+                gap: 0.85rem;
+            }
+
+            .current-price {
+                font-size: 2rem;
+            }
+
+            .original-price {
+                font-size: 1.25rem;
+            }
+
+            .discount-badge-detail {
+                padding: 0.4rem 0.85rem;
+                font-size: 0.95rem;
+            }
+
+            .product-description {
+                font-size: 0.95rem;
+            }
+
+            .unit-info {
+                padding: 0.85rem;
+                font-size: 0.95rem;
+            }
+
+            .quantity-selector {
+                gap: 0.85rem;
+            }
+
+            .qty-label {
+                font-size: 1rem;
+            }
+
+            .qty-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1.4rem;
+            }
+
+            .qty-input {
+                width: 55px;
+                height: 38px;
+                font-size: 1.1rem;
+            }
+
+            .action-buttons {
+                flex-wrap: wrap;
+                gap: 0.85rem;
+            }
+
+            .btn-primary {
+                min-width: calc(50% - 0.5rem);
+                padding: 0.85rem;
+                font-size: 1.05rem;
+            }
+
+            .btn-wishlist {
+                width: 55px;
+                height: 55px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 0.85rem;
+            }
+
+            .feature-box {
+                padding: 0.85rem;
+            }
+
+            .feature-icon {
+                font-size: 1.75rem;
+            }
+
+            .feature-title {
+                font-size: 0.95rem;
+            }
+
+            .tabs-container {
+                margin-top: 2rem;
+            }
+
+            .tabs {
+                gap: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .tab {
+                padding: 0.85rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .tab-content {
+                padding: 1.5rem;
+            }
+
+            .tab-content h3 {
+                font-size: 1.2rem;
+            }
+
+            .spec-table td {
+                padding: 0.85rem;
+                font-size: 0.95rem;
+            }
+
+            .review-item {
+                padding: 1.25rem;
+            }
+        }
+
+        /* Mobile Large - 480px */
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.75rem 0;
+            }
+
+            .header-container {
+                gap: 0.5rem;
+                padding: 0 0.5rem;
+            }
+
+            .logo-image {
+                width: 100px;
+                height: 30px;
+                border-radius: 9px;
+            }
+
+            .become-seller-btn span {
+                display: none;
+            }
+
+            .become-seller-btn {
+                padding: 0.5rem;
+                width: 40px;
+                height: 40px;
+                justify-content: center;
+                gap: 0;
+            }
+
+            .icon-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .icon-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .search-input {
+                padding: 0.65rem 2.5rem 0.65rem 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 0 0.75rem;
+                margin-top: 10px;
+            }
+
+            .product-detail-container {
+                gap: 1.25rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .product-image-gallery {
+                padding: 1.25rem;
+                border-radius: 8px;
+            }
+
+            .main-image {
+                height: 300px;
+                border-radius: 10px;
+                margin-bottom: 0.85rem;
+            }
+
+            .thumbnail-images {
+                gap: 0.75rem;
+            }
+
+            .thumbnail {
+                width: 60px;
+                height: 60px;
+                border-width: 2px;
+                border-radius: 6px;
+            }
+
+            .product-info-section {
+                padding: 1.25rem;
+                border-radius: 8px;
+            }
+
+            .product-title {
+                font-size: 1.3rem;
+                margin-bottom: 0.85rem;
+            }
+
+            .rating-section {
+                gap: 0.65rem;
+                font-size: 0.9rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .stars {
+                font-size: 1rem;
+            }
+
+            .price-section {
+                gap: 0.75rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .current-price {
+                font-size: 1.75rem;
+            }
+
+            .original-price {
+                font-size: 1.15rem;
+            }
+
+            .discount-badge-detail {
+                padding: 0.35rem 0.75rem;
+                font-size: 0.9rem;
+                border-radius: 6px;
+            }
+
+            .product-description {
+                font-size: 0.9rem;
+                line-height: 1.55;
+                margin-bottom: 0.85rem;
+            }
+
+            .unit-info {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+                border-radius: 6px;
+                margin: 0.85rem 0;
+            }
+
+            .quantity-selector {
+                gap: 0.75rem;
+                margin: 1.25rem 0;
+            }
+
+            .qty-label {
+                font-size: 0.95rem;
+            }
+
+            .qty-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1.3rem;
+                border-radius: 6px;
+            }
+
+            .qty-input {
+                width: 50px;
+                height: 36px;
+                font-size: 1.05rem;
+                border-radius: 6px;
+            }
+
+            .action-buttons {
+                gap: 0.75rem;
+                margin: 1.5rem 0;
+            }
+
+            .btn-primary {
+                padding: 0.75rem;
+                font-size: 1rem;
+                border-radius: 6px;
+            }
+
+            .btn-wishlist {
+                width: 50px;
+                height: 50px;
+                border-radius: 6px;
+            }
+
+            .btn-wishlist svg {
+                width: 22px;
+                height: 22px;
+            }
+
+            .features-grid {
+                gap: 0.75rem;
+                margin: 1.5rem 0;
+            }
+
+            .feature-box {
+                padding: 0.75rem;
+                border-radius: 6px;
+            }
+
+            .feature-icon {
+                font-size: 1.6rem;
+                margin-bottom: 0.35rem;
+            }
+
+            .feature-title {
+                font-size: 0.9rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .feature-desc {
+                font-size: 0.8rem;
+            }
+
+            .tabs-container {
+                margin-top: 1.5rem;
+            }
+
+            .tabs {
+                gap: 1.25rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .tab {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.95rem;
+            }
+
+            .tab-content {
+                padding: 1.25rem;
+                border-radius: 10px;
+            }
+
+            .tab-content h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0.85rem;
+            }
+
+            .tab-content p {
+                font-size: 0.9rem;
+            }
+
+            .tab-content ul {
+                font-size: 0.9rem;
+                line-height: 1.8;
+            }
+
+            .spec-table td {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .review-item {
+                padding: 1.1rem;
+            }
+
+            .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .review-item p {
+                font-size: 0.9rem;
+            }
+
+            .review-item span {
+                font-size: 0.8rem;
+            }
+
+            .notification {
+                top: 80px;
+                right: 15px;
+                padding: 0.85rem 1.25rem;
+                font-size: 0.95rem;
+                border-radius: 10px;
+                max-width: calc(100% - 30px);
+            }
+        }
+
+        /* Mobile Small - 360px */
+        @media (max-width: 360px) {
+            .logo-image {
+                width: 80px;
+                height: 24px;
+                border-radius: 7px;
+            }
+
+            .header-container {
+                padding: 0 0.35rem;
+            }
+
+            .icon-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .become-seller-btn {
+                width: 32px;
+                height: 32px;
+                padding: 0.35rem;
+            }
+
+            .cart-badge {
+                width: 16px;
+                height: 16px;
+                font-size: 0.65rem;
+                top: -6px;
+                right: -6px;
+            }
+
+            .search-input {
+                font-size: 0.85rem;
+                padding: 0.55rem 2.25rem 0.55rem 0.65rem;
+            }
+
+            .container {
+                padding: 0 0.65rem;
+            }
+
+            .product-detail-container {
+                gap: 1rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .product-image-gallery {
+                padding: 1rem;
+            }
+
+            .main-image {
+                height: 250px;
+                border-radius: 8px;
+                margin-bottom: 0.75rem;
+            }
+
+            .thumbnail-images {
+                gap: 0.65rem;
+            }
+
+            .thumbnail {
+                width: 55px;
+                height: 55px;
+            }
+
+            .product-info-section {
+                padding: 1rem;
+            }
+
+            .product-title {
+                font-size: 1.2rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .rating-section {
+                gap: 0.5rem;
+                font-size: 0.85rem;
+                margin-bottom: 1.1rem;
+            }
+
+            .stars {
+                font-size: 0.95rem;
+            }
+
+            .price-section {
+                gap: 0.65rem;
+                margin-bottom: 1.1rem;
+            }
+
+            .current-price {
+                font-size: 1.6rem;
+            }
+
+            .original-price {
+                font-size: 1.05rem;
+            }
+
+            .discount-badge-detail {
+                padding: 0.3rem 0.65rem;
+                font-size: 0.85rem;
+            }
+
+            .product-description {
+                font-size: 0.85rem;
+                line-height: 1.5;
+                margin-bottom: 0.75rem;
+            }
+
+            .unit-info {
+                padding: 0.65rem;
+                font-size: 0.85rem;
+                margin: 0.75rem 0;
+            }
+
+            .quantity-selector {
+                gap: 0.65rem;
+                margin: 1.1rem 0;
+            }
+
+            .qty-label {
+                font-size: 0.9rem;
+            }
+
+            .qty-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 1.2rem;
+            }
+
+            .qty-input {
+                width: 46px;
+                height: 34px;
+                font-size: 1rem;
+            }
+
+            .action-buttons {
+                gap: 0.65rem;
+                margin: 1.25rem 0;
+            }
+
+            .btn-primary {
+                padding: 0.65rem;
+                font-size: 0.95rem;
+                gap: 0.35rem;
+            }
+
+            .btn-primary svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .btn-wishlist {
+                width: 46px;
+                height: 46px;
+            }
+
+            .btn-wishlist svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .features-grid {
+                gap: 0.65rem;
+                margin: 1.25rem 0;
+            }
+
+            .feature-box {
+                padding: 0.65rem;
+            }
+
+            .feature-icon {
+                font-size: 1.5rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .feature-title {
+                font-size: 0.85rem;
+                margin-bottom: 0.15rem;
+            }
+
+            .feature-desc {
+                font-size: 0.75rem;
+            }
+
+            .tabs-container {
+                margin-top: 1.25rem;
+            }
+
+            .tabs {
+                gap: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .tab {
+                padding: 0.65rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .tab-content {
+                padding: 1rem;
+                border-radius: 8px;
+            }
+
+            .tab-content h3 {
+                font-size: 1rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .tab-content p {
+                font-size: 0.85rem;
+                line-height: 1.6;
+            }
+
+            .tab-content ul {
+                font-size: 0.85rem;
+                line-height: 1.7;
+                margin-top: 0.85rem;
+            }
+
+            .spec-table td {
+                padding: 0.65rem;
+                font-size: 0.85rem;
+            }
+
+            .review-item {
+                padding: 1rem;
+            }
+
+            .review-header strong {
+                font-size: 0.95rem;
+            }
+
+            .review-item p {
+                font-size: 0.85rem;
+                margin-bottom: 0.4rem;
+            }
+
+            .review-item span {
+                font-size: 0.75rem;
+            }
+
+            .notification {
+                top: 75px;
+                right: 10px;
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+                border-radius: 8px;
+                max-width: calc(100% - 20px);
+            }
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+
+<body>
+    <div class="notification" id="notification"></div>
+
+    <header class="header">
+        <div class="header-container">
+            <a href="homepage.html" class="logo">
+                <!-- Replace with your logo filename -->
+                <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="logo-image">
+            </a>
+
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search for products..." id="searchInput">
+                <button class="search-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="header-icons">
+                <button class="become-seller-btn" onclick="window.location.href='become-seller.html'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 7h-9"></path>
+                        <path d="M14 17H5"></path>
+                        <circle cx="17" cy="17" r="3"></circle>
+                        <circle cx="7" cy="7" r="3"></circle>
+                    </svg>
+                    <span>Become Seller</span>
+                </button>
+                <a href="account.html" class="icon-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <a href="cart.html" class="icon-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-badge">0</span>
+                </a>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="product-detail-container">
+            <div class="product-image-gallery">
+                <img src="https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg"
+                    alt="Product" class="main-image" id="mainImage">
+                <div class="thumbnail-images">
+                    <img src="https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg"
+                        class="thumbnail active" onclick="changeImage(this)">
+                    <img src="https://miaoda-site-img.s3cdn.medo.dev/images/97de7670-931d-4bf8-a7be-2a8741a14e79.jpg"
+                        class="thumbnail" onclick="changeImage(this)">
+                    <img src="https://miaoda-site-img.s3cdn.medo.dev/images/79eabf47-7c4b-4af2-b2bf-0712e9b767a4.jpg"
+                        class="thumbnail" onclick="changeImage(this)">
+                </div>
+            </div>
+
+            <div class="product-info-section">
+                <h1 class="product-title">Shree (PPC)Cement - Premium Grade</h1>
+                <div class="rating-section"><span class="stars">★★★★☆</span><span>(4.5 out of
+                        5)</span><span>|</span><span>234 Reviews</span></div>
+                <div class="price-section">
+                    <span class="current-price">₹399</span>
+                    <span class="original-price">₹499</span>
+                    <span class="discount-badge-detail">10% OFF</span>
+                </div>
+                <p class="product-description">High-quality, fast-setting cement used for strong and durable
+                    construction, it provides high early strength, excellent bonding</p>
+                <div class="unit-selector-section">
+                    <label class="qty-label">Select Unit:</label>
+                    <div class="unit-options">
+                        <button class="unit-option active" data-unit="50kg" data-price="399" data-original="499"
+                            data-images='["https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg","https://miaoda-site-img.s3cdn.medo.dev/images/97de7670-931d-4bf8-a7be-2a8741a14e79.jpg","https://miaoda-site-img.s3cdn.medo.dev/images/79eabf47-7c4b-4af2-b2bf-0712e9b767a4.jpg"]'
+                            onclick="selectUnit(this)">
+                            <div class="unit-weight">50 Kg</div>
+                            <div class="unit-price">₹399</div>
+                        </button>
+                        <button class="unit-option" data-unit="100kg" data-price="799" data-original="879"
+                            data-images='["https://miaoda-site-img.s3cdn.medo.dev/images/19727098-12c6-4bee-8e33-43e9b8cfc80e.jpg","https://miaoda-site-img.s3cdn.medo.dev/images/5605f97b-6fae-452e-ab97-e03c58122c11.jpg","https://miaoda-site-img.s3cdn.medo.dev/images/90b825c6-989a-465c-8e40-1b164bc6838e.jpg"]'
+                            onclick="selectUnit(this)">
+                            <div class="unit-weight">100 Kg</div>
+                            <div class="unit-price">₹799</div>
+                        </button>
+                        <button class="unit-option" data-unit="1ton" data-price="7099" data-original="7899"
+                            data-images='["https://miaoda-site-img.s3cdn.medo.dev/images/a8e9b63e-1eee-41d0-aa5e-a1b7ddd685d5.jpg","https://miaoda-site-img.s3cdn.medo.dev/images/ea92d53a-5f71-4749-ac88-bc994a076b09.jpg","https://miaoda-site-img.s3cdn.medo.dev/images/706163da-6c5d-4ea9-a156-707fa45bb50a.jpg"]'
+                            onclick="selectUnit(this)">
+                            <div class="unit-weight">1 Ton</div>
+                            <div class="unit-price">₹7,099</div>
+                        </button>
+                    </div>
+                </div>
+                <div class="quantity-selector">
+                    <span class="qty-label">Quantity:</span>
+                    <button class="qty-btn" onclick="decreaseQty()">-</button>
+                    <input type="number" class="qty-input" value="1" min="1" id="quantity">
+                    <button class="qty-btn" onclick="increaseQty()">+</button>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="addToCart()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            style="width: 20px; height: 20px;">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        Add to Cart
+                    </button>
+                    <button class="btn-primary btn-buy" onclick="buyNow()">Buy Now</button>
+                    <button class="btn-wishlist" onclick="toggleWishlist()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            style="width: 24px; height: 24px;">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-box">
+                        <div class="feature-icon">🚚</div>
+                        <div class="feature-title">Free Delivery</div>
+                        <div class="feature-desc">On orders above ₹20,000</div>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon">🛡️</div>
+                        <div class="feature-title">Quality Assured</div>
+                        <div class="feature-desc">100% Genuine Products</div>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon">↩️</div>
+                        <div class="feature-title">Easy Returns</div>
+                        <div class="feature-desc">7 Days Return Policy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab(event, 'description')">Description</button>
+                <button class="tab" onclick="switchTab(event, 'specifications')">Specifications</button>
+                <button class="tab" onclick="switchTab(event, 'reviews')">Reviews (234)</button>
+            </div>
+            <div id="description" class="tab-content active">
+                <h3 style="margin-bottom: 1rem;">Product Description</h3>
+                <p style="line-height: 1.8; color: #666;">Our premium quality UltraTech OPC Cement is manufactured using
+                    advanced clinker technology and high-grade raw materials. This cement is ideal for all types of
+                    construction from residential homes to large commercial and infrastructure projects.</p>
+                <ul style="margin-top: 1rem; line-height: 2; color: #666; list-style: none;">
+                    <li>✓ High early compressive strength</li>
+                    <li>✓ Fast setting and better workability</li>
+                    <li>✓ Excellent bonding and durability</li>
+                    <li>✓ Ideal for RCC, foundations, slabs & columns</li>
+                </ul>
+            </div>
+            <div id="specifications" class="tab-content">
+                <h3 style="margin-bottom: 1rem;">Technical Specifications</h3>
+                <table class="spec-table">
+                    <tr>
+                        <td>Grade Available</td>
+                        <td>OPC 53 (also available in OPC 43 & OPC 33)</td>
+                    </tr>
+                    <tr>
+                        <td>Weight</td>
+                        <td>50 kg per bag</td>
+                    </tr>
+                    <tr>
+                        <td>Compressive Strength</td>
+                        <td>3 Days: 27–30 N/mm² | 7 Days: 37–40 N/mm²</td>
+                    </tr>
+                    <tr>
+                        <td>Compliance</td>
+                        <td>IS 269:2015</td>
+                    </tr>
+                    <tr>
+                        <td>Color</td>
+                        <td>Grey</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="reviews" class="tab-content">
+                <h3 style="margin-bottom: 1rem;">Customer Reviews</h3>
+                <div class="review-item">
+                    <div class="review-header"><strong>Rajesh Kumar</strong><span class="stars">★★★★★</span></div>
+                    <p style="color: #666; margin-bottom: 0.5rem;">Excellent quality cement! Used it for my home
+                        construction and very satisfied with the results.</p>
+                    <span style="font-size: 0.85rem; color: #999;">Verified Purchase | 2 weeks ago</span>
+                </div>
+                <div class="review-item">
+                    <div class="review-header"><strong>Priya Sharma</strong><span class="stars">★★★★☆</span></div>
+                    <p style="color: #666; margin-bottom: 0.5rem;">Good quality cement at reasonable price. Delivery was
+                        on time.</p>
+                    <span style="font-size: 0.85rem; color: #999;">Verified Purchase | 1 month ago</span>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="auth-notification-overlay" id="authOverlay"></div>
+    <div class="auth-notification" id="authNotification">
+        <div class="auth-notification-icon">🔒</div>
+        <div class="auth-notification-title">Login Required</div>
+        <div class="auth-notification-message">Please login to continue with your purchase</div>
+        <div class="auth-notification-buttons">
+            <button class="auth-notification-btn auth-btn-primary" onclick="goToLogin()">Login</button>
+            <button class="auth-notification-btn auth-btn-secondary" onclick="closeAuthNotification()">Cancel</button>
+        </div>
+    </div>
+    <div class="feedback-section" id="feedbackSection">
+        <h3 style="margin-bottom: 1.5rem; text-align: center; color: #421F16; font-size: 1.8rem;">Share Your Feedback
+        </h3>
+
+        <!-- Not Logged In Message -->
+        <div class="feedback-locked" id="notLoggedIn" style="display: none;">
+            <div class="lock-icon">🔒</div>
+            <h4>Login Required</h4>
+            <p>Please login to share your feedback</p>
+            <button class="unlock-btn" onclick="goToLogin()">Login Now</button>
+        </div>
+
+        <!-- Not Purchased Message -->
+        <div class="feedback-locked" id="notPurchased" style="display: none;">
+            <div class="lock-icon">📦</div>
+            <h4>Purchase Required</h4>
+            <p>You can only review products that have been delivered to you</p>
+            <button class="unlock-btn" onclick="window.location.href='homepage.html'">Continue Shopping</button>
+        </div>
+
+        <!-- Already Reviewed Message -->
+        <div class="feedback-locked" id="alreadyReviewed" style="display: none;">
+            <div class="lock-icon">✅</div>
+            <h4>Already Reviewed</h4>
+            <p>You have already submitted feedback for this product</p>
+            <button class="unlock-btn" onclick="scrollToReviews()">View Reviews</button>
+        </div>
+
+        <div class="success-message" id="feedbackSuccess">
+            Thank you! Your feedback has been submitted and is awaiting approval.
+        </div>
+
+        <form class="feedback-form" id="feedbackForm" onsubmit="submitFeedback(event)" style="display: none;">
+            <div class="form-group">
+                <label class="form-label">Your Rating *</label>
+                <div class="star-rating-input" id="starRating">
+                    <span data-rating="1" onclick="setRating(1)">★</span>
+                    <span data-rating="2" onclick="setRating(2)">★</span>
+                    <span data-rating="3" onclick="setRating(3)">★</span>
+                    <span data-rating="4" onclick="setRating(4)">★</span>
+                    <span data-rating="5" onclick="setRating(5)">★</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="feedbackName">Your Name *</label>
+                <input type="text" id="feedbackName" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="feedbackEmail">Your Email *</label>
+                <input type="email" id="feedbackEmail" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="feedbackMessage">Your Feedback *</label>
+                <textarea id="feedbackMessage" class="form-textarea" required
+                    placeholder="Share your experience with this product..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-feedback-btn">Submit Feedback</button>
+        </form>
+    </div>
+
+    <script>
+        function getCurrentUserId() {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            return userData ? userData.id : null;
+        }
+
+        function getUserCart(userId) {
+            if (!userId) return [];
+
+            const allCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
+            return allCarts[userId] || [];
+        }
+
+        function saveUserCart(userId, cart) {
+            if (!userId) return;
+
+            const allCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
+            allCarts[userId] = cart;
+            localStorage.setItem('userCarts', JSON.stringify(allCarts));
+        }
+
+        function updateCartBadge() {
+            const userId = getCurrentUserId();
+            if (!userId) {
+                const badge = document.querySelector(".cart-badge");
+                if (badge) badge.textContent = '0';
+                return;
+            }
+
+            const cart = getUserCart(userId);
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.querySelector(".cart-badge");
+            if (badge) badge.textContent = totalItems;
+        }
+        let productData = {
+            id: "109",
+            name: "Shree (PPC)Cement - Premium Grdade",
+            price: 399,
+            originalPrice: 499,
+            unit: "50 Kg",
+            image: "https://miaoda-site-img.s3cdn.medo.dev/images/681b8a95-3acd-439a-9b0d-896e7a3ec867.jpg",
+            link:"shreeppc.html"
+        };
+
+        function changeQty(x) {
+            let qty = document.getElementById("quantity");
+            let value = parseInt(qty.value) + x;
+            if (value < 1) value = 1;
+            qty.value = value;
+        }
+
+        function increaseQty() {
+            changeQty(1);
+        }
+
+        function decreaseQty() {
+            changeQty(-1);
+        }
+
+        function changeImage(thumbnail) {
+            document.getElementById("mainImage").src = thumbnail.src;
+            document.querySelectorAll('.thumbnail').forEach(img => img.classList.remove('active'));
+            thumbnail.classList.add('active');
+        }
+        function selectUnit(button) {
+            // Remove active class from all unit options
+            document.querySelectorAll('.unit-option').forEach(opt => opt.classList.remove('active'));
+
+            // Add active class to selected option
+            button.classList.add('active');
+
+            // Get selected unit data
+            const unit = button.dataset.unit;
+            const price = parseInt(button.dataset.price);
+            const originalPrice = parseInt(button.dataset.original);
+            const unitText = button.querySelector('.unit-weight').textContent;
+
+            // ✅ NEW: Get array of images
+            let images = [];
+            try {
+                images = JSON.parse(button.dataset.images || '[]');
+            } catch (e) {
+                console.error('Error parsing images:', e);
+                images = [];
+            }
+
+            // Update product data
+            productData.price = price;
+            productData.originalPrice = originalPrice;
+            productData.unit = unitText;
+            productData.image = images[0] || productData.image; // First image as main
+
+            // ✅ NEW: Update all images (main + thumbnails)
+            if (images.length > 0) {
+                // Update main image
+                document.getElementById('mainImage').src = images[0];
+
+                // Update all thumbnails
+                const thumbnails = document.querySelectorAll('.thumbnail');
+                thumbnails.forEach((thumbnail, index) => {
+                    if (images[index]) {
+                        thumbnail.src = images[index];
+                        // Make first thumbnail active
+                        if (index === 0) {
+                            thumbnail.classList.add('active');
+                        } else {
+                            thumbnail.classList.remove('active');
+                        }
+                    }
+                });
+            }
+
+            // Calculate discount percentage
+            const discount = Math.round(((originalPrice - price) / originalPrice) * 100);
+
+            // Update displayed prices
+            document.querySelector('.current-price').textContent = '₹' + price.toLocaleString('en-IN');
+            document.querySelector('.original-price').textContent = '₹' + originalPrice.toLocaleString('en-IN');
+            document.querySelector('.discount-badge-detail').textContent = discount + '% OFF';
+
+            // Update product title to include unit
+            document.querySelector('.product-title').textContent = `${baseTitle} (${unitText})`;
+        }
+
+        // ============================================
+        // UPDATED: USER-SPECIFIC ADD TO CART
+        // ============================================
+
+        function showAuthNotification() {
+            document.getElementById('authOverlay').style.display = 'block';
+            document.getElementById('authNotification').style.display = 'block';
+        }
+
+        function closeAuthNotification() {
+            document.getElementById('authOverlay').style.display = 'none';
+            document.getElementById('authNotification').style.display = 'none';
+        }
+
+        function goToLogin() {
+            window.location.href = 'login.html';
+        }
+
+        function addToCart() {
+            const userId = getCurrentUserId();
+            if (!userId) {
+                showAuthNotification();
+                return;
+            }
+
+            const qtyInput = document.getElementById("quantity");
+
+            // Create product with current selected unit and price
+            const product = {
+                ...productData,
+                id: productData.id + '_' + productData.unit.replace(/\s/g, '').toLowerCase(), // Unique ID per unit
+                quantity: parseInt(qtyInput.value) || 1
+            };
+
+            let cart = getUserCart(userId);
+
+            const existing = cart.find(p => p.id === product.id);
+            if (existing) {
+                existing.quantity += product.quantity;
+            } else {
+                cart.push(product);
+            }
+
+            saveUserCart(userId, cart);
+            updateCartBadge();
+            showNotification(`${product.name} (${product.unit}) added to cart!`, 'cart');
+        }
+
+        function buyNow() {
+            const userId = getCurrentUserId();
+            if (!userId) {
+                showAuthNotification();
+                return;
+            }
+
+            const qtyInput = document.getElementById("quantity");
+
+            // Create product with current selected unit and price
+            const product = {
+                ...productData,
+                id: productData.id + '_' + productData.unit.replace(/\s/g, '').toLowerCase(),
+                quantity: parseInt(qtyInput.value) || 1
+            };
+
+            localStorage.setItem('buyNowItem', JSON.stringify(product));
+            localStorage.removeItem('checkoutItems');
+
+            window.location.href = 'buynow.html';
+        }
+
+        function toggleWishlist() {
+            const btn = document.querySelector('.btn-wishlist');
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const exists = wishlist.some(item => item.id === productData.id);
+
+            if (exists) {
+                wishlist = wishlist.filter(item => item.id !== productData.id);
+                btn.classList.remove('active');
+                showNotification(`${productData.name} removed from wishlist!`, 'wishlist');
+            } else {
+                wishlist.push(productData);
+                btn.classList.add('active');
+                showNotification(`${productData.name} added to wishlist!`, 'wishlist');
+            }
+
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
+
+        function switchTab(evt, tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            evt.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function showNotification(message, type = 'cart') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            if (type === 'wishlist') {
+                notification.style.background = 'linear-gradient(135deg, #8E2DE2, #4A00E0)';
+            } else {
+                notification.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+            }
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.4s ease forwards';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                    notification.style.animation = 'slideInRight 0.4s ease forwards';
+                }, 400);
+            }, 3000);
+        }
+
+        function initWishlist() {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const exists = wishlist.some(item => item.id === productData.id);
+            if (exists) document.querySelector('.btn-wishlist').classList.add('active');
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateCartBadge();
+            initWishlist();
+        });
+    let selectedRating = 0;
+
+        function setRating(rating) {
+            selectedRating = rating;
+            const stars = document.querySelectorAll('#starRating span');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        // Check if user has purchased and received this product
+        function checkFeedbackEligibility() {
+            const userId = getCurrentUserId();
+
+            // Not logged in
+            if (!userId) {
+                document.getElementById('notLoggedIn').style.display = 'block';
+                document.getElementById('feedbackForm').style.display = 'none';
+                return false;
+            }
+
+            // Get user data for pre-filling form
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (userData) {
+                document.getElementById('feedbackName').value = userData.name || '';
+                document.getElementById('feedbackEmail').value = userData.email || '';
+            }
+
+            // Check if already reviewed
+            const allFeedback = JSON.parse(localStorage.getItem('productFeedback')) || [];
+            const hasReviewed = allFeedback.some(f =>
+                f.userId === userId && f.productId === productData.id
+            );
+
+            if (hasReviewed) {
+                document.getElementById('alreadyReviewed').style.display = 'block';
+                document.getElementById('feedbackForm').style.display = 'none';
+                return false;
+            }
+
+            // Check if user has received this product
+            const hasReceived = checkIfProductDelivered(userId, productData.id);
+
+            if (!hasReceived) {
+                document.getElementById('notPurchased').style.display = 'block';
+                document.getElementById('feedbackForm').style.display = 'none';
+                return false;
+            }
+
+            // User is eligible to review
+            document.getElementById('feedbackForm').style.display = 'block';
+            return true;
+        }
+
+        // Check if product has been delivered to user
+        function checkIfProductDelivered(userId, productId) {
+            // Get all orders from main orders array
+            const allOrders = JSON.parse(localStorage.getItem('orders')) || [];
+
+            // Filter orders for this user
+            const userOrders = allOrders.filter(order => order.userId === userId);
+
+            // Check if any order contains this product and is delivered
+            return userOrders.some(order => {
+                if (order.status !== 'Delivered') return false;
+
+                return order.items.some(item => {
+                    // Match base product ID (remove unit suffix if exists)
+                    const itemBaseId = item.id ? item.id.split('_')[0] : item.productId || '';
+                    return itemBaseId === productId;
+                });
+            });
+        }
+
+        function scrollToReviews() {
+            const reviewsTab = document.querySelector('.tab:nth-child(3)');
+            reviewsTab.click();
+            reviewsTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function submitFeedback(event) {
+            event.preventDefault();
+
+            if (selectedRating === 0) {
+                alert('Please select a rating');
+                return;
+            }
+
+            const userId = getCurrentUserId();
+            if (!userId) {
+                showAuthNotification();
+                return;
+            }
+
+            // Double-check eligibility before submitting
+            if (!checkIfProductDelivered(userId, productData.id)) {
+                alert('You can only review products that have been delivered to you');
+                return;
+            }
+
+            const feedback = {
+                id: Date.now().toString(),
+                productId: productData.id,
+                productName: productData.name,
+                userId: userId,
+                userName: document.getElementById('feedbackName').value,
+                userEmail: document.getElementById('feedbackEmail').value,
+                rating: selectedRating,
+                message: document.getElementById('feedbackMessage').value,
+                timestamp: new Date().toISOString(),
+                approved: false
+            };
+
+            // Store feedback
+            let allFeedback = JSON.parse(localStorage.getItem('productFeedback')) || [];
+            allFeedback.push(feedback);
+            localStorage.setItem('productFeedback', JSON.stringify(allFeedback));
+
+            // Update ratings
+            updateProductRating(productData.id, selectedRating);
+
+            // Show success and hide form
+            document.getElementById('feedbackSuccess').style.display = 'block';
+            document.getElementById('feedbackForm').style.display = 'none';
+
+            // Show "already reviewed" message after success
+            setTimeout(() => {
+                document.getElementById('feedbackSuccess').style.display = 'none';
+                document.getElementById('alreadyReviewed').style.display = 'block';
+            }, 5000);
+
+            // Scroll to success message
+            document.getElementById('feedbackSuccess').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function updateProductRating(productId, rating) {
+            let ratings = JSON.parse(localStorage.getItem('productRatings')) || {};
+
+            if (!ratings[productId]) {
+                ratings[productId] = {
+                    totalRatings: 0,
+                    sumRatings: 0,
+                    averageRating: 0,
+                    ratingCount: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+                };
+            }
+
+            ratings[productId].totalRatings++;
+            ratings[productId].sumRatings += rating;
+            ratings[productId].averageRating = (ratings[productId].sumRatings / ratings[productId].totalRatings).toFixed(1);
+            ratings[productId].ratingCount[rating]++;
+
+            localStorage.setItem('productRatings', JSON.stringify(ratings));
+        }
+
+        // Load and display approved feedbacks
+        function loadApprovedFeedbacks() {
+            const allFeedback = JSON.parse(localStorage.getItem('productFeedback')) || [];
+            const approvedFeedbacks = allFeedback.filter(f => f.productId === productData.id && f.approved === true);
+
+            const reviewsContainer = document.getElementById('reviews');
+
+            // Clear existing dynamic reviews but keep the heading
+            const heading = reviewsContainer.querySelector('h3');
+            reviewsContainer.innerHTML = '';
+            reviewsContainer.appendChild(heading);
+
+            if (approvedFeedbacks.length === 0) {
+                const noReviews = document.createElement('div');
+                noReviews.style.cssText = 'text-align: center; padding: 2rem; color: #999;';
+                noReviews.innerHTML = '<p>No reviews yet. Be the first to review this product!</p>';
+                reviewsContainer.appendChild(noReviews);
+            } else {
+                // Add approved feedbacks
+                approvedFeedbacks.forEach(feedback => {
+                    const reviewDiv = document.createElement('div');
+                    reviewDiv.className = 'review-item';
+
+                    const stars = '★'.repeat(feedback.rating) + '☆'.repeat(5 - feedback.rating);
+                    const date = new Date(feedback.timestamp).toLocaleDateString();
+
+                    reviewDiv.innerHTML = `
+                <div class="review-header">
+                    <strong>${feedback.userName}</strong>
+                    <span class="stars">${stars}</span>
+                </div>
+                <p style="color: #666; margin-bottom: 0.5rem;">${feedback.message}</p>
+                <span style="font-size: 0.85rem; color: #999;">Verified Purchase | ${date}</span>
+            `;
+
+                    reviewsContainer.appendChild(reviewDiv);
+                });
+            }
+
+            // Update review count in tab
+            const reviewTab = document.querySelector('.tab:nth-child(3)');
+            if (reviewTab) {
+                reviewTab.textContent = `Reviews (${approvedFeedbacks.length})`;
+            }
+        }
+
+        // Update product rating display
+        function updateRatingDisplay() {
+            const ratings = JSON.parse(localStorage.getItem('productRatings')) || {};
+            const productRating = ratings[productData.id];
+
+            if (productRating) {
+                const avgRating = productRating.averageRating;
+                const totalReviews = productRating.totalRatings;
+
+                const ratingSection = document.querySelector('.rating-section');
+                const fullStars = Math.floor(avgRating);
+                const hasHalfStar = avgRating % 1 >= 0.5;
+                let starsHTML = '★'.repeat(fullStars);
+                if (hasHalfStar) starsHTML += '⯨';
+                starsHTML += '☆'.repeat(5 - fullStars - (hasHalfStar ? 1 : 0));
+
+                ratingSection.innerHTML = `
+            <span class="stars">${starsHTML}</span>
+            <span>(${avgRating} out of 5)</span>
+            <span>|</span>
+            <span>${totalReviews} Reviews</span>
+        `;
+            }
+        }
+
+        // UPDATE THE DOMContentLoaded EVENT:
+        document.addEventListener("DOMContentLoaded", () => {
+            updateCartBadge();
+            initWishlist();
+            loadApprovedFeedbacks();
+            updateRatingDisplay();
+            checkFeedbackEligibility(); // Add this line
+        });
+    </script>
+</body>
+
+</html>

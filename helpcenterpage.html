@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - Construction Materials Store</title>
+    <script src="search.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, system-ui;
+            background: #F3ECDC;
+            color: #421F16;
+        }
+
+        .header {
+            background: #421F16;
+            color: #F3ECDC;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .back-btn {
+            background: #8B4513;
+            color: #F3ECDC;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .search-box {
+            max-width: 600px;
+            margin: 2rem auto 0;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8B4513;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(66, 31, 22, 0.15);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #8B4513;
+        }
+
+        .help-topics {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .help-topic {
+            padding: 1.5rem;
+            background: #F3ECDC;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .help-topic:hover {
+            background: #e8dfc7;
+            transform: translateX(5px);
+        }
+
+        .help-topic-title {
+            font-weight: 600;
+            color: #421F16;
+            font-size: 1.1rem;
+        }
+
+        .help-topic-arrow {
+            color: #8B4513;
+            font-size: 1.5rem;
+        }
+
+        .contact-support {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            color: white;
+            padding: 3rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .contact-support h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-support p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            padding: 1rem 2rem;
+            background: white;
+            color: #8B4513;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-image {
+                width: 100px;
+                height: 30px;
+            }
+
+            .hero-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 1.75rem;
+            }
+
+            .search-input {
+                font-size: 1rem;
+                padding: 0.85rem 2.5rem 0.85rem 1rem;
+            }
+
+            .contact-support {
+                padding: 2rem 1.5rem;
+            }
+
+            .contact-buttons {
+                flex-direction: column;
+            }
+
+            .contact-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="logo-image" onclick="window.location.href='homepage.html'">
+            <a href="homepage.html" class="back-btn">← Back to Home</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-section">
+            <h1 class="hero-title">How Can We Help You?</h1>
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search for answers..." id="searchInput">
+                <span class="search-icon">🔍</span>
+            </div>
+        </section>
+
+        <div class="categories-grid">
+            <div class="category-card" onclick="window.location.href='#orders'">
+                <div class="category-icon">📦</div>
+                <h3 class="category-title">Orders</h3>
+                <p class="category-desc">Track, modify, or cancel orders</p>
+            </div>
+            <div class="category-card" onclick="window.location.href='shipping-info.html'">
+                <div class="category-icon">🚚</div>
+                <h3 class="category-title">Shipping</h3>
+                <p class="category-desc">Delivery information & tracking</p>
+            </div>
+            <div class="category-card" onclick="window.location.href='return-policy.html'">
+                <div class="category-icon">↩️</div>
+                <h3 class="category-title">Returns</h3>
+                <p class="category-desc">Return & refund policies</p>
+            </div>
+            <div class="category-card" onclick="window.location.href='#payment'">
+                <div class="category-icon">💳</div>
+                <h3 class="category-title">Payment</h3>
+                <p class="category-desc">Payment methods & issues</p>
+            </div>
+        </div>
+
+        <section class="section" id="orders">
+            <h2 class="section-title">Order Management</h2>
+            <div class="help-topics">
+                <div class="help-topic" onclick="window.location.href='track-order.html'">
+                    <span class="help-topic-title">How to track my order?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+                <div class="help-topic" onclick="window.location.href='account.html'">
+                    <span class="help-topic-title">How to modify or cancel my order?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+                <div class="help-topic">
+                    <span class="help-topic-title">What is the delivery time for my order?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+                <div class="help-topic">
+                    <span class="help-topic-title">Can I change the delivery address?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="payment">
+            <h2 class="section-title">Payment & Pricing</h2>
+            <div class="help-topics">
+                <div class="help-topic">
+                    <span class="help-topic-title">What payment methods do you accept?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+                <div class="help-topic">
+                    <span class="help-topic-title">Is Cash on Delivery (COD) available?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+                <div class="help-topic">
+                    <span class="help-topic-title">How do I get bulk order discounts?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+                <div class="help-topic">
+                    <span class="help-topic-title">Are there any hidden charges?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Product Information</h2>
+            <div class="help-topics">
+                <div class="help-topic">
+                    <span class="help-topic-title">How do I know if a product is in stock?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+                <div class="help-topic">
+                    <span class="help-topic-title">What if I receive a damaged product?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+                <div class="help-topic">
+                    <span class="help-topic-title">Do you provide quality certificates?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+                <div class="help-topic">
+                    <span class="help-topic-title">Can I request product samples?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Account & Security</h2>
+            <div class="help-topics">
+                <div class="help-topic" onclick="window.location.href='login.html'">
+                    <span class="help-topic-title">How do I create an account?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+                <div class="help-topic" onclick="window.location.href='account.html'">
+                    <span class="help-topic-title">How to reset my password?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+                <div class="help-topic">
+                    <span class="help-topic-title">Is my personal information secure?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+                <div class="help-topic" onclick="window.location.href='account.html'">
+                    <span class="help-topic-title">How to update my profile details?</span>
+                    <span class="help-topic-arrow">→</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-support">
+            <h2>Still Need Help?</h2>
+            <p>Our customer support team is here to assist you 24/7</p>
+            <div class="contact-buttons">
+                <a href="contact.html" class="contact-btn">
+                    📧 Email Support
+                </a>
+                <a href="tel:+911234567890" class="contact-btn">
+                    📞 Call Us
+                </a>
+                <a href="#" class="contact-btn">
+                    💬 Live Chat
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const topics = document.querySelectorAll('.help-topic');
+            
+            topics.forEach(topic => {
+                const text = topic.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    topic.style.display = 'flex';
+                } else {
+                    topic.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

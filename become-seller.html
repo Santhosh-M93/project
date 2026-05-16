@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Become a Seller - Start Selling Today</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="search.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #faf8f6 0%, #f0ebe3 100%);
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: #421F16;
+            color: #F3ECDC;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .back-btn {
+            background: #8B4513;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: #A0522D;
+            transform: translateX(-3px);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #D2691E 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .benefits-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            color: #421F16;
+            margin-bottom: 3rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(66, 31, 22, 0.1);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(66, 31, 22, 0.2);
+        }
+
+        .benefit-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 0.75rem;
+        }
+
+        .benefit-desc {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .form-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(66, 31, 22, 0.12);
+            margin-bottom: 3rem;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-header h2 {
+            font-size: 2rem;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: #666;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #421F16;
+        }
+
+        .form-group label .required {
+            color: #F44336;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #8B4513;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .file-upload {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            background: #F3ECDC;
+            border: 2px dashed #8B4513;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload-label:hover {
+            background: #8B4513;
+            color: white;
+        }
+
+        .file-name {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-top: 2px;
+        }
+
+        .terms-checkbox label {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .terms-checkbox label a {
+            color: #8B4513;
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Notification Toast */
+        .notification-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            z-index: 10002;
+            display: none;
+            min-width: 320px;
+            max-width: 400px;
+            animation: slideInRight 0.3s ease;
+            border-left: 4px solid #8B4513;
+        }
+
+        .notification-toast.show {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .notification-message {
+            color: #421F16;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+        }
+
+        .notification-toast.success { border-left-color: #4CAF50; }
+        .notification-toast.error { border-left-color: #F44336; }
+        .notification-toast.warning { border-left-color: #FF9800; }
+
+        @keyframes slideInRight {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .logo-image { width: 150px; height: 42px; }
+            .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+            .form-grid { gap: 1.25rem; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.2rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .stats-container { gap: 2rem; }
+            .stat-number { font-size: 2rem; }
+            .benefits-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-section { padding: 2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .logo-image { width: 100px; height: 30px; }
+            .back-btn { padding: 0.65rem 1rem; font-size: 0.9rem; }
+            .hero-section { padding: 3rem 1.5rem; }
+            .hero-title { font-size: 1.8rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .stat-number { font-size: 1.75rem; }
+            .section-title { font-size: 2rem; }
+            .benefit-card { padding: 1.5rem; }
+            .benefit-icon { font-size: 3rem; }
+            .form-section { padding: 1.5rem; }
+            .form-header h2 { font-size: 1.5rem; }
+            .submit-btn { font-size: 1.1rem; padding: 1.1rem; }
+        }
+
+        @media (max-width: 360px) {
+            .logo-image { width: 80px; height: 24px; }
+            .hero-title { font-size: 1.6rem; }
+            .stat-number { font-size: 1.5rem; }
+            .benefit-icon { font-size: 2.5rem; }
+            .form-section { padding: 1.25rem; }
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+<body>
+    <div class="notification-toast" id="notificationToast">
+        <div class="notification-content">
+            <span class="notification-icon" id="notificationIcon"></span>
+            <span class="notification-message" id="notificationMessage"></span>
+        </div>
+        <button class="notification-close" onclick="hideNotification()">×</button>
+    </div>
+
+    <header class="header">
+        <div class="header-container">
+            <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="logo-image" onclick="window.location.href='homepage.html'">
+            <button class="back-btn" onclick="window.location.href='homepage.html'">
+                <span>←</span>
+                <span>Back to Home</span>
+            </button>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Start Selling with Us Today</h1>
+            <p class="hero-subtitle">Join thousands of successful sellers and grow your business</p>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number">10,000+</span>
+                    <span class="stat-label">Active Sellers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">5L+</span>
+                    <span class="stat-label">Products Sold</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">₹50Cr+</span>
+                    <span class="stat-label">Revenue Generated</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="benefits-section">
+            <h2 class="section-title">Why Sell With Us?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚀</div>
+                    <h3 class="benefit-title">Rapid Growth</h3>
+                    <p class="benefit-desc">Reach millions of customers across India and scale your business exponentially</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3 class="benefit-title">Higher Profits</h3>
+                    <p class="benefit-desc">Competitive commission rates and timely payouts every 7 days</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📦</div>
+                    <h3 class="benefit-title">Easy Logistics</h3>
+                    <p class="benefit-desc">We handle shipping, delivery, and returns - you focus on selling</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h3 class="benefit-title">Analytics Dashboard</h3>
+                    <p class="benefit-desc">Track sales, orders, and performance with real-time insights</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h3 class="benefit-title">Marketing Support</h3>
+                    <p class="benefit-desc">Get featured in campaigns and promotional banners</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🛡️</div>
+                    <h3 class="benefit-title">Secure Platform</h3>
+                    <p class="benefit-desc">Protected transactions and seller protection policies</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <div class="form-header">
+                <h2>Register as a Seller</h2>
+                <p>Fill out the form below and start your selling journey</p>
+            </div>
+
+            <form id="sellerForm" onsubmit="submitSellerForm(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name <span class="required">*</span></label>
+                        <input type="text" name="fullName" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address <span class="required">*</span></label>
+                        <input type="email" name="email" required placeholder="your.email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mobile Number <span class="required">*</span></label>
+                        <input type="tel" name="mobile" pattern="[0-9]{10}" required placeholder="10-digit mobile number">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Business Name <span class="required">*</span></label>
+                        <input type="text" name="businessName" required placeholder="Your business/shop name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Business Type <span class="required">*</span></label>
+                        <select name="businessType" required>
+                            <option value="">Select Business Type</option>
+                            <option value="Manufacturer">Manufacturer</option>
+                            <option value="Wholesaler">Wholesaler</option>
+                            <option value="Retailer">Retailer</option>
+                            <option value="Distributor">Distributor</option>
+                            <option value="Individual">Individual Seller</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Product Category <span class="required">*</span></label>
+                        <select name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Cement">Cement</option>
+                            <option value="Bricks">Bricks</option>
+                            <option value="Sand">Sand</option>
+                            <option value="Paint">Paint</option>
+                            <option value="Woodcraft">Woodcraft</option>
+                            <option value="Steel">Steel & Metal</option>
+                            <option value="Tiles">Tiles</option>
+                            <option value="Electrical">Electrical</option>
+                            <option value="Plumbing">Plumbing</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Business Address <span class="required">*</span></label>
+                        <textarea name="address" required placeholder="Complete business address with pincode"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>GSTIN (Optional)</label>
+                        <input type="text" name="gstin" placeholder="GST Identification Number">
+                    </div>
+
+                    <div class="form-group">
+                        <label>PAN Number <span class="required">*</span></label>
+                        <input type="text" name="pan" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" required placeholder="ABCDE1234F">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Bank Account Number <span class="required">*</span></label>
+                        <input type="text" name="bankAccount" required placeholder="Bank account number for payments">
+                    </div>
+
+                    <div class="form-group">
+                        <label>IFSC Code <span class="required">*</span></label>
+                        <input type="text" name="ifsc" pattern="[A-Z]{4}0[A-Z0-9]{6}" required placeholder="Bank IFSC code">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Business Proof</label>
+                        <div class="file-upload">
+                            <input type="file" id="businessProof" name="businessProof" accept=".pdf,.jpg,.jpeg,.png">
+                            <label for="businessProof" class="file-upload-label">
+                                <span>📄</span>
+                                <span>Choose File</span>
+                            </label>
+                            <span class="file-name" id="fileName">No file chosen</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Seller Agreement</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        function showNotification(message, type = 'info') {
+            const toast = document.getElementById('notificationToast');
+            const icon = document.getElementById('notificationIcon');
+            const messageEl = document.getElementById('notificationMessage');
+            
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+            
+            icon.textContent = icons[type] || icons.info;
+            messageEl.textContent = message;
+            
+            toast.classList.remove('success', 'error', 'warning', 'info');
+            toast.classList.add(type);
+            toast.classList.add('show');
+            
+            setTimeout(() => hideNotification(), 4000);
+        }
+
+        function hideNotification() {
+            const toast = document.getElementById('notificationToast');
+            toast.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.style.animation = '';
+            }, 300);
+        }
+
+        document.getElementById('businessProof').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'No file chosen';
+            document.getElementById('fileName').textContent = fileName;
+        });
+
+        function submitSellerForm(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const sellerData = {
+                id: 'SELLER' + Date.now(),
+                fullName: formData.get('fullName'),
+                email: formData.get('email'),
+                mobile: formData.get('mobile'),
+                businessName: formData.get('businessName'),
+                businessType: formData.get('businessType'),
+                category: formData.get('category'),
+                address: formData.get('address'),
+                gstin: formData.get('gstin') || 'Not Provided',
+                pan: formData.get('pan'),
+                bankAccount: formData.get('bankAccount'),
+                ifsc: formData.get('ifsc'),
+                status: 'Pending',
+                appliedDate: new Date().toISOString(),
+                approvedDate: null,
+                rejectedDate: null
+            };
+
+            // Save to localStorage
+            const sellers = JSON.parse(localStorage.getItem('sellers')) || [];
+            sellers.push(sellerData);
+            localStorage.setItem('sellers', JSON.stringify(sellers));
+
+            showNotification('Application submitted successfully! We will review and contact you within 2-3 business days.', 'success');
+            
+            setTimeout(() => {
+                window.location.href = 'homepage.html';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

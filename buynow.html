@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Address - Checkout</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="search.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Inter, system-ui;
+            background: linear-gradient(135deg, #faf8f6 0%, #f0ebe3 100%);
+            color: #421F16;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #421F16;
+            color: #F3ECDC;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(243, 236, 220, 0.15);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            border: 2px solid rgba(243, 236, 220, 0.3);
+            white-space: nowrap;
+        }
+
+        .progress-bar {
+            background: white;
+            padding: 2rem 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 22px;
+            left: 5%;
+            right: 5%;
+            height: 3px;
+            background: #E0E0E0;
+            z-index: 0;
+        }
+
+        .progress-line-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8B4513, #D2691E);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #E0E0E0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #666;
+            transition: all 0.3s;
+            border: 3px solid white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-circle.active {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem;
+        }
+
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 30px rgba(66, 31, 22, 0.12);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #F3ECDC;
+            flex-wrap: wrap;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #421F16;
+        }
+
+        .address-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .address-option {
+            border: 3px solid #E0E0E0;
+            padding: 1.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            background: #FAFAFA;
+        }
+
+        .address-option:hover {
+            border-color: #D2691E;
+            background: #FFF8F0;
+            transform: translateX(4px);
+        }
+
+        .address-option.selected {
+            border-color: #8B4513;
+            background: linear-gradient(135deg, #FFF8F0, #FFF3E6);
+            box-shadow: 0 4px 20px rgba(139, 69, 19, 0.2);
+        }
+
+        .address-option.selected::before {
+            content: "✓";
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .address-type {
+            background: #8B4513;
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+        }
+
+        .add-new-address {
+            border: 3px dashed #8B4513;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .add-new-address:hover {
+            background: #FFF8F0;
+            border-color: #D2691E;
+            transform: translateY(-3px);
+        }
+
+        .delete-address-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 2rem;
+        }
+
+        .place-order-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
+        }
+
+        .place-order-btn:disabled {
+            background: #CCC;
+            cursor: not-allowed;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 550px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 10001;
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .notification.show {
+            display: flex;
+        }
+
+        .notification.error {
+            background: #ff4444;
+            color: white;
+        }
+
+        .notification.success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .notification.warning {
+            background: #ff9800;
+            color: white;
+        }
+
+        /* Login Required Modal - Add at the end of styles */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .login-modal.active {
+            display: flex;
+        }
+
+        .login-modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-modal h2 {
+            color: #421F16;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .login-modal p {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .login-modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .login-modal-btn {
+            padding: 0.9rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .login-modal-btn.primary {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+        }
+
+        .login-modal-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
+        }
+
+        .login-modal-btn.secondary {
+            background: #E0E0E0;
+            color: #421F16;
+        }
+
+        .login-modal-btn.secondary:hover {
+            background: #D0D0D0;
+        }
+
+        @media (max-width: 768px) {
+            .login-modal-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .login-modal h2 {
+                font-size: 1.5rem;
+            }
+
+            .login-modal p {
+                font-size: 0.9rem;
+            }
+
+            .login-modal-buttons {
+                flex-direction: column;
+            }
+
+            .login-modal-btn {
+                width: 100%;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 2rem;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                justify-content: center;
+            }
+
+            .logo-image {
+                width: 150px;
+                height: 40px;
+            }
+
+            .secure-badge {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .progress-bar {
+                padding: 1.5rem 0.5rem;
+            }
+
+            .step-circle {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .step-label {
+                font-size: 0.75rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.3rem;
+            }
+
+            .step-number {
+                width: 35px;
+                height: 35px;
+                font-size: 1.1rem;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+
+            .address-option {
+                padding: 1.5rem;
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .place-order-btn {
+                font-size: 1.1rem;
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0 0.75rem;
+            }
+
+            .logo-image {
+                width: 120px;
+                height: 35px;
+            }
+
+            .secure-badge {
+                padding: 0.5rem 0.75rem;
+                gap: 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .progress-step {
+                gap: 0.5rem;
+            }
+
+            .step-circle {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+
+            .step-label {
+                font-size: 0.7rem;
+            }
+
+            .card {
+                padding: 1.25rem;
+                border-radius: 12px;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .step-number {
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 1rem 0.75rem;
+            }
+
+            .address-option {
+                padding: 1.25rem;
+                padding-bottom: 3.5rem;
+            }
+
+            .delete-address-btn {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.75rem;
+            }
+
+            .add-new-address {
+                padding: 1.5rem 1rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem 1.25rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.25rem;
+            }
+
+            .place-order-btn {
+                font-size: 1rem;
+                padding: 1.1rem;
+            }
+
+            .notification {
+                right: 10px;
+                top: 80px;
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+                max-width: calc(100% - 20px);
+            }
+        }
+
+        @media (max-width: 360px) {
+            .logo-image {
+                width: 100px;
+                height: 30px;
+            }
+
+            .secure-badge {
+                font-size: 0.7rem;
+                padding: 0.4rem 0.6rem;
+            }
+
+            .step-circle {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+                border: 2px solid white;
+            }
+
+            .step-label {
+                font-size: 0.65rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .card-title {
+                font-size: 1rem;
+            }
+
+            .card-header {
+                gap: 0.75rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .address-option {
+                padding: 1rem;
+                padding-bottom: 3rem;
+            }
+
+            .add-new-address {
+                padding: 1.25rem 0.75rem;
+            }
+
+            .modal-content {
+                padding: 1.25rem 1rem;
+            }
+
+            .place-order-btn {
+                font-size: 0.95rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+
+<body>
+    <div class="notification" id="notification"></div>
+
+    <div class="login-modal" id="loginModal">
+        <div class="login-modal-content">
+            <div class="login-modal-icon">🔐</div>
+            <h2>Login Required</h2>
+            <p>Please login to continue with your purchase and access the checkout page.</p>
+            <div class="login-modal-buttons">
+                <button class="login-modal-btn primary" onclick="redirectToLogin()">Login Now</button>
+                <button class="login-modal-btn secondary" onclick="goToHomepage()">Go to Homepage</button>
+            </div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="header-container">
+            <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="logo-image"
+                onclick="window.location.href='homepage.html'">
+            <div class="secure-badge">
+                <span>🔒</span>
+                <span class="secure-text">100% SECURE CHECKOUT</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="progress-bar">
+        <div class="progress-container">
+            <div class="progress-line">
+                <div class="progress-line-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle active">1</div>
+                <span class="step-label">Address</span>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">2</div>
+                <span class="step-label">Payment</span>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">3</div>
+                <span class="step-label">Confirm</span>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="checkout-layout">
+            <div class="card">
+                <div class="card-header">
+                    <div class="step-number">1</div>
+                    <h2 class="card-title">Delivery Address</h2>
+                </div>
+                <div class="address-grid" id="addressList"></div>
+                <div class="add-new-address" onclick="openAddressModal()">
+                    <div style="font-size: 3rem; color: #8B4513; margin-bottom: 0.5rem;">+</div>
+                    <strong style="font-size: 1.2rem;">Add New Delivery Address</strong>
+                </div>
+            </div>
+
+            <div class="card" style="height: fit-content;">
+                <h2 class="card-title" style="margin-bottom: 1.5rem;">Order Summary</h2>
+                <div id="orderItems"></div>
+                <div style="border-top: 2px solid #F3ECDC; padding-top: 1.5rem; margin-top: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <span>Item Total</span><strong id="itemTotal">₹0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <span>Discount</span><strong style="color: #4CAF50;" id="discount">-₹0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <span>Delivery</span><strong id="delivery">₹500</strong>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; font-size: 1.5rem; font-weight: 700; padding-top: 1rem; border-top: 3px solid #8B4513;">
+                        <span>Total</span><span id="totalAmount">₹0</span>
+                    </div>
+                </div>
+                <button class="place-order-btn" onclick="proceedToPayment()">Continue to Payment</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal" id="addressModal">
+        <div class="modal-content">
+            <div
+                style="display: flex; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid #F3ECDC;">
+                <h2>Add Delivery Address</h2>
+                <button style="background: none; border: none; font-size: 2rem; cursor: pointer;"
+                    onclick="closeAddressModal()">&times;</button>
+            </div>
+            <form id="addressForm" onsubmit="saveAddress(event)">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number *</label>
+                    <input type="tel" name="mobile" pattern="[0-9]{10}" required placeholder="10-digit mobile number">
+                </div>
+                <div class="form-group">
+                    <label>Complete Address *</label>
+                    <textarea name="address" rows="3" required
+                        placeholder="House no., Building name, Street, Area"></textarea>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                    <div class="form-group">
+                        <label>City *</label>
+                        <input type="text" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Pincode *</label>
+                        <input type="text" name="pincode" pattern="[0-9]{6}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>State *</label>
+                    <input type="text" name="state" required>
+                </div>
+                <div class="form-group">
+                    <label>Address Type</label>
+                    <select name="type">
+                        <option value="Home">🏠 Home</option>
+                        <option value="Work">💼 Work</option>
+                        <option value="Other">📍 Other</option>
+                    </select>
+                </div>
+                <button type="submit"
+                    style="width: 100%; padding: 1.25rem; background: linear-gradient(135deg, #8B4513, #D2691E); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 700; cursor: pointer;">Save
+                    & Continue</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const loginTime = localStorage.getItem('loginTime');
+
+            if (isLoggedIn === 'true' && loginTime) {
+                const currentTime = new Date().getTime();
+                const timeDiff = currentTime - parseInt(loginTime);
+                const hoursDiff = timeDiff / (1000 * 60 * 60);
+
+                // Check if session is still valid (less than 24 hours)
+                if (hoursDiff < 24) {
+                    return true;
+                } else {
+                    // Session expired
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('loginTime');
+                    localStorage.removeItem('userData');
+                    return false;
+                }
+            }
+            return false;
+        }
+        function redirectToLogin() {
+            // Store the intended destination
+            sessionStorage.setItem('redirectAfterLogin', 'buynow.html');
+            window.location.href = 'login.html';
+        }
+
+        function goToHomepage() {
+            window.location.href = 'homepage.html';
+        }
+
+        let selectedAddress = null;
+
+        function showNotification(message, type) {
+            const notif = document.getElementById('notification');
+            notif.textContent = message;
+            notif.className = `notification ${type} show`;
+            setTimeout(() => notif.classList.remove('show'), 3000);
+        }
+
+        function loadCheckoutItems() {
+            const buyNowItem = JSON.parse(localStorage.getItem('buyNowItem'));
+            const checkoutItems = JSON.parse(localStorage.getItem('checkoutItems'));
+
+            let items = [];
+            if (buyNowItem) {
+                items = [buyNowItem];
+            } else if (checkoutItems && checkoutItems.length > 0) {
+                items = checkoutItems;
+            } else {
+                showNotification('No items to checkout', 'error');
+                setTimeout(() => window.location.href = 'homepage.html', 1500);
+                return;
+            }
+
+            const itemTotal = items.reduce((sum, item) => sum + (item.originalPrice * item.quantity), 0);
+            const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = itemTotal - subtotal;
+            const delivery = subtotal > 20000 ? 0 : 500;
+            const total = subtotal + delivery;
+
+            document.getElementById('itemTotal').textContent = `₹${itemTotal}`;
+            document.getElementById('discount').textContent = `-₹${discount}`;
+            document.getElementById('delivery').textContent = delivery === 0 ? 'FREE' : `₹${delivery}`;
+            document.getElementById('totalAmount').textContent = `₹${total}`;
+
+            document.getElementById('orderItems').innerHTML = items.map(item => `
+                <div style="display: flex; gap: 1.5rem; padding: 1.5rem; background: #F8F8F8; border-radius: 12px; margin-bottom: 1rem;">
+                    <img src="${item.image}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
+                    <div>
+                        <h4>${item.name}</h4>
+                        <div style="font-size: 1.4rem; font-weight: 700; color: #8B4513; margin: 0.5rem 0;">₹${item.price}</div>
+                        <div style="color:#666;">Quantity: ${item.quantity} | Unit: ${item.unit}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadAddresses() {
+            const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+            const addressList = document.getElementById('addressList');
+
+            if (addresses.length === 0) {
+                addressList.innerHTML = '<p style="color: #666; text-align: center; padding: 2rem;">No saved addresses. Please add a delivery address to continue.</p>';
+                return;
+            }
+
+            addressList.innerHTML = addresses.map((addr, i) => `
+                <div class="address-option ${i === 0 ? 'selected' : ''}" onclick="selectAddress(${i}, this)">
+                    <div class="address-type">${addr.type}</div>
+                    <div style="font-weight: 700; font-size: 1.2rem; margin-bottom: 0.5rem;">${addr.name}</div>
+                    <div style="color: #666; line-height: 1.8;">${addr.address}<br>${addr.city}, ${addr.state} - ${addr.pincode}<br>📞 ${addr.mobile}</div>
+                    <button class="delete-address-btn" onclick="deleteAddress(event, ${i})">🗑️ Delete</button>
+                </div>
+            `).join('');
+
+            if (addresses.length > 0) selectedAddress = 0;
+        }
+
+        function selectAddress(i, el) {
+            selectedAddress = i;
+            document.querySelectorAll('.address-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function deleteAddress(event, index) {
+            event.stopPropagation();
+            const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+            addresses.splice(index, 1);
+            localStorage.setItem('addresses', JSON.stringify(addresses));
+
+            if (selectedAddress === index) {
+                selectedAddress = addresses.length > 0 ? 0 : null;
+            } else if (selectedAddress > index) {
+                selectedAddress--;
+            }
+
+            loadAddresses();
+            showNotification('Address deleted successfully', 'success');
+        }
+
+        function openAddressModal() {
+            document.getElementById('addressModal').classList.add('active');
+        }
+
+        function closeAddressModal() {
+            document.getElementById('addressModal').classList.remove('active');
+        }
+
+        function saveAddress(e) {
+            e.preventDefault();
+            const form = e.target;
+            const address = {
+                name: form.name.value,
+                mobile: form.mobile.value,
+                address: form.address.value,
+                city: form.city.value,
+                pincode: form.pincode.value,
+                state: form.state.value,
+                type: form.type.value
+            };
+            const addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+            addresses.push(address);
+            localStorage.setItem('addresses', JSON.stringify(addresses));
+            closeAddressModal();
+            loadAddresses();
+            form.reset();
+            showNotification('Address added successfully!', 'success');
+        }
+
+        function proceedToPayment() {
+            if (selectedAddress === null) {
+                showNotification('Please select a delivery address', 'error');
+                return;
+            }
+            localStorage.setItem('selectedAddressIndex', selectedAddress);
+            window.location.href = 'payment.html';
+        }
+
+        window.onload = () => {
+            const isLoggedIn = checkLoginStatus();
+
+            if (!isLoggedIn) {
+                // Show login modal
+                document.getElementById('loginModal').classList.add('active');
+                showNotification('Please login to access checkout', 'warning');
+            } else {
+                // User is logged in, load checkout normally
+                document.getElementById('loginModal').classList.remove('active');
+                loadCheckoutItems();
+                loadAddresses();
+            }
+        };
+    </script>
+</body>
+
+</html>

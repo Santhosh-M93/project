@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Construction Materials Store</title>
+    <script src="search.js"></script>
+    C:\Users\dhany\OneDrive\Desktop\plutoproject\Pluto (1)\full-code\aacblocks.html
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, system-ui;
+            background: #F3ECDC;
+            color: #421F16;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: #421F16;
+            color: #F3ECDC;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .back-btn {
+            background: #8B4513;
+            color: #F3ECDC;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #A0522D;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 24px rgba(66, 31, 22, 0.2);
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+
+        .content-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #8B4513;
+        }
+
+        .content-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #F3ECDC 0%, #e8dfc7 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .value-card {
+            padding: 2rem;
+            background: #F3ECDC;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .value-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 0.75rem;
+        }
+
+        .value-desc {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .team-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .team-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-role {
+            color: #8B4513;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid, .values-grid, .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .content-section {
+                padding: 2rem;
+            }
+
+            .stats-grid, .values-grid, .team-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-image {
+                width: 100px;
+                height: 30px;
+            }
+
+            .hero-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 1.75rem;
+            }
+
+            .content-section {
+                padding: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="logo-image" onclick="window.location.href='homepage.html'">
+            <a href="homepage.html" class="back-btn">← Back to Home</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-section">
+            <h1 class="hero-title">About Us</h1>
+            <p class="hero-subtitle">Building Dreams, One Brick at a Time</p>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">Our Story</h2>
+            <p class="content-text">
+                Founded in 2015, Construction Materials Store has been at the forefront of providing premium quality building materials to contractors, builders, and homeowners across the region. What started as a small family business has grown into one of the most trusted names in construction materials supply.
+            </p>
+            <p class="content-text">
+                Our journey began with a simple mission: to make quality construction materials accessible and affordable for everyone. Today, we serve thousands of satisfied customers, from small home renovation projects to large commercial construction sites.
+            </p>
+            <p class="content-text">
+                With state-of-the-art warehouses, a dedicated logistics team, and partnerships with leading manufacturers, we ensure that your construction projects never face delays due to material shortage.
+            </p>
+        </section>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">10+</div>
+                <div class="stat-label">Years in Business</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5000+</div>
+                <div class="stat-label">Happy Customers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Product Categories</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Customer Support</div>
+            </div>
+        </div>
+
+        <section class="content-section">
+            <h2 class="section-title">Our Mission</h2>
+            <p class="content-text">
+                To revolutionize the construction materials industry by providing exceptional quality products, transparent pricing, reliable delivery, and outstanding customer service. We aim to be the one-stop solution for all construction material needs.
+            </p>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">Our Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">🎯</div>
+                    <h3 class="value-title">Quality First</h3>
+                    <p class="value-desc">We never compromise on quality. Every product is tested and certified to meet industry standards.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <h3 class="value-title">Trust & Integrity</h3>
+                    <p class="value-desc">We build lasting relationships through honest business practices and transparent communication.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">⚡</div>
+                    <h3 class="value-title">Fast Delivery</h3>
+                    <p class="value-desc">Time is money in construction. We ensure on-time delivery to keep your projects on schedule.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="team-section">
+            <h2 class="section-title">Our Leadership Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-avatar">MD</div>
+                    <div class="team-name">Dhanya Sree</div>
+                    <div class="team-role">Founder & CEO</div>
+                </div>
+                <div class="team-member">
+                    <div class="team-avatar">MP</div>
+                    <div class="team-name">Pavithra</div>
+                    <div class="team-role">Founder & Operations Director</div>
+                </div>
+                <div class="team-member">
+                    <div class="team-avatar">MN</div>
+                    <div class="team-name">Nathiya</div>
+                    <div class="team-role">Founder & Sales Manager</div>
+                </div>
+                <div class="team-member">
+                    <div class="team-avatar">MS</div>
+                    <div class="team-name">Santhosh</div>
+                    <div class="team-role">Founder & Customer Success Lead</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">Why Choose Us?</h2>
+            <p class="content-text">✓ <strong>Certified Products:</strong> All materials come with quality certifications</p>
+            <p class="content-text">✓ <strong>Competitive Pricing:</strong> Best prices in the market with bulk discounts</p>
+            <p class="content-text">✓ <strong>Expert Consultation:</strong> Free technical advice from our experienced team</p>
+            <p class="content-text">✓ <strong>Flexible Payment:</strong> Multiple payment options including COD and credit terms</p>
+            <p class="content-text">✓ <strong>Pan-India Delivery:</strong> We deliver to construction sites across the country</p>
+        </section>
+    </main>
+</body>
+</html>

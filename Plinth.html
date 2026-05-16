@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundation Products - Construction Materials Store</title>
+    <script src="search.js"></script>
+    <meta name="description"
+        content="Premium foundation materials for strong construction - Cement, Sand, Aggregates, Steel, Stone, and Chemicals">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #F3ECDC;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .header {
+            background: #421F16;
+            color: #F3ECDC;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #F3ECDC;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 15px;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 3rem 0.75rem 1rem;
+            border: 2px solid #F3ECDC;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            background: #F3ECDC;
+            color: #421F16;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #8B4513;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: #421F16;
+        }
+
+        .search-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .become-seller-btn {
+            background: #8B4513;
+            color: #F3ECDC;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .become-seller-btn:hover {
+            background: #A0522D;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+        }
+
+        .become-seller-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .icon-btn {
+            background: rgba(243, 236, 220, 0.2);
+            border: 2px solid #F3ECDC;
+            color: #F3ECDC;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .icon-btn:hover {
+            background: rgba(243, 236, 220, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #D2691E;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #421F16;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #666;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .breadcrumb a {
+            color: #8B4513;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: #421F16;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #8B4513, #D2691E);
+            border-radius: 2px;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-top: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-box {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(66, 31, 22, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            animation: scaleIn 0.5s ease-out;
+            animation-fill-mode: backwards;
+        }
+
+        .category-box:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .category-box:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .category-box:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .category-box:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .category-box:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .category-box:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .category-box:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 12px 40px rgba(66, 31, 22, 0.2);
+        }
+
+        .category-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.05) 0%, rgba(210, 105, 30, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .category-box:hover::before {
+            opacity: 1;
+        }
+
+        .category-image-wrapper {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        }
+
+        .category-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .category-box:hover .category-image {
+            transform: scale(1.1);
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #D2691E 0%, #CD853F 100%);
+            color: white;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(210, 105, 30, 0.4);
+            z-index: 1;
+        }
+
+        .category-content {
+            padding: 1.5rem;
+            background: white;
+        }
+
+        .category-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-icon {
+            width: 28px;
+            height: 28px;
+            color: #8B4513;
+        }
+
+        .category-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .category-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #8B4513;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-cta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .explore-btn {
+            flex: 1;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .explore-btn:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+        }
+
+        .explore-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .features-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            box-shadow: 0 4px 20px rgba(66, 31, 22, 0.08);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .features-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .feature-item:hover {
+            background: #F3ECDC;
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .feature-icon svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #2d1810 0%, #421F16 50%, #2d1810 100%);
+            color: #F3ECDC;
+            padding: 4rem 1rem 1.5rem;
+            margin-top: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8B4513, #D2691E, #CD853F, #8B4513);
+            background-size: 200% 100%;
+            animation: gradientShift 3s linear infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 200% 0%;
+            }
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.2fr 1fr 1.2fr;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+        }
+
+        .footer-section:nth-child(3) ul {
+            columns: 1;
+        }
+
+        .footer-brand {
+            padding-right: 2rem;
+        }
+
+        .footer-logo {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .footer-brand-desc {
+            color: rgba(243, 236, 220, 0.85);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(243, 236, 220, 0.1);
+            border: 2px solid rgba(243, 236, 220, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #F3ECDC;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: #8B4513;
+            border-color: #8B4513;
+            transform: translateY(-3px);
+        }
+
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            color: #F3ECDC;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-section h3::before {
+            content: '';
+            width: 3px;
+            height: 20px;
+            background: linear-gradient(180deg, #D2691E, #8B4513);
+            border-radius: 2px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section ul li a {
+            color: rgba(243, 236, 220, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-section ul li a:hover {
+            color: #F3ECDC;
+            padding-left: 5px;
+        }
+
+        .footer-section ul li a::before {
+            content: '›';
+            color: #8B4513;
+            font-weight: bold;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: rgba(243, 236, 220, 0.85);
+        }
+
+        .footer-contact-item svg {
+            width: 20px;
+            height: 20px;
+            color: #D2691E;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .footer-middle {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .footer-stat {
+            padding: 1rem;
+        }
+
+        .footer-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #D2691E;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-stat-label {
+            color: rgba(243, 236, 220, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(243, 236, 220, 0.15);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: rgba(243, 236, 220, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(243, 236, 220, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #F3ECDC;
+        }
+
+
+
+        @media (max-width: 1024px) {
+            .logo-image {
+                width: 150px;
+                height: 42px;
+                border-radius: 12px;
+                /* 30% of 42px = 12.6px, rounded to 12px */
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                gap: 0.75rem;
+            }
+
+            .search-container {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+            }
+
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-middle {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.75rem 0;
+            }
+
+            .header-container {
+                gap: 0.5rem;
+                padding: 0 0.5rem;
+            }
+
+            .logo-image {
+                width: 100px;
+                height: 30px;
+                border-radius: 9px;
+            }
+
+            .become-seller-btn span {
+                display: none;
+            }
+
+            .become-seller-btn {
+                padding: 0.5rem;
+                width: 40px;
+                height: 40px;
+                justify-content: center;
+                gap: 0;
+            }
+
+            .icon-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .icon-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .search-input {
+                padding: 0.65rem 2.5rem 0.65rem 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .logo-image {
+                width: 80px;
+                height: 24px;
+                border-radius: 7px;
+            }
+
+            .header-container {
+                padding: 0 0.35rem;
+            }
+
+            .icon-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .become-seller-btn {
+                width: 32px;
+                height: 32px;
+                padding: 0.35rem;
+            }
+
+            .cart-badge {
+                width: 16px;
+                height: 16px;
+                font-size: 0.65rem;
+                top: -6px;
+                right: -6px;
+            }
+
+            .search-input {
+                font-size: 0.85rem;
+                padding: 0.55rem 2.25rem 0.55rem 0.65rem;
+            }
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="homepage.html" class="logo">
+                <!-- Replace with your logo filename -->
+                <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="logo-image">
+            </a>
+
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search for products..." id="searchInput">
+                <button class="search-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="header-icons">
+                <button class="become-seller-btn" onclick="window.location.href='become-seller.html'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 7h-9"></path>
+                        <path d="M14 17H5"></path>
+                        <circle cx="17" cy="17" r="3"></circle>
+                        <circle cx="7" cy="7" r="3"></circle>
+                    </svg>
+                    <span>Become Seller</span>
+                </button>
+                <a href="#" class="icon-btn" onclick="handleProfileClick(event)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <a href="cart.html" class="icon-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-badge">0</span>
+                </a>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">Plinth Products</h1>
+            <p class="page-subtitle">Build a strong Plinth with our premium quality materials. Everything you need
+                for solid construction.</p>
+        </div>
+
+        <div class="category-grid">
+            <div class="category-box" onclick="window.location.href='cement.html'">
+                <div class="category-image-wrapper">
+                    <img src="https://miaoda-site-img.s3cdn.medo.dev/images/ce78525f-1e48-462f-8199-dbbf2fa29479.jpg"
+                        alt="Cement" class="category-image">
+                    <div class="category-badge">Essential</div>
+                </div>
+                <div class="category-content">
+                    <h2 class="category-name">
+                        <svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                            </path>
+                        </svg>
+                        Cement
+                    </h2>
+                    <p class="category-description">Premium OPC & PPC cement from top brands. High strength, durability
+                        for all construction needs.</p>
+                    <div class="category-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">7+</span>
+                            <span class="stat-label">Brands</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">₹350+</span>
+                            <span class="stat-label">Starting</span>
+                        </div>
+                    </div>
+                    <div class="category-cta">
+                        <button class="explore-btn">
+                            Explore Products
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-box" onclick="window.location.href='bricks.html'">
+                <div class="category-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1585435557343-3b092031a831?w=800" alt="Chemicals"
+                        class="category-image">
+                    <div class="category-badge">Advanced</div>
+                </div>
+                <div class="category-content">
+                    <h2 class="category-name">
+                        <svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                            </path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        Bricks
+                    </h2>
+                    <p class="category-description">Brick masonry is a fundamental construction system used for load-bearing and partition walls, providing strength, durability, and structural stability to buildings.</p>
+                    <div class="category-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">12+</span>
+                            <span class="stat-label">Products</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">₹250+</span>
+                            <span class="stat-label">Per Unit</span>
+                        </div>
+                    </div>
+                    <div class="category-cta">
+                        <button class="explore-btn">
+                            Explore Products
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-box" onclick="window.location.href='sand.html'">
+                <div class="category-image-wrapper">
+                    <img src="https://miaoda-site-img.s3cdn.medo.dev/images/90b825c6-989a-465c-8e40-1b164bc6838e.jpg"
+                        alt="Sand" class="category-image">
+                    <div class="category-badge">Popular</div>
+                </div>
+                <div class="category-content">
+                    <h2 class="category-name">
+                        <svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="6"></circle>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                        Sand
+                    </h2>
+                    <p class="category-description">River sand, M-sand, and plastering sand. Clean, graded materials for
+                        perfect construction mix.</p>
+                    <div class="category-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">7+</span>
+                            <span class="stat-label">Types</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">₹494+</span>
+                            <span class="stat-label">Per Ton</span>
+                        </div>
+                    </div>
+                    <div class="category-cta">
+                        <button class="explore-btn">
+                            Explore Products
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-box" onclick="window.location.href='aggregates.html'">
+                <div class="category-image-wrapper">
+                    <img src="https://miaoda-site-img.s3cdn.medo.dev/images/72aaf465-bd83-4cb7-a9ce-15242e58ba7c.jpg"
+                        alt="Aggregates" class="category-image">
+                    <div class="category-badge">Premium</div>
+                </div>
+                <div class="category-content">
+                    <h2 class="category-name">
+                        <svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        Aggregates
+                    </h2>
+                    <p class="category-description">High-quality crushed stone and gravel. Various sizes for concrete,
+                        road base, and drainage.</p>
+                    <div class="category-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">5+</span>
+                            <span class="stat-label">Sizes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">₹550+</span>
+                            <span class="stat-label">Per Ton</span>
+                        </div>
+                    </div>
+                    <div class="category-cta">
+                        <button class="explore-btn">
+                            Explore Products
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-box" onclick="window.location.href='steel.html'">
+                <div class="category-image-wrapper">
+                    <img src="https://miaoda-site-img.s3cdn.medo.dev/images/62fbb5fa-559d-43ad-b97e-b9d6f7a7801c.jpg"
+                        alt="Steel" class="category-image">
+                    <div class="category-badge">Top Rated</div>
+                </div>
+                <div class="category-content">
+                    <h2 class="category-name">
+                        <svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                        Steel
+                    </h2>
+                    <p class="category-description">TMT bars, MS angles, and structural steel. IS certified products for
+                        maximum strength and safety.</p>
+                    <div class="category-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">6+</span>
+                            <span class="stat-label">Grades</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">₹65+</span>
+                            <span class="stat-label">Per Kg</span>
+                        </div>
+                    </div>
+                    <div class="category-cta">
+                        <button class="explore-btn">
+                            Explore Products
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-box" onclick="window.location.href='dpc.html'">
+                <div class="category-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800" alt="Stone"
+                        class="category-image">
+                    <div class="category-badge">Natural</div>
+                </div>
+                <div class="category-content">
+                    <h2 class="category-name">
+                        <svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        (DPC)solutions
+                    </h2>
+                    <p class="category-description">Damp Proof Course (DPC) is a protective, impermeable layer provided at the plinth level of brick masonry to prevent rising damp and moisture penetration from the ground into the walls</p>
+                    <div class="category-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">8+</span>
+                            <span class="stat-label">Varieties</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">₹45+</span>
+                            <span class="stat-label">Per Sq Ft</span>
+                        </div>
+                    </div>
+                    <div class="category-cta">
+                        <button class="explore-btn">Explore Products
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="features-section">
+            <h2 class="features-title">Why Choose Our Plinth Products?</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Quality Assured</h3>
+                    <p class="feature-desc">All products tested and certified to meet industry standards</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="3" width="15" height="13"></rect>
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Fast Delivery</h3>
+                    <p class="feature-desc">Quick and reliable delivery to your construction site</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Expert Support</h3>
+                    <p class="feature-desc">Technical guidance from construction material experts</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Best Prices</h3>
+                    <p class="feature-desc">Competitive pricing with bulk order discounts available</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="footer-logo">
+                    <p class="footer-brand-desc">Your trusted partner in construction materials. We deliver quality
+                        foundation products that build lasting structures and strong relationships.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                </path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="homepage.html">Home</a></li>
+                        <li><a href="products.html">All Products</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="become-seller.html">Become a Seller</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="foundation.html">Foundation Products</a></li>
+                        <li><a href="Plinth.html">Plinth Products</a></li>
+                        <li><a href="wall.html">Wall Products</a></li>
+                        <li><a href="floor.html">Flooring Products</a></li>
+                        <li><a href="roof.html">Roof Products</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="helpcenterpage.html">Help Center</a></li>
+                        <li><a href="shipping-info.html">Shipping Info</a></li>
+                        <li><a href="returnpolicy.html">Returns Policy</a></li>
+                        <li><a href="trackorderfooter.html">Track Order</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span>123 Construction Avenue,<br>VellÄnÅ«r, Tamil Nadu, IN</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                            </path>
+                        </svg>
+                        <span>+91 12345 67890</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <span>support@constructionmaterials.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-middle">
+                <div class="footer-stat">
+                    <span class="footer-stat-value">5000+</span>
+                    <span class="footer-stat-label">Happy Customers</span>
+                </div>
+                <div class="footer-stat">
+                    <span class="footer-stat-value">50+</span>
+                    <span class="footer-stat-label">Product Categories</span>
+                </div>
+                <div class="footer-stat">
+                    <span class="footer-stat-value">24/7</span>
+                    <span class="footer-stat-label">Customer Support</span>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Construction Materials Store. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim();
+                if (query) {
+                    window.location.href = `products.html?search=${encodeURIComponent(query)}`;
+                }
+            }
+        });
+
+        document.querySelector('.search-btn').addEventListener('click', function () {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query) {
+                window.location.href = `products.html?search=${encodeURIComponent(query)}`;
+            }
+        });
+
+        // Update cart badge from localStorage
+        function getCurrentUserId() {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            return userData ? userData.id : null;
+        }
+
+        function getUserCart(userId) {
+            if (!userId) return [];
+
+            const allCarts = JSON.parse(localStorage.getItem('userCarts')) || {};
+            return allCarts[userId] || [];
+        }
+        function updateCartBadge() {
+            const userId = getCurrentUserId();
+            if (!userId) {
+                const badge = document.querySelector(".cart-badge");
+                if (badge) badge.textContent = '0';
+                return;
+            }
+
+            const cart = getUserCart(userId);
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.querySelector(".cart-badge");
+            if (badge) badge.textContent = totalItems;
+        }
+        updateCartBadge();
+    </script>
+</body>
+
+</html>

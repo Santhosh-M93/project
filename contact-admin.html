@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Submissions Admin - Construction Materials Store</title>
+    <script src="search.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, system-ui;
+            background: #F3ECDC;
+            color: #421F16;
+        }
+
+        .header {
+            background: #421F16;
+            color: #F3ECDC;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(66, 31, 22, 0.3);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-image {
+            width: 180px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            background: #8B4513;
+            color: #F3ECDC;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #A0522D;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .admin-panel {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .admin-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 300px;
+            padding: 0.75rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #8B4513;
+        }
+
+        .export-btn {
+            background: #28a745;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .export-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .clear-btn {
+            background: #dc3545;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .clear-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .submissions-container {
+            overflow-x: auto;
+        }
+
+        .submissions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .submissions-table th,
+        .submissions-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .submissions-table th {
+            background: #F3ECDC;
+            font-weight: 700;
+            color: #421F16;
+            position: sticky;
+            top: 0;
+        }
+
+        .submissions-table tr:hover {
+            background: #F9F9F9;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .view-btn {
+            background: #8B4513;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #F3ECDC;
+        }
+
+        .modal-header h2 {
+            color: #421F16;
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: #421F16;
+        }
+
+        .detail-row {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 700;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            color: #666;
+            word-wrap: break-word;
+            line-height: 1.6;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-new {
+            background: #28a745;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-input {
+                min-width: 100%;
+            }
+
+            .submissions-table {
+                font-size: 0.85rem;
+            }
+
+            .submissions-table th,
+            .submissions-table td {
+                padding: 0.5rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .admin-panel {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-image {
+                width: 100px;
+                height: 30px;
+            }
+
+            .hero-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 1.75rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <img src="WhatsApp Image 2025-12-08 at 7.55.57 PM.jpeg" alt="Logo" class="logo-image" onclick="window.location.href='homepage.html'">
+            <div class="nav-buttons">
+                <a href="contact.html" class="back-btn">📝 Contact Form</a>
+                <a href="homepage.html" class="back-btn">← Back to Home</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-section">
+            <h1 class="hero-title">Contact Submissions Dashboard</h1>
+            <p class="hero-subtitle">Manage and view all contact form submissions</p>
+        </section>
+
+        <div class="admin-panel">
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalSubmissions">0</div>
+                    <div class="stat-label">Total Submissions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="todaySubmissions">0</div>
+                    <div class="stat-label">Today's Submissions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="weekSubmissions">0</div>
+                    <div class="stat-label">This Week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="monthSubmissions">0</div>
+                    <div class="stat-label">This Month</div>
+                </div>
+            </div>
+
+            <div class="admin-controls">
+                <input type="text" id="searchSubmissions" class="search-input" placeholder="Search by name, email, phone, or subject...">
+                <button class="export-btn" onclick="exportToCSV()">📥 Export CSV</button>
+                <button class="clear-btn" onclick="clearAllData()">🗑️ Clear All Data</button>
+            </div>
+
+            <div class="submissions-container">
+                <table class="submissions-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Subject</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="submissionsTableBody">
+                        <tr>
+                            <td colspan="8" class="empty-state">
+                                <h3>Loading submissions...</h3>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Viewing Details -->
+    <div class="modal" id="viewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Submission Details</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // Database Class using localStorage
+        class ContactDatabase {
+            constructor() {
+                this.storageKey = 'contactSubmissions';
+            }
+
+            // Read - Get all submissions
+            getAll() {
+                const data = localStorage.getItem(this.storageKey);
+                return JSON.parse(data) || [];
+            }
+
+            // Read - Get single submission by ID
+            getById(id) {
+                const submissions = this.getAll();
+                return submissions.find(sub => sub.id === id);
+            }
+
+            // Delete - Remove submission
+            delete(id) {
+                const submissions = this.getAll();
+                const filtered = submissions.filter(sub => sub.id !== id);
+                localStorage.setItem(this.storageKey, JSON.stringify(filtered));
+                return true;
+            }
+
+            // Clear all submissions
+            clearAll() {
+                localStorage.setItem(this.storageKey, JSON.stringify([]));
+                return true;
+            }
+
+            // Get statistics
+            getStats() {
+                const submissions = this.getAll();
+                const now = new Date();
+                
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                
+                const weekAgo = new Date(today);
+                weekAgo.setDate(weekAgo.getDate() - 7);
+                
+                const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+                return {
+                    total: submissions.length,
+                    today: submissions.filter(sub => new Date(sub.submittedAt) >= today).length,
+                    week: submissions.filter(sub => new Date(sub.submittedAt) >= weekAgo).length,
+                    month: submissions.filter(sub => new Date(sub.submittedAt) >= monthStart).length
+                };
+            }
+
+            // Search submissions
+            search(query) {
+                const submissions = this.getAll();
+                const lowercaseQuery = query.toLowerCase();
+                return submissions.filter(sub => 
+                    sub.name.toLowerCase().includes(lowercaseQuery) ||
+                    sub.email.toLowerCase().includes(lowercaseQuery) ||
+                    sub.phone.toLowerCase().includes(lowercaseQuery) ||
+                    sub.subject.toLowerCase().includes(lowercaseQuery)
+                );
+            }
+        }
+
+        // Initialize database
+        const db = new ContactDatabase();
+
+        // Load admin data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAdminData();
+            setupSearchListener();
+        });
+
+        // Load admin data
+        function loadAdminData() {
+            // Update statistics
+            const stats = db.getStats();
+            document.getElementById('totalSubmissions').textContent = stats.total;
+            document.getElementById('todaySubmissions').textContent = stats.today;
+            document.getElementById('weekSubmissions').textContent = stats.week;
+            document.getElementById('monthSubmissions').textContent = stats.month;
+
+            // Load submissions table
+            loadSubmissionsTable();
+        }
+
+        // Load submissions table
+        function loadSubmissionsTable(submissions = null) {
+            const tbody = document.getElementById('submissionsTableBody');
+            const data = submissions || db.getAll();
+            
+            if (data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty-state">
+                            <h3>No submissions found</h3>
+                            <p>Contact form submissions will appear here</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = data.reverse().map(sub => `
+                <tr>
+                    <td>${sub.id}</td>
+                    <td>${escapeHtml(sub.name)}</td>
+                    <td>${escapeHtml(sub.email)}</td>
+                    <td>${escapeHtml(sub.phone)}</td>
+                    <td>${escapeHtml(sub.subject.substring(0, 40))}${sub.subject.length > 40 ? '...' : ''}</td>
+                    <td>${formatDateTime(sub.submittedAt)}</td>
+                    <td><span class="status-badge status-new">New</span></td>
+                    <td>
+                        <button class="action-btn view-btn" onclick="viewSubmission(${sub.id})">👁️ View</button>
+                        <button class="action-btn delete-btn" onclick="deleteSubmission(${sub.id})">🗑️ Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // View submission details
+        function viewSubmission(id) {
+            const submission = db.getById(id);
+            if (!submission) return;
+
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <div class="detail-row">
+                    <div class="detail-label">Submission ID</div>
+                    <div class="detail-value">${submission.id}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Full Name</div>
+                    <div class="detail-value">${escapeHtml(submission.name)}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Email Address</div>
+                    <div class="detail-value"><a href="mailto:${escapeHtml(submission.email)}" style="color: #8B4513;">${escapeHtml(submission.email)}</a></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Phone Number</div>
+                    <div class="detail-value"><a href="tel:${escapeHtml(submission.phone)}" style="color: #8B4513;">${escapeHtml(submission.phone)}</a></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Subject</div>
+                    <div class="detail-value">${escapeHtml(submission.subject)}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Message</div>
+                    <div class="detail-value">${escapeHtml(submission.message)}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Submitted Date & Time</div>
+                    <div class="detail-value">${formatDateTime(submission.submittedAt)}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Status</div>
+                    <div class="detail-value"><span class="status-badge status-new">New</span></div>
+                </div>
+            `;
+
+            document.getElementById('viewModal').style.display = 'flex';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('viewModal').style.display = 'none';
+        }
+
+        // Delete submission
+        function deleteSubmission(id) {
+            if (confirm('Are you sure you want to delete this submission? This action cannot be undone.')) {
+                db.delete(id);
+                loadAdminData();
+            }
+        }
+
+        // Clear all data
+        function clearAllData() {
+            if (confirm('⚠️ WARNING: This will permanently delete ALL contact submissions. This action cannot be undone. Are you absolutely sure?')) {
+                if (confirm('This is your last chance. Click OK to permanently delete all data.')) {
+                    db.clearAll();
+                    loadAdminData();
+                    alert('✅ All contact submissions have been deleted.');
+                }
+            }
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            const submissions = db.getAll();
+            if (submissions.length === 0) {
+                alert('No data to export');
+                return;
+            }
+
+            const headers = ['ID', 'Name', 'Email', 'Phone', 'Subject', 'Message', 'Submitted At', 'Status'];
+            const csvContent = [
+                headers.join(','),
+                ...submissions.map(sub => [
+                    sub.id,
+                    `"${sub.name.replace(/"/g, '""')}"`,
+                    sub.email,
+                    sub.phone,
+                    `"${sub.subject.replace(/"/g, '""')}"`,
+                    `"${sub.message.replace(/"/g, '""')}"`,
+                    sub.submittedAt,
+                    'New'
+                ].join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `contact_submissions_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Setup search listener
+        function setupSearchListener() {
+            const searchInput = document.getElementById('searchSubmissions');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.trim();
+                if (query === '') {
+                    loadSubmissionsTable();
+                } else {
+                    const results = db.search(query);
+                    loadSubmissionsTable(results);
+                }
+            });
+        }
+
+        // Helper function to escape HTML
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Helper function to format date and time
+        function formatDateTime(isoString) {
+            const date = new Date(isoString);
+            return date.toLocaleString('en-IN', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('viewModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Refresh data every 30 seconds
+        setInterval(() => {
+            loadAdminData();
+        }, 30000);
+    </script>
+</body>
+</html>

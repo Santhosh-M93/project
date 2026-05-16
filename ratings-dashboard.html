@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Ratings Dashboard</title>
+    <script src="search.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Inter, system-ui;
+            background: #faf8f6;
+            color: #421F16;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-rating-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-rating-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(66, 31, 22, 0.15);
+        }
+
+        .product-header {
+            background: linear-gradient(135deg, #F3ECDC, #e8dfc7);
+            padding: 1.5rem;
+            border-bottom: 3px solid #8B4513;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #421F16;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-id {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .rating-content {
+            padding: 2rem;
+        }
+
+        .overall-rating {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #F3ECDC, #faf8f6);
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .rating-number {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating-stars-large {
+            color: #FFD700;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-reviews {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .rating-breakdown {
+            margin-bottom: 1.5rem;
+        }
+
+        .breakdown-title {
+            font-weight: 600;
+            color: #421F16;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .rating-label {
+            min-width: 60px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .rating-bar-container {
+            flex: 1;
+            height: 24px;
+            background: #F3ECDC;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .rating-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #421F16;
+        }
+
+        .rating-count {
+            min-width: 40px;
+            text-align: right;
+            color: #666;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-box {
+            background: #F3ECDC;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .no-ratings {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .no-ratings-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+        }
+
+        .summary-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(66, 31, 22, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .summary-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #421F16;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .summary-stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #F3ECDC, #faf8f6);
+            border-radius: 12px;
+        }
+
+        .summary-stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-stat-label {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            body {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .rating-number {
+                font-size: 3.5rem;
+            }
+
+            .rating-stars-large {
+                font-size: 1.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            .rating-content {
+                padding: 1.5rem;
+            }
+
+            .overall-rating {
+                padding: 1.5rem;
+            }
+
+            .rating-number {
+                font-size: 3rem;
+            }
+
+            .rating-stars-large {
+                font-size: 1.5rem;
+            }
+
+            .summary-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0.75rem;
+            }
+
+            .header {
+                padding: 1.25rem;
+                border-radius: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.3rem;
+            }
+
+            .products-grid {
+                gap: 1rem;
+            }
+
+            .product-rating-card {
+                border-radius: 10px;
+            }
+
+            .product-header {
+                padding: 1.25rem;
+            }
+
+            .product-name {
+                font-size: 1.15rem;
+            }
+
+            .rating-content {
+                padding: 1.25rem;
+            }
+
+            .overall-rating {
+                padding: 1.25rem;
+                border-radius: 10px;
+            }
+
+            .rating-number {
+                font-size: 2.5rem;
+            }
+
+            .rating-stars-large {
+                font-size: 1.3rem;
+            }
+
+            .breakdown-title {
+                font-size: 1rem;
+            }
+
+            .rating-row {
+                gap: 0.75rem;
+                margin-bottom: 0.65rem;
+            }
+
+            .rating-label {
+                min-width: 50px;
+                font-size: 0.85rem;
+            }
+
+            .rating-bar-container {
+                height: 20px;
+            }
+
+            .rating-count {
+                min-width: 35px;
+                font-size: 0.85rem;
+            }
+
+            .stats-grid {
+                gap: 0.75rem;
+            }
+
+            .stat-box {
+                padding: 0.85rem;
+            }
+
+            .stat-value {
+                font-size: 1.3rem;
+            }
+
+            .summary-card {
+                padding: 1.5rem;
+            }
+
+            .summary-title {
+                font-size: 1.3rem;
+            }
+
+            .summary-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .export-btn {
+                width: 100%;
+                padding: 0.65rem 1.25rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .header {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.2rem;
+            }
+
+            .product-header {
+                padding: 1rem;
+            }
+
+            .product-name {
+                font-size: 1.05rem;
+            }
+
+            .rating-content {
+                padding: 1rem;
+            }
+
+            .overall-rating {
+                padding: 1rem;
+            }
+
+            .rating-number {
+                font-size: 2.25rem;
+            }
+
+            .rating-stars-large {
+                font-size: 1.2rem;
+            }
+
+            .stat-box {
+                padding: 0.75rem;
+            }
+
+            .stat-value {
+                font-size: 1.2rem;
+            }
+
+            .stat-label {
+                font-size: 0.8rem;
+            }
+
+            .summary-card {
+                padding: 1.25rem;
+            }
+
+            .summary-title {
+                font-size: 1.2rem;
+            }
+
+            .summary-stat {
+                padding: 1.25rem;
+            }
+
+            .summary-stat-value {
+                font-size: 2.25rem;
+            }
+        }
+    </style>
+<script>
+   (function(){var t=document.title;if(!t.startsWith('Build - ')){document.title='Build - '+t;}})();
+   </script>
+   </head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Product Ratings Dashboard</h1>
+            <p>Monitor and analyze product ratings across your store</p>
+        </div>
+
+        <button class="export-btn" onclick="exportRatingsData()">📊 Export Ratings Data</button>
+
+        <div class="summary-card">
+            <div class="summary-title">Overall Platform Statistics</div>
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <div class="summary-stat-value" id="totalProducts">0</div>
+                    <div class="summary-stat-label">Products Rated</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-stat-value" id="totalRatings">0</div>
+                    <div class="summary-stat-label">Total Ratings</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-stat-value" id="avgRating">0.0</div>
+                    <div class="summary-stat-label">Average Rating</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <script>
+        function loadRatingsData() {
+            const ratings = JSON.parse(localStorage.getItem('productRatings')) || {};
+            const feedback = JSON.parse(localStorage.getItem('productFeedback')) || [];
+            
+            // Calculate overall statistics
+            const productIds = Object.keys(ratings);
+            let totalRatings = 0;
+            let sumAllRatings = 0;
+
+            productIds.forEach(id => {
+                totalRatings += ratings[id].totalRatings;
+                sumAllRatings += ratings[id].sumRatings;
+            });
+
+            const avgRating = totalRatings > 0 ? (sumAllRatings / totalRatings).toFixed(1) : '0.0';
+
+            document.getElementById('totalProducts').textContent = productIds.length;
+            document.getElementById('totalRatings').textContent = totalRatings;
+            document.getElementById('avgRating').textContent = avgRating;
+
+            // Display products
+            displayProducts(ratings, feedback);
+        }
+
+        function displayProducts(ratings, feedback) {
+            const container = document.getElementById('productsGrid');
+            
+            if (Object.keys(ratings).length === 0) {
+                container.innerHTML = `
+                    <div class="no-ratings" style="grid-column: 1/-1;">
+                        <div class="no-ratings-icon">📊</div>
+                        <h3>No Ratings Yet</h3>
+                        <p>Product ratings will appear here once customers start reviewing products.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const productsHTML = Object.entries(ratings).map(([productId, data]) => {
+                const productFeedback = feedback.filter(f => f.productId === productId);
+                const productName = productFeedback.length > 0 ? productFeedback[0].productName : `Product #${productId}`;
+                
+                const stars = generateStars(data.averageRating);
+                const percentage = (count) => data.totalRatings > 0 ? Math.round((count / data.totalRatings) * 100) : 0;
+
+                return `
+                    <div class="product-rating-card">
+                        <div class="product-header">
+                            <div class="product-name">${productName}</div>
+                            <div class="product-id">Product ID: ${productId}</div>
+                        </div>
+                        <div class="rating-content">
+                            <div class="overall-rating">
+                                <div class="rating-number">${data.averageRating}</div>
+                                <div class="rating-stars-large">${stars}</div>
+                                <div class="total-reviews">${data.totalRatings} total ratings</div>
+                            </div>
+
+                            <div class="rating-breakdown">
+                                <div class="breakdown-title">Rating Distribution</div>
+                                ${[5, 4, 3, 2, 1].map(star => `
+                                    <div class="rating-row">
+                                        <div class="rating-label">${star} Star</div>
+                                        <div class="rating-bar-container">
+                                            <div class="rating-bar" style="width: ${percentage(data.ratingCount[star])}%">
+                                                ${percentage(data.ratingCount[star])}%
+                                            </div>
+                                        </div>
+                                        <div class="rating-count">${data.ratingCount[star]}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <div class="stat-value">${data.ratingCount[5]}</div>
+                                    <div class="stat-label">5-Star Reviews</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="stat-value">${data.ratingCount[1] + data.ratingCount[2]}</div>
+                                    <div class="stat-label">Low Ratings</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = productsHTML;
+        }
+
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = (rating % 1) >= 0.5;
+            let stars = '★'.repeat(fullStars);
+            if (hasHalfStar) stars += '⯨';
+            stars += '☆'.repeat(5 - fullStars - (hasHalfStar ? 1 : 0));
+            return stars;
+        }
+
+        function exportRatingsData() {
+            const ratings = JSON.parse(localStorage.getItem('productRatings')) || {};
+            const feedback = JSON.parse(localStorage.getItem('productFeedback')) || [];
+            
+            let csvContent = "Product ID,Product Name,Average Rating,Total Ratings,5 Stars,4 Stars,3 Stars,2 Stars,1 Star\n";
+            
+            Object.entries(ratings).forEach(([productId, data]) => {
+                const productFeedback = feedback.filter(f => f.productId === productId);
+                const productName = productFeedback.length > 0 ? productFeedback[0].productName : `Product ${productId}`;
+                
+                csvContent += `${productId},"${productName}",${data.averageRating},${data.totalRatings},`;
+                csvContent += `${data.ratingCount[5]},${data.ratingCount[4]},${data.ratingCount[3]},`;
+                csvContent += `${data.ratingCount[2]},${data.ratingCount[1]}\n`;
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ratings-export-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadRatingsData);
+
+        // Refresh data every 30 seconds
+        setInterval(loadRatingsData, 30000);
+    </script>
+</body>
+</html>
